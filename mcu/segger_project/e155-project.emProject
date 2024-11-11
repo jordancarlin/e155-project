@@ -52,7 +52,7 @@
           default_const_section=".init_rodata" />
       </file>
     </folder>
-    <folder Name="lib" exclude="" filter="" path="../lib" recurse="Yes" />
+    <folder Name="lib" exclude="" filter="" path="../lib" recurse="No" />
     <folder Name="Script Files">
       <file file_name="STM32L4xx/Scripts/STM32L4xx_Target.js">
         <configuration Name="Common" file_type="Reset Script" />
