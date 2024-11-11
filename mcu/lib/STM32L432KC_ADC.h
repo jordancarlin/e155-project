@@ -40,4 +40,6 @@
 
 void configureADC(void);
 
+void initReadOnce(void);
+
 #endif

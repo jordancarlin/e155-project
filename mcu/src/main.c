@@ -20,8 +20,34 @@ Purpose : A function that will measure the frequency and duty cycle of
 #include "../lib/main.h"
 
 int main(void) {
-  configurePLL();
-  // configureADC();
+  configureFlash();
+  configureClock();
+  configureADC();
+  
+  initReadOnce();
+  ADC1->CR |= ADC_CR_ADSTART;
+
+  // Enable end of conversion interrupt
+  // NVIC->ISER[0] |= (1 << 18);
+  // ADC1->IER |= ADC_IER_EOCIE;
+
+  volatile uint16_t my_int = 0;
+  uint16_t timeVibes = 0;
+  while(1) {
+    // Start conversion
+
+    printf("%d\n\n", timeVibes++);
+
+    // Wait until conversion is done
+    while (!(ADC1->ISR & ADC_ISR_EOC))
+
+    for(int i=0; i<1000000; i++);
+    
+    my_int = ADC1->DR;
+    printf("%d\n", my_int);
+    
+    ADC1->CR |= ADC_CR_ADSTART;
+  }
 
  /**
 An interrupt can be enabled for each of the 3 analog watchdogs by 
