@@ -90,15 +90,15 @@ uint32_t *read_XY(void) {
   loc_arr[0] = read_X();
   loc_arr[1] = read_Y();
 
-  if (loc_arr[0] > 25000)
-    printf("ON (%d)\n", loc_arr[0]);
+  if (loc_arr[0] > 1000)
+    printf("ON (%d)\n", loc_arr[0]/10);
   else
-    printf("OFF (%d)\n", loc_arr[0]);
+    printf("OFF (%d)\n", loc_arr[0]/10);
   
-  if (loc_arr[1] > 25000)
-    printf("ON (%d)\n\n", loc_arr[1]);
+  if (loc_arr[1] > 1000)
+    printf("ON (%d)\n\n", loc_arr[1]/10);
   else
-    printf("OFF (%d)\n\n", loc_arr[1]);
+    printf("OFF (%d)\n\n", loc_arr[1]/10);
   
   return loc_arr;
 }

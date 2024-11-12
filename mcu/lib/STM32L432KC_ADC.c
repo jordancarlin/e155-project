@@ -31,6 +31,7 @@ void configureADC(void) {
  ADC1->CR |=  ADC_CR_ADVREGEN;
 
  // The software must wait for the startup time of the ADC voltage regulator (TADCVREG_STUP)
+ // minimum time = 25 us -- https://hmc-e155.github.io/assets/doc/ds11451-stm32l432kc.pdf (132)
  volatile int i=0;
  while(i<0x6F) { __asm("nop"); i++; }
 
@@ -38,12 +39,13 @@ void configureADC(void) {
       // is the difference between the external voltage VINP[i] (positive input) 
       // and V_ref-[i] (negative input).
   //ADC1->CFGR |= ADC_CFGR_CONT;
-  ADC1->CFGR |= ADC_CFGR_ALIGN;
+  while(ADC1->CR & ADC_CR_ADEN);
 
-  // ADC1->CR &= !ADC_CR_ADCALDIF;
-  //ADC1->CR |=  ADC_CR_ADCAL;
+  // ADC1->CR &= ~ADC_CR_ADCALDIF;
+  ADC1->CR |=  ADC_CR_ADCAL;
 
-  //while(!(ADC1->CR & ADC_CR_ADCAL));
+  while(ADC1->CR & ADC_CR_ADCAL); // wait for ADCAL to = 0
+
   // calibration is stored in CALFACT_D[6:0] of ADC_CALFACT
 
   ////// ENABLE THE ADC //////
