@@ -19,9 +19,27 @@
 #define ADC_SAMPLETIME_247_5  0b110
 #define ADC_SAMPLETIME_640_5  0b111
 
-#define JOYSTICK_X PA5
-#define JOYSTICK_Y PA6
-#define THICKNESS  PA0
+#define ADC1_IN5  PA0
+#define ADC1_IN6  PA1
+#define ADC1_IN7  PA2
+#define ADC1_IN8  PA3
+#define ADC1_IN9  PA4
+#define ADC1_IN10 PA5
+#define ADC1_IN11 PA6
+#define ADC1_IN12 PA7
+#define ADC1_IN15 PB0
+#define ADC1_IN16 PB1
+
+#define ADC1_SQ1_PA0  5
+#define ADC1_SQ1_PA1  6
+#define ADC1_SQ1_PA2  7
+#define ADC1_SQ1_PA3  8
+#define ADC1_SQ1_PA4  9
+#define ADC1_SQ1_PA5  10
+#define ADC1_SQ1_PA6  11
+#define ADC1_SQ1_PA7  12
+#define ADC1_SQ1_PB0  15
+#define ADC1_SQ1_PB1  16
 
 // 5 fast analog inputs coming from GPIO pads (ADCx_INP/INN[1..5])
 // Up to 11 slow analog inputs coming from GPIO pads (ADCx_INP/INN[6..16]). 
@@ -40,6 +58,7 @@
 
 void configureADC(void);
 
-void initReadOnce(void);
+void initReadOnce(uint32_t in_pin);
+void stopReadOnce(uint32_t in_pin);
 
 #endif

@@ -68,30 +68,16 @@ void configureADC(void) {
 
   // ADD_CR -> ADSTART = 1 (sets CONT=1) -- starts immediately if EXTEN = 0x0
   ADC1->CR |= ADC_CR_ADSTART;
-
-
-  //////// ENABLE ANALOG GPIO PINS DESIRED /////////
-  
-  // Turn on GPIOA and GPIOB clock domains (GPIOAEN and GPIOBEN bits in AHB1ENR)
-  RCC->AHB2ENR |= (RCC_AHB2ENR_GPIOAEN | RCC_AHB2ENR_GPIOBEN);
-
-  // output the stored ADC values to the GPIO pins
-  gpioEnable(GPIO_PORT_A);
-  gpioEnable(GPIO_PORT_B);
-
-  pinMode(JOYSTICK_X, GPIO_ANALOG);
-  pinMode(JOYSTICK_Y, GPIO_ANALOG);
-  pinMode(THICKNESS, GPIO_ANALOG);
-
-  // When the I/O port is programmed as analog configuration:
-     //  The output buffer is disabled
-     //  The Schmitt trigger input is deactivated, providing zero consumption for every analog value of the I/O pin. The output of the Schmitt trigger is forced to a constant value (0).
-     //  The weak pull-up and pull-down resistors are disabled by hardware
-     //  Read access to the input data register gets the value “0”
 }
 
-void initReadOnce(void) {
+void initReadOnce(uint32_t in_pin) {
   ADC1->SQR1 &= ~ADC_SQR1_L;
 
-  ADC1->SQR1 |= 10 << ADC_SQR1_SQ1_Pos; // ADC_PA5 -> ADC1_IN10
+  ADC1->SQR1 |= in_pin << ADC_SQR1_SQ1_Pos; // ADC_PA5 -> ADC1_IN10
+}
+
+void stopReadOnce(uint32_t in_pin) {
+  ADC1->SQR1 &= ~ADC_SQR1_L;
+
+  ADC1->SQR1 &= !(in_pin << ADC_SQR1_SQ1_Pos); // ADC_PA5 -> ADC1_IN10
 }

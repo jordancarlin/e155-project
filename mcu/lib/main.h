@@ -23,7 +23,12 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 // reads the incoming x/y signals
-void read_XY(void);
+void initControls(void);
+
+// reads the incoming x/y signals
+uint32_t *read_XY(void);
+uint32_t read_X(void);
+uint32_t read_Y(void);
 
 // reads the incoming brush size using potentiometer
 void read_brushSize(void);

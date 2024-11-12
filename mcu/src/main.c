@@ -24,29 +24,29 @@ int main(void) {
   configureClock();
   configureADC();
   
-  initReadOnce();
+  initControls();
   ADC1->CR |= ADC_CR_ADSTART;
 
   // Enable end of conversion interrupt
   // NVIC->ISER[0] |= (1 << 18);
   // ADC1->IER |= ADC_IER_EOCIE;
 
-  volatile uint16_t my_int = 0;
+  volatile uint32_t x = 0;
+  volatile uint32_t y = 0;
+  volatile uint32_t *loc_arr;
   uint16_t timeVibes = 0;
   while(1) {
-    // Start conversion
-
-    printf("%d\n\n", timeVibes++);
-
-    // Wait until conversion is done
-    while (!(ADC1->ISR & ADC_ISR_EOC))
+    // Start conversion;
 
     for(int i=0; i<1000000; i++);
+
+    loc_arr = read_XY();
+
+    x = loc_arr[0];
+    y = loc_arr[1];
     
-    my_int = ADC1->DR;
-    printf("%d\n", my_int);
-    
-    ADC1->CR |= ADC_CR_ADSTART;
+    //printf("%d and %d\n", x, y);
+    //printf("%d\n\n", timeVibes++);
   }
 
  /**
@@ -68,7 +68,69 @@ Joystick values - need to see the readout for this first unfortunately
 
 }
 
-void read_XY(void) { int i = 1; }
-void read_brushSize(void) { int i = 1; }
+void initControls(void) {
+  //////// ENABLE ANALOG GPIO PINS DESIRED /////////
+  
+  // Turn on GPIOA and GPIOB clock domains (GPIOAEN and GPIOBEN bits in AHB1ENR)
+  RCC->AHB2ENR |= (RCC_AHB2ENR_GPIOAEN | RCC_AHB2ENR_GPIOBEN);
+
+  // output the stored ADC values to the GPIO pins
+  gpioEnable(GPIO_PORT_A);
+  gpioEnable(GPIO_PORT_B);
+
+  pinMode(ADC1_IN10, GPIO_ANALOG);  // joystick_x, PA5
+  pinMode(ADC1_IN11, GPIO_ANALOG);  // joystick_y, PA6
+  pinMode(ADC1_IN5,  GPIO_ANALOG);   // brush thickness, PA0
+
+}
+
+uint32_t *read_XY(void) {
+  static uint32_t loc_arr[2];
+
+  loc_arr[0] = read_X();
+  loc_arr[1] = read_Y();
+
+  if (loc_arr[0] > 25000)
+    printf("ON (%d)\n", loc_arr[0]);
+  else
+    printf("OFF (%d)\n", loc_arr[0]);
+  
+  if (loc_arr[1] > 25000)
+    printf("ON (%d)\n\n", loc_arr[1]);
+  else
+    printf("OFF (%d)\n\n", loc_arr[1]);
+  
+  return loc_arr;
+}
+
+uint32_t read_X(void) {
+
+  initReadOnce(ADC1_SQ1_PA5);
+
+  ADC1->CR |= ADC_CR_ADSTART;
+  while (!(ADC1->ISR & ADC_ISR_EOC));
+
+  for(int i=0; i<1000; i++);
+  stopReadOnce(ADC1_SQ1_PA5);
+
+  return ADC1->DR;
+}
+
+uint32_t read_Y(void) {
+
+  initReadOnce(ADC1_SQ1_PA6);
+  ADC1->CR |= ADC_CR_ADSTART;
+
+  while (!(ADC1->ISR & ADC_ISR_EOC));
+
+  for(int i=0; i<1000; i++);
+  stopReadOnce(ADC1_SQ1_PA6);
+
+  return ADC1->DR;
+}
+
+void read_brushSize(void) { 
+  initReadOnce(ADC1_SQ1_PA0); 
+}
 
 /*************************** End of file ****************************/
