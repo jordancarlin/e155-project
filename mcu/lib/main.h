@@ -51,7 +51,7 @@ void configureSettings(void);
 void initControls(void);
 
 // reads the incoming x/y signals
-uint32_t *read_XY(void);
+uint32_t read_XY(void);
 uint32_t read_X(void);
 uint32_t read_Y(void);
 

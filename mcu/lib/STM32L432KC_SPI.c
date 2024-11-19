@@ -22,7 +22,6 @@ void initSPI(int br, int cpol, int cpha) {
     pinMode(SPI_SCK, GPIO_ALT); // SPI1_SCK
     pinMode(SPI_MISO, GPIO_ALT); // SPI1_MISO
     pinMode(SPI_MOSI, GPIO_ALT); // SPI1_MOSI
-    pinMode(SPI_CE, GPIO_OUTPUT); //  Manual CS
 
     // Set output speed type to high for SCK
     GPIOB->OSPEEDR |= (GPIO_OSPEEDR_OSPEED3);

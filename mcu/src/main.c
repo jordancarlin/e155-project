@@ -65,7 +65,7 @@ int main(void) {
   // initialize the variables that are used for analog
   volatile uint32_t x = 0;
   volatile uint32_t y = 0;
-  volatile uint32_t *loc_arr;
+  uint32_t loc_arr[2];
   uint16_t timeVibes = 0;
 ///////////////////////////////////////////////////////////////////////////
 
@@ -80,16 +80,12 @@ int main(void) {
   // infinite loop used to send and receive desired signals
   while(1) {
 
-    // for printing data at a manageable rate
-    delay_millis(TIM2, 100);
-
     // read the current joystick measurement
-    loc_arr = read_XY();
+    read_XY();
 
-    for (int i=0; i<1000; i++);
-    //thickness = getThickness();
+    // for (int i=0; i<1000; i++);
 
-    printf("Color: %d\n", color_spi);
+    // printf("Color: %d\n", color_spi);
     color_spi &= ~(0b1 << BRUSHUP_BITS);
     color_spi |=  (digitalRead(BRUSH_UP) << BRUSHUP_BITS);
 
@@ -99,25 +95,29 @@ int main(void) {
       digitalWrite(SPI_CE, 0);
     }
 
-    printf("Thickness: %d\n", thickness);
+    // printf("Thickness: %d\n", thickness);
 
     for (int i=0; i<thickness; i++) {
       for (int j=0; j<thickness; j++) {
+      
+        loc_arr[0] = currX+i;
+        loc_arr[1] = currY+j;
         
-        digitalWrite(SPI_CE, 1);
-        spiSendReceive(currX+i);
-        digitalWrite(SPI_CE, 0);
+        digitalWrite(PA7, 1);
+        spiSendReceive(loc_arr[0]);
+        digitalWrite(PA7, 0);
 
-        digitalWrite(SPI_CE, 1);
-        spiSendReceive(currY+j);
-        digitalWrite(SPI_CE, 0);
+        digitalWrite(PA7, 1);
+        spiSendReceive(loc_arr[1]);
+        digitalWrite(PA7, 0);
+
 
         printf("%d %d   ||   ", currX+i, currY+j);
       }
       printf("\n");
     }
     printf("\n\n\n");
-    
+
     // printf("X: %d, Y: %d\n\n", currX, currY);
 
     just_set = 0;
@@ -142,6 +142,11 @@ void configureSettings(void) {
     pinMode(ERASE,   GPIO_INPUT);  // PB 7
     pinMode(BRUSH_UP,GPIO_INPUT);  // PB_1
 
+    
+    pinMode(PA7,GPIO_OUTPUT);  // PA7
+
+    pinMode(SPI_CE, GPIO_OUTPUT); //  Manual CS
+
     // Setting Pull Downs
     GPIOB->PUPDR |= _VAL2FLD(GPIO_PUPDR_PUPD0,  0b10);  // Set PB 0  as pull-down
     GPIOA->PUPDR |= _VAL2FLD(GPIO_PUPDR_PUPD8,  0b10);  // Set PA 8  as pull-down
@@ -151,6 +156,11 @@ void configureSettings(void) {
     GPIOB->PUPDR |= _VAL2FLD(GPIO_PUPDR_PUPD6,  0b10);  // Set PB 6  as pull-down
     GPIOB->PUPDR |= _VAL2FLD(GPIO_PUPDR_PUPD7,  0b10);  // Set PB 7  as pull-down
     GPIOB->PUPDR |= _VAL2FLD(GPIO_PUPDR_PUPD1,  0b10);  // Set PB 1  as pull-down
+
+
+    //GPIOB->PUPDR |= _VAL2FLD(GPIO_PUPDR_PUPD3,  0b10);  // Set PB 3  as pull-down
+    //GPIOB->PUPDR |= _VAL2FLD(GPIO_PUPDR_PUPD4,  0b10);  // Set PB 4  as pull-down
+    //GPIOB->PUPDR |= _VAL2FLD(GPIO_PUPDR_PUPD5,  0b10);  // Set PB 5  as pull-down
 
 
     // 1. Enable SYSCFG clock domain in RCC
@@ -309,8 +319,7 @@ void initControls(void) {
 *     Return a list of x and y values read off of the ADC periods. 
 *       Used by Joystick. Returns whether we are Down, Up, etc.
 */
-uint32_t *read_XY(void) {
-  static uint32_t loc_arr[2];
+uint32_t read_XY(void) {
 
   uint32_t t = read_X();
   for (int i=0; i<1000; i++);
@@ -323,7 +332,7 @@ uint32_t *read_XY(void) {
     currX = currX-1;
   else if (x < 1000)
     currX = currX;
-  else if (x != 200)
+  else if (currX <= 200-thickness)
     currX = currX+1;
   
   if ((y < 100) && (currY != 0))
@@ -341,7 +350,7 @@ uint32_t *read_XY(void) {
     thickness = 3;
 
 
-  return loc_arr;
+  return 1;
 }
 
 /**
