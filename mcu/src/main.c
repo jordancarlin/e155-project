@@ -55,7 +55,7 @@ int main(void) {
     currX = 100;
     currY = 100;
 
-    initSPI(0b111, 0, 0);
+    initSPI(0b111, 0, 1);
 
   
   // initialize the buttons/pins used for analog (joystick and potentiometer)
@@ -81,7 +81,7 @@ int main(void) {
   while(1) {
 
     // for printing data at a manageable rate
-    delay_millis(TIM2, 1000);
+    delay_millis(TIM2, 100);
 
     // read the current joystick measurement
     loc_arr = read_XY();
@@ -90,6 +90,8 @@ int main(void) {
     //thickness = getThickness();
 
     printf("Color: %d\n", color_spi);
+    color_spi &= ~(0b1 << BRUSHUP_BITS);
+    color_spi |=  (digitalRead(BRUSH_UP) << BRUSHUP_BITS);
 
     if(just_set) {
       digitalWrite(SPI_CE, 1);
@@ -148,6 +150,7 @@ void configureSettings(void) {
     GPIOA->PUPDR |= _VAL2FLD(GPIO_PUPDR_PUPD12, 0b10);  // Set PA 12 as pull-down
     GPIOB->PUPDR |= _VAL2FLD(GPIO_PUPDR_PUPD6,  0b10);  // Set PB 6  as pull-down
     GPIOB->PUPDR |= _VAL2FLD(GPIO_PUPDR_PUPD7,  0b10);  // Set PB 7  as pull-down
+    GPIOB->PUPDR |= _VAL2FLD(GPIO_PUPDR_PUPD1,  0b10);  // Set PB 1  as pull-down
 
 
     // 1. Enable SYSCFG clock domain in RCC
@@ -316,14 +319,14 @@ uint32_t *read_XY(void) {
   uint32_t x = read_brushSize();
   for (int i=0; i<1000; i++);
 
-  if ((x < 10) && (currX != 0))
+  if ((x < 120) && (currX != 0))
     currX = currX-1;
   else if (x < 1000)
     currX = currX;
   else if (x != 200)
     currX = currX+1;
   
-  if ((y < 50) && (currY != 0))
+  if ((y < 100) && (currY != 0))
     currY = currY-1;
   else if (y < 1000)
     currY = currY;

@@ -26,7 +26,8 @@
 
 #define BRUSH_UP PB1
 
-#define COLOR_BITS 0 // there are three color bits from 2:0
+#define COLOR_BITS   0 // there are three color bits from 2:0
+#define BRUSHUP_BITS 4
 
 #define XLIM 200
 #define YLIM 200

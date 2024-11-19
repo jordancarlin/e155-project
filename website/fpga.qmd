@@ -1,0 +1,17 @@
+---
+title: "FPGA"
+---
+
+# FPGA Setup
+
+The FPGA in this system is used to control a VGA, as well as store the RGB values of the system as left behind by the MCU control. The FPGA primarily works by running two pieces of code concurrently; one that uses combinational logic to store the current color and location of the block, which is used to update the RAM RGB array, and the other that uses a block of code to write to the VGA and cycle through a 200x200 grid to update the graphics.
+
+## Schematic
+
+
+
+## Hardware
+
+
+## Current Status
+
