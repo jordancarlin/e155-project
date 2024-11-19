@@ -11,20 +11,47 @@ format:
         href: https://pages.hmc.edu/brake/class/e155/fa23/assets/doc/E155%20Development%20Board%20Schematic.pdf
       - text: "E155 Breadboard Adapter v4"
         href: https://hmc-e155.github.io/assets/doc/E155%20Breadboard%20Adapter%20Schematic.pdf
-      - text: "FPGA Github Files"
+      - text: "FPGA Source Code"
         href: https://github.com/jordancarlin/e155-project/tree/main/fpga
 ---
 
 # FPGA Setup
 
-The FPGA in this system is used to control a VGA, as well as store the RGB values of the system as left behind by the MCU control. The FPGA primarily works by running two pieces of code concurrently; one that uses combinational logic to store the current color and location of the block, which is used to update the RAM RGB array, and the other that uses a block of code to write to the VGA and cycle through a 200x200 grid to update the graphics.
+The FPGA controls drives a VGA monitor and stores the image to be displayed on the monitor. It recieves SPI packets from the MCU (see [MCU description](./mcu.qmd) for an explanation of the packets) that specify what changes need to be made to the image. The current image is stored in block ram on the FPGA. As SPI packets are received, there is a block of logic on the FPGA that checks what type of data the packet contains and, if necessary, updates certain pixels in the block ram accordingly.
 
-## Schematic
+The FPGA also has a block of sequential to drive the actual VGA display that scans through each pixel in the block ram and sends the appropriate RGB values to the VGA monitor. The pixels are stores in a 3 bit encoding format (one value for each of the 7 colors supported by the system) and a decoder is used to convert these values to the actual RGB values for the VGA monitor. The playable area of the screen is 200x200 pixels, so the block ram only contains values for those pixels.
 
+## Block Diagram
+::: {#fig-fpgaBlockDiagram}
+![](fpga_images/fpgaBlockDiagram.png)
+:::
 
+The FPGA design builds heavily upon what was done in Lab 7 in MicroPs. It uses a similar design for the SPI module itself (although the decoder is entirely new) and the use of block ram to store the image is also similar to storing the sbox encoding in Lab 7 (though this one needs to be a writable ram instead of just a pre-loaded rom). The most significant new part of this design is the VGA driver itself.
+
+As pictured in @fig-fpgaBlockDiagram, many of the modules in this design are heavily intertwined. While ideally each module is a mostly indepenent thing, the use of the block ram makes that impossible for this project. The VGA driver needs to be able to read from the block ram, while the SPI decoder needs to write to it. Additionally, the VGA module isn't even able to directly output the RGB values to the monitor becaue they need to be looked up in the block ram and then decoded. This means the VGA module sends most of the VGA signals out to the monitor, but send the x and y values to rest of the system for further processing before the RGB values are sent to the monitor. This significantly complicates the timing for the design and makes unit level testbenches difficult to design. The heavily interwoven modules can be seen most clearly in the generated block diagram from Lattice in @fig-generatedBlockDiagram.
+
+::: {#fig-generatedBlockDiagram}
+![](fpga_images/generatedBlockDiagram.png)
+:::
 
 ## Hardware
 
+One of the tricky parts of the hardware design for the FPGA was utilizing block ram to store the pixel array. There were many attempts to tweak the verilog to get the synthesis tool to infer the appropriate block ram hardware. As seen in @fig-pixelStore_blockRam, this was eventually successful and it is utilizing a block ram that reads combinationally (though is sequenced by a flop) and writes sequentially on the rising edge of the clock. The write enable line also had to be connected to data recieved from the SPI packets to ensure pixels were only updated when the pen was down.
+
+::: {#fig-pixelStore_blockRam}
+![](fpga_images/pixelStore_blockRam.png)
+:::
+
+The other main aspect of the hardware design is the actual VGA interface. @fig-vgaInterface shows the high-level interace between the FPGA and the VGA monitor. The VGA and colorDecode modules drive these signals, with the colorDecode module driving the R, G, and B signals and all of the timing and sync signals coming from the VGA module.
+
+::: {#fig-vgaInterface}
+![](fpga_images/vgaInterface.png)
+:::
 
 ## Current Status
 
+A second version of all of the Verilog is written and (almost) passing synthesis. The inital version that was designed had to scrapped because the hierarchy and interfaces between each module were woefully insufficient. A new block diagram (@fig-fpgaBlockDiagram) was created with a far shallower hierarchy to allow for more communication between modules. The old design for the pixel array was also not being detected properly as a RAM. The current version is being detected as a block RAM with the expected read, write, and enable ports.
+
+The current design passes the first few stages of synthesis, but is currently running into issues with place and route and with timing. The timing issues likely stem from clock issues becasue the SPI sck needs to drive some of the design while the VGA vgaclk needs to drive other parts of it. Using multiple clocks is far from ideal, but is necessary because of the strict timing requirements for VGA monitors. The place and route issues likely stem from the timing problems, but it is not possible to know for sure until the timing issues are resolved.
+
+The other part of the FPGA process that is currently underway is verification of the design. Testbenches are in their early stage of creation and will be used to verify the SPI half of the design and the VGA half of the design separately. Depending on how those go, a full system testbench will likely be created to verify the entire design.
