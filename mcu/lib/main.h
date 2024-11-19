@@ -28,6 +28,17 @@
 
 #define COLOR_BITS 0 // there are three color bits from 2:0
 
+#define XLIM 200
+#define YLIM 200
+
+#define XLEFT  0b00
+#define XRIGHT 0b11
+#define XMID   0b01
+
+#define YUP    0b11
+#define YDOWN  0b00
+#define YMID   0b01
+
 ///////////////////////////////////////////////////////////////////////////////
 // Custom defines 
 ///////////////////////////////////////////////////////////////////////////////
