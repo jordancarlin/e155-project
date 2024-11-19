@@ -1,4 +1,6 @@
 module top(input  logic       clk, reset,
+           inout  logic       sck, sdi, sdo,
+           input logic       cs,
            output logic       vgaclk, // 25.175 MHz VGA clock
            output logic       hsync, vsync,
            output logic       sync_b, blank_b, // to monitor & DAC
@@ -7,10 +9,30 @@ module top(input  logic       clk, reset,
   logic [9:0] x, y, vgaX, vgaY;
   logic brush;
   logic [2:0] colorCode, newColor;
+  logic [7:0] spiPacket;
 
   vga vga(.clk, .reset, .vgaclk, .hsync, .vsync, .sync_b, .blank_b, .vgaX, .vgaY); //, .r, .g, .b);
-  pixelStore pixelStore(.clk, .brush, .rx(vgaX), .ry(vgaY), .wx(x), .wy(y), .colorCode, .newColor(0));
+  pixelStore pixelStore(.clk, .brush, .rx(vgaX), .ry(vgaY), .wx(x), .wy(y), .colorCode, .newColor);
   colorDecode colorDecode(.brush, .colorCode, .r, .g, .b);
-  spi spi(.brush, .newColor, .x, .y)
+  spiDecode spiDecode(.spiPacket, .brush, .newColor, .x, .y);
+
+  spi spi(.spi2_miso_io(sdo),
+    .spi2_mosi_io(sdi),
+    .spi2_sck_io(sck),
+    .spi2_scs_n_i(cs),
+    .rst_i(reset),
+    // .ipload_i( ),
+    // .ipdone_o( ),
+    .sb_clk_i(clk),
+    // .sb_wr_i(),
+    // .sb_stb_i( ),
+    // .sb_adr_i( ),
+    // .sb_dat_i( ),
+    .sb_dat_o(spiPacket)
+    // .sb_ack_o( ),
+    // .spi_pirq_o( ),
+    // .spi_pwkup_o( )
+    );
+
 
 endmodule
