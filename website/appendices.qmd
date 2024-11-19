@@ -2,7 +2,8 @@
 title: "Jordan and Zoe E155 Final Project"
 ---
 
-This is a website for Jordan and Zoe's Pictionary Project.
+This is a website for Jordan and Zoe's final project.
+More details to come soon!
 
 Midpoint report:
 A 4-page report (plus appendices) documenting your design at the midpoint. Your report should be submitted before your scheduled checkpoint slot. The status report should include:
