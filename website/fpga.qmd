@@ -1,0 +1,30 @@
+---
+title: "FPGA"
+author: Zoe Worrall & Jordan Carlin - zworrall@g.hmc.edu
+date: November 19, 2024
+
+
+format:
+    html:
+        other-links:
+        - text: "E155 FA Development Board"
+            href: https://pages.hmc.edu/brake/class/e155/fa23/assets/doc/E155%20Development%20Board%20Schematic.pdf
+        - text: "E155 Breadboard Adapter v4"
+            href: https://hmc-e155.github.io/assets/doc/E155%20Breadboard%20Adapter%20Schematic.pdf
+        - text: "FPGA Github Files"
+            href: https://github.com/jordancarlin/e155-project/tree/main/fpga
+---
+
+# FPGA Setup
+
+The FPGA in this system is used to control a VGA, as well as store the RGB values of the system as left behind by the MCU control. The FPGA primarily works by running two pieces of code concurrently; one that uses combinational logic to store the current color and location of the block, which is used to update the RAM RGB array, and the other that uses a block of code to write to the VGA and cycle through a 200x200 grid to update the graphics.
+
+## Schematic
+
+
+
+## Hardware
+
+
+## Current Status
+

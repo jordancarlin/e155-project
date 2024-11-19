@@ -9,6 +9,8 @@ website:
         text: Home
       - href: mcu.qmd
         text: MCU Design
+      - href: fpga.qmd
+        text: FGPA Design
       - href: appendices.qmd
         text: Appendices
 
