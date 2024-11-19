@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Jordan and Zoe E155 Final Project</title>
+<title>MCU – Jordan and Zoe E155 Final Project</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -90,11 +90,11 @@ ul.task-list li input[type="checkbox"] {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link active" href="./index.html" aria-current="page"> 
+    <a class="nav-link" href="./index.html"> 
 <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./mcu.html"> 
+    <a class="nav-link active" href="./mcu.html" aria-current="page"> 
 <span class="menu-text">MCU Design</span></a>
   </li>  
   <li class="nav-item">
@@ -112,15 +112,24 @@ ul.task-list li input[type="checkbox"] {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#mcu-setup" id="toc-mcu-setup" class="nav-link active" data-scroll-target="#mcu-setup">MCU Setup</a>
+  <ul class="collapse">
+  <li><a href="#schematic" id="toc-schematic" class="nav-link" data-scroll-target="#schematic">Schematic</a></li>
+  </ul></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Jordan and Zoe E155 Final Project</h1>
+<h1 class="title">MCU</h1>
 </div>
 
 
@@ -137,7 +146,12 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>This is a website for Jordan and Zoe’s Pictionary Project.</p>
+<section id="mcu-setup" class="level1">
+<h1>MCU Setup</h1>
+<p>The multicore processor in this project is used to keep track of the current brush state, the color state, the thickness of the brush, and whether the brush is up or down. The system collects this data and then sends it to the FPGA board for VGA processing via a SPI package. There are two primary SPI packages used to communicate the status of bits, and they are organized such that the header of the color SPI block is easily distinguished and decoded.</p>
+<section id="schematic" class="level2">
+<h2 class="anchored" data-anchor-id="schematic">Schematic</h2>
+<p>The</p>
 <p>Midpoint report: A 4-page report (plus appendices) documenting your design at the midpoint. Your report should be submitted before your scheduled checkpoint slot. The status report should include:</p>
 <p>Schematics of anything on a breadboard, Block diagrams of the logic on your FPGA, An outline of the routines used on the MCU. You should include as an appendix either your Verilog code or software that is mostly complete (but do not have to have both ready). You must be ready to demonstrate some working hardware in the lab.</p>
 <p>Proficiency</p>
@@ -148,6 +162,8 @@ ul.task-list li input[type="checkbox"] {
 <p>[] All interfaces in the block diagram defined (e.g., SPI, I2C, GPIO) [] Hardware demo functioning well [] Writing is well organized [] Solid grammar or spelling issues (no more than a few minor errors which do not detract from the point). [] Completed riskiest element of the project [] More than 50% of the way to the final deliverable</p>
 
 
+</section>
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
