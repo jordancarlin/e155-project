@@ -1,8 +1,14 @@
 ---
-title: "Jordan and Zoe E155 Final Project"
+title: "MCU"
 ---
 
-This is a website for Jordan and Zoe's Pictionary Project.
+# MCU Setup
+
+The multicore processor in this project is used to keep track of the current brush state, the color state, the thickness of the brush, and whether the brush is up or down. The system collects this data and then sends it to the FPGA board for VGA processing via a SPI package. There are two primary SPI packages used to communicate the status of bits, and they are organized such that the header of the color SPI block is easily distinguished and decoded.
+
+## Schematic
+
+The
 
 Midpoint report:
 A 4-page report (plus appendices) documenting your design at the midpoint. Your report should be submitted before your scheduled checkpoint slot. The status report should include:

@@ -54,6 +54,9 @@ uint32_t *read_XY(void);
 uint32_t read_X(void);
 uint32_t read_Y(void);
 
+// returns the width (1, 2, 3) of the current packet
+uint32_t getThickness(void);
+
 // reads the incoming brush size using potentiometer
 uint32_t read_brushSize(void);
 

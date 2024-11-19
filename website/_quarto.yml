@@ -7,9 +7,18 @@ website:
     left:
       - href: index.qmd
         text: Home
+      - href: mcu.qmd
+        text: MCU Design
+      - href: appendices.qmd
+        text: Appendices
 
 format:
   html:
     theme: cosmo
     css: styles.css
     toc: true
+    smooth-scroll: true
+    grid:
+      sidebar-width: 0px
+      body-width: 1000px
+      margin-width: 250px
