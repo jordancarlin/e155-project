@@ -31,18 +31,10 @@ char just_set;
 //        [7:0]      ||        [7:0]       ||
 //   x1 bits [7:0]   ||     y1 bits [7:0]   ||
 //     never 0xFF    ||      y bits
-char loc_spi_1[3];
+char loc_spi[2];
 char currX, currY;
 
-
-char timer[16] = {0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07,
-                0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F};
-
-char location[16] = {0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07,
-                0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F};
-                
-char changebrush[16] = {0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07,
-                0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F};
+uint32_t thickness;
 
 
 int main(void) {
@@ -53,6 +45,8 @@ int main(void) {
   configureFlash();
   configureClock();
   configureADC();
+
+  thickness = 1;
   
     // Initialize timer
     RCC->APB1ENR1 |= RCC_APB1ENR1_TIM2EN;
@@ -60,6 +54,8 @@ int main(void) {
 
     currX = 100;
     currY = 100;
+
+    initSPI(0b111, 0, 0);
 
   
   // initialize the buttons/pins used for analog (joystick and potentiometer)
@@ -76,7 +72,7 @@ int main(void) {
 
 ///////////////////////////// COLOR BUTTONS ///////////////////////////////
   configureSettings();
-  color_spi |= 0b101 << 5; // header for the color_spi is set
+  color_spi |= 0b111 << 5; // header for the color_spi is set
   just_set = 0;
 ////////////////////////////////////////////////////////////////////////
 
@@ -85,52 +81,43 @@ int main(void) {
   while(1) {
 
     // for printing data at a manageable rate
-    delay_millis(TIM2, 5000);
+    delay_millis(TIM2, 1000);
 
     // read the current joystick measurement
     loc_arr = read_XY();
 
-    if (loc_arr[0] == XLEFT) {
-      if (currX > 0) currX = currX - 1;
-    } else if (loc_arr[0] == XRIGHT) {
-      if (currX < 200) currX = currX + 1;
-    }
+    for (int i=0; i<1000; i++);
+    //thickness = getThickness();
 
-    if (loc_arr[1] == YDOWN) {
-      if (currY > 0) currY = currY - 1;
-    } else if (loc_arr[0] == YUP) {
-      if (currY < 200) currY = currY + 1;
-    }
-
-    loc_spi[1] = currX;
-    loc_spi[2] = currY;
-
-    loc_spi[0] |= digitalRead(BRUSH_UP) << 4;
-
-    // to prevent interrupts from breaking the spi, I'm turning the SPI Send Receive into
-    //  an interrupt -> trigger FLASH global interrupt
-
-
+    printf("Color: %d\n", color_spi);
 
     if(just_set) {
-      printf("Button was Pressed: %d \n\n", color_spi);
       digitalWrite(SPI_CE, 1);
       spiSendReceive(color_spi);
       digitalWrite(SPI_CE, 0);
     }
 
-    digitalWrite(SPI_CE, 1);
-    spiSendReceive(loc_arr[0]);
-    digitalWrite(SPI_CE, 0);
+    printf("Thickness: %d\n", thickness);
 
-    digitalWrite(SPI_CE, 1);
-    spiSendReceive(loc_arr[1]);
-    digitalWrite(SPI_CE, 0);
+    for (int i=0; i<thickness; i++) {
+      for (int j=0; j<thickness; j++) {
+        
+        digitalWrite(SPI_CE, 1);
+        spiSendReceive(currX+i);
+        digitalWrite(SPI_CE, 0);
 
-    digitalWrite(SPI_CE, 1);
-    spiSendReceive(loc_arr[2]);
-    digitalWrite(SPI_CE, 0);
+        digitalWrite(SPI_CE, 1);
+        spiSendReceive(currY+j);
+        digitalWrite(SPI_CE, 0);
+
+        printf("%d %d   ||   ", currX+i, currY+j);
+      }
+      printf("\n");
+    }
+    printf("\n\n\n");
     
+    // printf("X: %d, Y: %d\n\n", currX, currY);
+
     just_set = 0;
   }
 
@@ -162,6 +149,7 @@ void configureSettings(void) {
     GPIOB->PUPDR |= _VAL2FLD(GPIO_PUPDR_PUPD6,  0b10);  // Set PB 6  as pull-down
     GPIOB->PUPDR |= _VAL2FLD(GPIO_PUPDR_PUPD7,  0b10);  // Set PB 7  as pull-down
 
+
     // 1. Enable SYSCFG clock domain in RCC
     // RCC_APB2ENR, bit 0, is SYSCFGEN @ bit 0
     RCC->APB2ENR |= (1<<0);
@@ -172,7 +160,10 @@ void configureSettings(void) {
     SYSCFG->EXTICR[2] &= ~_VAL2FLD(SYSCFG_EXTICR3_EXTI8,  0b111); // PA9  (000)
     SYSCFG->EXTICR[2] &= ~_VAL2FLD(SYSCFG_EXTICR3_EXTI10, 0b111); // PA10 (000)
     SYSCFG->EXTICR[3] &= ~_VAL2FLD(SYSCFG_EXTICR4_EXTI12, 0b111); // PA12 (000)
+
+    SYSCFG->EXTICR[1] &= ~_VAL2FLD(SYSCFG_EXTICR2_EXTI6,  0b111); // PB6  (001)
     SYSCFG->EXTICR[1] |=  _VAL2FLD(SYSCFG_EXTICR2_EXTI6,  0b001); // PB6  (001)
+
     SYSCFG->EXTICR[1] |=  _VAL2FLD(SYSCFG_EXTICR2_EXTI7,  0b001); // PB7  (001)
 
 
@@ -191,13 +182,13 @@ void configureSettings(void) {
     EXTI->IMR1 |= _VAL2FLD(EXTI_IMR1_IM7, 0b1);
     
     // 2. Disable rising edge trigger
-    EXTI->RTSR1 |= ~_VAL2FLD(EXTI_RTSR1_RT0, 0b1);  // 0: Rising trigger enabled (for Event and Interrupt) for input line 4
-    EXTI->RTSR1 |= ~_VAL2FLD(EXTI_RTSR1_RT8, 0b1);
-    EXTI->RTSR1 |= ~_VAL2FLD(EXTI_RTSR1_RT9, 0b1);
-    EXTI->RTSR1 |= ~_VAL2FLD(EXTI_RTSR1_RT10, 0b1);
-    EXTI->RTSR1 |= ~_VAL2FLD(EXTI_RTSR1_RT12, 0b1);
-    EXTI->RTSR1 |= ~_VAL2FLD(EXTI_RTSR1_RT6, 0b1);
-    EXTI->RTSR1 |= ~_VAL2FLD(EXTI_RTSR1_RT7, 0b1);
+    EXTI->RTSR1 |= _VAL2FLD(EXTI_RTSR1_RT0, 0b1);  // 0: Rising trigger enabled (for Event and Interrupt) for input line 4
+    EXTI->RTSR1 |= _VAL2FLD(EXTI_RTSR1_RT8, 0b1);
+    EXTI->RTSR1 |= _VAL2FLD(EXTI_RTSR1_RT9, 0b1);
+    EXTI->RTSR1 |= _VAL2FLD(EXTI_RTSR1_RT10, 0b1);
+    EXTI->RTSR1 |= _VAL2FLD(EXTI_RTSR1_RT12, 0b1);
+    EXTI->RTSR1 |= _VAL2FLD(EXTI_RTSR1_RT6, 0b1);
+    EXTI->RTSR1 |= _VAL2FLD(EXTI_RTSR1_RT7, 0b1);
 
     // 4. Turn on EXTI interrupt in NVIC_ISER
     NVIC->ISER[0] |= (1 << EXTI0_IRQn);
@@ -318,17 +309,35 @@ void initControls(void) {
 uint32_t *read_XY(void) {
   static uint32_t loc_arr[2];
 
-  uint32_t x = read_X();
+  uint32_t t = read_X();
+  for (int i=0; i<1000; i++);
   uint32_t y = read_Y();
+  for (int i=0; i<1000; i++);
+  uint32_t x = read_brushSize();
+  for (int i=0; i<1000; i++);
 
-  if (x < 1666) { loc_arr[0] = XLEFT; }
-  else if (x < 3333) { loc_arr[0] = XMID; }
-  else { loc_arr[0] = XRIGHT; }
-
-  if (y < 1666) { loc_arr[1] = YDOWN; }
-  else if (y < 3333) { loc_arr[1] = YMID; }
-  else { loc_arr[1] = YUP; }
+  if ((x < 10) && (currX != 0))
+    currX = currX-1;
+  else if (x < 1000)
+    currX = currX;
+  else if (x != 200)
+    currX = currX+1;
   
+  if ((y < 50) && (currY != 0))
+    currY = currY-1;
+  else if (y < 1000)
+    currY = currY;
+  else if (currY != 200)
+    currY = currY+1;
+  
+  if (t < 1266)
+    thickness = 1;
+  else if (t < 2533)
+    thickness = 2;
+  else
+    thickness = 3;
+
+
   return loc_arr;
 }
 
@@ -374,7 +383,7 @@ uint32_t read_brushSize(void) {
   while (!(ADC1->ISR & ADC_ISR_EOC));
 
   for(int i=0; i<1000; i++);
-  stopReadOnce(ADC1_SQ1_PA6);
+  stopReadOnce(ADC1_SQ1_PA0);
 
   return ADC1->DR;
 }
