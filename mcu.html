@@ -120,6 +120,8 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#mcu-setup" id="toc-mcu-setup" class="nav-link active" data-scroll-target="#mcu-setup">MCU Setup</a>
   <ul class="collapse">
   <li><a href="#schematic" id="toc-schematic" class="nav-link" data-scroll-target="#schematic">Schematic</a></li>
+  <li><a href="#hardware" id="toc-hardware" class="nav-link" data-scroll-target="#hardware">Hardware</a></li>
+  <li><a href="#current-status" id="toc-current-status" class="nav-link" data-scroll-target="#current-status">Current Status</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -151,15 +153,66 @@ ul.task-list li input[type="checkbox"] {
 <p>The multicore processor in this project is used to keep track of the current brush state, the color state, the thickness of the brush, and whether the brush is up or down. The system collects this data and then sends it to the FPGA board for VGA processing via a SPI package. There are two primary SPI packages used to communicate the status of bits, and they are organized such that the header of the color SPI block is easily distinguished and decoded.</p>
 <section id="schematic" class="level2">
 <h2 class="anchored" data-anchor-id="schematic">Schematic</h2>
-<p>The</p>
-<p>Midpoint report: A 4-page report (plus appendices) documenting your design at the midpoint. Your report should be submitted before your scheduled checkpoint slot. The status report should include:</p>
-<p>Schematics of anything on a breadboard, Block diagrams of the logic on your FPGA, An outline of the routines used on the MCU. You should include as an appendix either your Verilog code or software that is mostly complete (but do not have to have both ready). You must be ready to demonstrate some working hardware in the lab.</p>
-<p>Proficiency</p>
-<ul>
-<li>Clear and concise written summary of current status [] Schematics of all breadboarded circuits [] Block diagram of system components and the interfaces between them [] Hardware demo functioning (potentially with some minor bugs) [] More than 25% of the way to the final deliverable [] Clear description of microcontroller routines [] All external parts ordered</li>
-</ul>
-<p>Excellence</p>
-<p>[] All interfaces in the block diagram defined (e.g., SPI, I2C, GPIO) [] Hardware demo functioning well [] Writing is well organized [] Solid grammar or spelling issues (no more than a few minor errors which do not detract from the point). [] Completed riskiest element of the project [] More than 50% of the way to the final deliverable</p>
+<p>The MCU makes use of many of the materials and ideas seen throughout the semester in MicroP’s so far. It uses interrupts in order to map out the current color, with a total of seven potential colors (including erase). The system also implements the newer technology of Analog reading, which is used to determine the current state of a joystick for location control, as well as a potentiometer to control the thickness of the brush at any given time (ranging from 1x1 to 2x2 to 3x3).</p>
+<p><img src="mcu_images/mcu_pins.png" class="img-fluid"></p>
+<p>The program starts first by initializing all of its components before entering a while loop, which controls the main functions required of the MCU. This while loop delays for some predetermined amount of time, before calling read_XY to find the current state of the joystick and to update the size of brush.</p>
+<p>This information is used to determine what SPI packages are sent at the end of the while loop.</p>
+<p>The block diagram below (<a href="#fig-bdiag1" class="quarto-xref">Figure&nbsp;1</a>) depicts the general variables and assignments used within the MCU program.</p>
+<div id="fig-bdiag1" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-bdiag1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="mcu_images/block_diag.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig quarto-uncaptioned" id="fig-bdiag1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1
+</figcaption>
+</figure>
+</div>
+<p>This can be expounded upon to show what exactly is happening within the program (<a href="#fig-bdiag2" class="quarto-xref">Figure&nbsp;2</a>).</p>
+<div id="fig-bdiag2" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-bdiag2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="mcu_images/block_diag2.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig quarto-uncaptioned" id="fig-bdiag2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2
+</figcaption>
+</figure>
+</div>
+</section>
+<section id="hardware" class="level2">
+<h2 class="anchored" data-anchor-id="hardware">Hardware</h2>
+<p>The hardware for the board has arrived and has been implemented on a breadboard. Future plans encompass adding larger buttons for the DIP Buttons, as well as potentially building a controller that will allows the user to control many items at once with little concern for messing up wiring.</p>
+<p>Currently, the program is able to send out all the locations necessary dependent on which thickness the current brush is. This can be seen in the set of images below:</p>
+<div class="grid">
+<div class="g-col-4">
+<p><img src="mcu_images/1_locs.png" class="img-fluid"></p>
+</div>
+<div class="g-col-4">
+<p><img src="mcu_images/4_locs.png" class="img-fluid"></p>
+</div>
+<div class="g-col-4">
+<p><img src="mcu_images/9_locs.png" class="img-fluid"></p>
+</div>
+</div>
+<p>The files are sent in this way to ensure the simplest possibe implementation on the FPGA. The FPGA board currently uses combinational logic to interpret the incoming SPI data, and as a result, by sending each pixel that should be currently turned on, the MCU prevents the FPGA from needing to use a finite state machine in order to interpret the data it is placing in the RAM at any given.</p>
+<p>In addition, when a button is pressed, the color_spi spi packet is sent along with the location data, which contains information on whether the brush is down or up, as well as what color the current SPI bus is.</p>
+<p>The maximum possible number of SPI packets sent in a given round is 10 (each SPI packet is considered to be to collections of 8 bits), and the minimum is 1.</p>
+<p>A “SPI Packet”, as we have deemed, can be of two types:</p>
+<section id="color_spi" class="level4">
+<h4 class="anchored" data-anchor-id="color_spi">color_spi</h4>
+<p><img src="mcu_images/color_spi.png" class="img-fluid"></p>
+</section>
+<section id="loc_spi" class="level4">
+<h4 class="anchored" data-anchor-id="loc_spi">loc_spi</h4>
+<p><img src="mcu_images/loc_spi.png" class="img-fluid"></p>
+<p>These SPI are differentiated by the first three bits of the SPI message: in the case of color_spi, the first three bits will always make the value of the character greater than 200, which is an impossible for the x and y indeces to be. As a result, the SPI blocks can be easily differentiated with the use of the first three bits, which the FPGA will figure out combinationally and will then use to adjust its values accordingly.</p>
+</section>
+</section>
+<section id="current-status" class="level2">
+<h2 class="anchored" data-anchor-id="current-status">Current Status</h2>
+<p>We are currently able to perform all necessary functions required for the final prototype, and mainly now need to configure the SPI connection and performance of the FPGA. As it stands, this video demonstrates the readouts of the board, as well as a representation of the data it will be sending to the FPGA board, at any given point in time. When the timer is replaced with a much shorter one, these updates will be sent at a frequency of roughly 1 kHz, although we will vary this depending on what we decide works best for timing on the FPGA.</p>
+<div class="quarto-video ratio ratio-16x9"><iframe data-external="1" src="https://www.youtube.com/embed/XvtfpBKUMUc" title="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe></div>
 
 
 </section>
