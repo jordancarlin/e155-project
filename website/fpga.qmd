@@ -1,18 +1,18 @@
 ---
 title: "FPGA"
-author: Zoe Worrall & Jordan Carlin - zworrall@g.hmc.edu
+author: Zoe Worrall (zworrall@g.hmc.edu) & Jordan Carlin (jcarlin@hmc.edu)
 date: November 19, 2024
 
 
 format:
-    html:
-        other-links:
-        - text: "E155 FA Development Board"
-            href: https://pages.hmc.edu/brake/class/e155/fa23/assets/doc/E155%20Development%20Board%20Schematic.pdf
-        - text: "E155 Breadboard Adapter v4"
-            href: https://hmc-e155.github.io/assets/doc/E155%20Breadboard%20Adapter%20Schematic.pdf
-        - text: "FPGA Github Files"
-            href: https://github.com/jordancarlin/e155-project/tree/main/fpga
+  html:
+    other-links:
+      - text: "E155 FA Development Board"
+        href: https://pages.hmc.edu/brake/class/e155/fa23/assets/doc/E155%20Development%20Board%20Schematic.pdf
+      - text: "E155 Breadboard Adapter v4"
+        href: https://hmc-e155.github.io/assets/doc/E155%20Breadboard%20Adapter%20Schematic.pdf
+      - text: "FPGA Github Files"
+        href: https://github.com/jordancarlin/e155-project/tree/main/fpga
 ---
 
 # FPGA Setup
