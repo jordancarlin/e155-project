@@ -1,9 +1,13 @@
-module pixelStore (input clk,
-                   input [9:0] x, y,
-                   input [2:0] newColor,
-                   output [2:0] color);
-  logic [9:0] colorArray [9:0]
+module pixelStore (input  logic clk,
+                   input  logic brush,
+                   input  logic [9:0] rx, ry, wx, wy,
+                   input  logic [2:0] newColor,
+                   output logic [2:0] colorCode);
 
-  always_ff @(posedge clk)
-    color <= colorArray[y][x];
+  logic [9:0][9:0][2:0] colorArray;
+
+  always_ff @(posedge clk) begin
+    if(brush) colorArray[wy][wx] <= newColor;
+    colorCode <= colorArray[ry][rx];
+  end
 endmodule
