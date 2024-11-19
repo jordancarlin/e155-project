@@ -19,30 +19,21 @@ Purpose : A function that will measure the frequency and duty cycle of
 #include "stm32l432xx.h"
 #include "../lib/main.h"
 
+// Format:
+//  _7_ _6_ _5_    _4_    _3_ _2_ _1_ _0_
+//   1   1   1   [br_up]   0   [colors] 
+//     CONFIG             data
 char color_spi; 
 char just_set;
 
-// grid of 0's
-uint32_t grid[400] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,   // 1
-                      0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-                      0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-                      0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-                      0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,    // 5
-                      0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-                      0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-                      0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-                      0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-                      0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,    // 10
-                      0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-                      0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-                      0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-                      0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-                      0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,    // 15
-                      0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-                      0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-                      0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-                      0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-                      0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};    // 20
+// assume 200 x 200 (so we need 8 bits for x and y each)
+// Format:
+//        [7:0]      ||        [7:0]       ||
+//   x1 bits [7:0]   ||     y1 bits [7:0]   ||
+//     never 0xFF    ||      y bits
+char loc_spi_1[3];
+char currX, currY;
+
 
 char timer[16] = {0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07,
                 0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F};
@@ -67,6 +58,9 @@ int main(void) {
     RCC->APB1ENR1 |= RCC_APB1ENR1_TIM2EN;
     initTIM(TIM2);
 
+    currX = 100;
+    currY = 100;
+
   
   // initialize the buttons/pins used for analog (joystick and potentiometer)
   initControls();
@@ -82,6 +76,7 @@ int main(void) {
 
 ///////////////////////////// COLOR BUTTONS ///////////////////////////////
   configureSettings();
+  color_spi |= 0b101 << 5; // header for the color_spi is set
   just_set = 0;
 ////////////////////////////////////////////////////////////////////////
 
@@ -95,13 +90,46 @@ int main(void) {
     // read the current joystick measurement
     loc_arr = read_XY();
 
-    // set the x and y location to be the current joystick readout
-    x = loc_arr[0];
-    y = loc_arr[1];
+    if (loc_arr[0] == XLEFT) {
+      if (currX > 0) currX = currX - 1;
+    } else if (loc_arr[0] == XRIGHT) {
+      if (currX < 200) currX = currX + 1;
+    }
+
+    if (loc_arr[1] == YDOWN) {
+      if (currY > 0) currY = currY - 1;
+    } else if (loc_arr[0] == YUP) {
+      if (currY < 200) currY = currY + 1;
+    }
+
+    loc_spi[1] = currX;
+    loc_spi[2] = currY;
+
+    loc_spi[0] |= digitalRead(BRUSH_UP) << 4;
+
+    // to prevent interrupts from breaking the spi, I'm turning the SPI Send Receive into
+    //  an interrupt -> trigger FLASH global interrupt
+
+
 
     if(just_set) {
-      printf("Button was Pressed: %d", color_spi);
+      printf("Button was Pressed: %d \n\n", color_spi);
+      digitalWrite(SPI_CE, 1);
+      spiSendReceive(color_spi);
+      digitalWrite(SPI_CE, 0);
     }
+
+    digitalWrite(SPI_CE, 1);
+    spiSendReceive(loc_arr[0]);
+    digitalWrite(SPI_CE, 0);
+
+    digitalWrite(SPI_CE, 1);
+    spiSendReceive(loc_arr[1]);
+    digitalWrite(SPI_CE, 0);
+
+    digitalWrite(SPI_CE, 1);
+    spiSendReceive(loc_arr[2]);
+    digitalWrite(SPI_CE, 0);
     
     just_set = 0;
   }
@@ -123,6 +151,7 @@ void configureSettings(void) {
     pinMode(YELLOW,  GPIO_INPUT);  // PA 12
     pinMode(PURPLE,  GPIO_INPUT);  // PB 6
     pinMode(ERASE,   GPIO_INPUT);  // PB 7
+    pinMode(BRUSH_UP,GPIO_INPUT);  // PB_1
 
     // Setting Pull Downs
     GPIOB->PUPDR |= _VAL2FLD(GPIO_PUPDR_PUPD0,  0b10);  // Set PB 0  as pull-down
@@ -145,6 +174,7 @@ void configureSettings(void) {
     SYSCFG->EXTICR[3] &= ~_VAL2FLD(SYSCFG_EXTICR4_EXTI12, 0b111); // PA12 (000)
     SYSCFG->EXTICR[1] |=  _VAL2FLD(SYSCFG_EXTICR2_EXTI6,  0b001); // PB6  (001)
     SYSCFG->EXTICR[1] |=  _VAL2FLD(SYSCFG_EXTICR2_EXTI7,  0b001); // PB7  (001)
+
 
     // Enable interrupts globally
     __enable_irq();
@@ -257,6 +287,9 @@ void EXTI0_IRQHandler (void){
 
 /////////////////////////////////////////////////////////
 
+
+
+///////////////////// CONTROLS //////////////////////
 /**
 *   Initiailizes the Joysticks and brush thickness Analog controls
 *
@@ -279,23 +312,22 @@ void initControls(void) {
 }
 
 /**
-*     Return a list of x and y values read off of the ADC periods
+*     Return a list of x and y values read off of the ADC periods. 
+*       Used by Joystick. Returns whether we are Down, Up, etc.
 */
 uint32_t *read_XY(void) {
   static uint32_t loc_arr[2];
 
-  loc_arr[0] = read_X();
-  loc_arr[1] = read_Y();
+  uint32_t x = read_X();
+  uint32_t y = read_Y();
 
-  if (loc_arr[0] > 1000)
-    printf("ON (%d)\n", loc_arr[0]/10);
-  else
-    printf("OFF (%d)\n", loc_arr[0]/10);
-  
-  if (loc_arr[1] > 1000)
-    printf("ON (%d)\n\n", loc_arr[1]/10);
-  else
-    printf("OFF (%d)\n\n", loc_arr[1]/10);
+  if (x < 1666) { loc_arr[0] = XLEFT; }
+  else if (x < 3333) { loc_arr[0] = XMID; }
+  else { loc_arr[0] = XRIGHT; }
+
+  if (y < 1666) { loc_arr[1] = YDOWN; }
+  else if (y < 3333) { loc_arr[1] = YMID; }
+  else { loc_arr[1] = YUP; }
   
   return loc_arr;
 }
@@ -346,5 +378,6 @@ uint32_t read_brushSize(void) {
 
   return ADC1->DR;
 }
+
 
 /*************************** End of file ****************************/
