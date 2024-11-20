@@ -1,4 +1,5 @@
 module spiDecode(input  logic       clk,
+           output logic ready,
            input  logic [7:0] spiPacket,
            output logic       brush,
            output logic [7:0] x, y,
@@ -14,13 +15,24 @@ module spiDecode(input  logic       clk,
     else spiType <= XPOS;
 
   // flops for data from SPI
-  always_ff @(posedge clk )
+  always_ff @(posedge clk ) begin
     case (spiType)
       CONF: begin
               brush    <= spiPacket[4];
               newColor <= spiPacket[2:0];
+              ready    <= 0;
             end
-      XPOS: x <= spiPacket;
-      YPOS: y <= spiPacket;
+      XPOS: begin
+              x <= spiPacket;
+              ready <= 0;
+            end
+      YPOS: begin
+              y <= spiPacket;
+              ready <= 1;
+            end
+      default: begin
+                ready <= 0;
+              end
     endcase
+  end
 endmodule
