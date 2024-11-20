@@ -79,13 +79,15 @@ int main(void) {
 
   // infinite loop used to send and receive desired signals
   while(1) {
+    delay_millis(TIM2, 1000);
 
     // read the current joystick measurement
     read_XY();
 
+
     // for (int i=0; i<1000; i++);
 
-    // printf("Color: %d\n", color_spi);
+    printf("Color: %d\n", color_spi);
     color_spi &= ~(0b1 << BRUSHUP_BITS);
     color_spi |=  (digitalRead(BRUSH_UP) << BRUSHUP_BITS);
 
@@ -95,7 +97,7 @@ int main(void) {
       digitalWrite(SPI_CE, 0);
     }
 
-    // printf("Thickness: %d\n", thickness);
+    printf("Thickness: %d\n", thickness);
 
     for (int i=0; i<thickness; i++) {
       for (int j=0; j<thickness; j++) {
