@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://jordancarlin.github.io/e155-project/appendices.html</loc>
-    <lastmod>2024-11-19T23:57:45.145Z</lastmod>
+    <loc>https://jordancarlin.github.io/e155-project/mcu.html</loc>
+    <lastmod>2024-11-19T23:59:38.809Z</lastmod>
   </url>
   <url>
     <loc>https://jordancarlin.github.io/e155-project/index.html</loc>
-    <lastmod>2024-11-19T23:57:45.149Z</lastmod>
-  </url>
-  <url>
-    <loc>https://jordancarlin.github.io/e155-project/mcu.html</loc>
-    <lastmod>2024-11-19T23:57:45.149Z</lastmod>
+    <lastmod>2024-11-19T23:43:50.542Z</lastmod>
   </url>
   <url>
     <loc>https://jordancarlin.github.io/e155-project/fpga.html</loc>
-    <lastmod>2024-11-19T23:57:45.145Z</lastmod>
+    <lastmod>2024-11-19T23:59:38.807Z</lastmod>
+  </url>
+  <url>
+    <loc>https://jordancarlin.github.io/e155-project/appendices.html</loc>
+    <lastmod>2024-11-19T23:43:50.538Z</lastmod>
   </url>
 </urlset>

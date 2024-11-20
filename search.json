@@ -1,19 +1,5 @@
 [
   {
-    "objectID": "appendices.html",
-    "href": "appendices.html",
-    "title": "Jordan and Zoe E155 Final Project",
-    "section": "",
-    "text": "Midpoint report: A 4-page report (plus appendices) documenting your design at the midpoint. Your report should be submitted before your scheduled checkpoint slot. The status report should include:\nSchematics of anything on a breadboard, Block diagrams of the logic on your FPGA, An outline of the routines used on the MCU. You should include as an appendix either your Verilog code or software that is mostly complete (but do not have to have both ready). You must be ready to demonstrate some working hardware in the lab.\nProficiency\n\nClear and concise written summary of current status [] Schematics of all breadboarded circuits [] Block diagram of system components and the interfaces between them [] Hardware demo functioning (potentially with some minor bugs) [] More than 25% of the way to the final deliverable [] Clear description of microcontroller routines [] All external parts ordered\n\nExcellence\n[] All interfaces in the block diagram defined (e.g., SPI, I2C, GPIO) [] Hardware demo functioning well [] Writing is well organized [] Solid grammar or spelling issues (no more than a few minor errors which do not detract from the point). [] Completed riskiest element of the project [] More than 50% of the way to the final deliverable"
-  },
-  {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "Jordan and Zoe E155 Final Project",
-    "section": "",
-    "text": "This is a website for Jordan and Zoe’s Pictionary Project."
-  },
-  {
     "objectID": "mcu.html",
     "href": "mcu.html",
     "title": "MCU",
@@ -42,6 +28,13 @@
     "text": "We are currently able to perform all necessary functions required for the final prototype, and mainly now need to configure the SPI connection and performance of the FPGA. As it stands, this video demonstrates the readouts of the board, as well as a representation of the data it will be sending to the FPGA board, at any given point in time. When the timer is replaced with a much shorter one, these updates will be sent at a frequency of roughly 1 kHz, although we will vary this depending on what we decide works best for timing on the FPGA."
   },
   {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Jordan and Zoe E155 Final Project",
+    "section": "",
+    "text": "This is a website for Jordan and Zoe’s Pictionary Project."
+  },
+  {
     "objectID": "fpga.html",
     "href": "fpga.html",
     "title": "FPGA",
@@ -68,5 +61,12 @@
     "title": "FPGA",
     "section": "",
     "text": "A second version of all of the Verilog is written and (almost) passing synthesis. The inital version that was designed had to scrapped because the hierarchy and interfaces between each module were woefully insufficient. A new block diagram (Figure 1) was created with a far shallower hierarchy to allow for more communication between modules. The old design for the pixel array was also not being detected properly as a RAM. The current version is being detected as a block RAM with the expected read, write, and enable ports.\nThe current design passes the first few stages of synthesis, but is currently running into issues with place and route and with timing. The timing issues likely stem from clock issues becasue the SPI sck needs to drive some of the design while the VGA vgaclk needs to drive other parts of it. Using multiple clocks is far from ideal, but is necessary because of the strict timing requirements for VGA monitors. The place and route issues likely stem from the timing problems, but it is not possible to know for sure until the timing issues are resolved.\nThe other part of the FPGA process that is currently underway is verification of the design. Testbenches are in their early stage of creation and will be used to verify the SPI half of the design and the VGA half of the design separately. Depending on how those go, a full system testbench will likely be created to verify the entire design."
+  },
+  {
+    "objectID": "appendices.html",
+    "href": "appendices.html",
+    "title": "Jordan and Zoe E155 Final Project",
+    "section": "",
+    "text": "Midpoint report: A 4-page report (plus appendices) documenting your design at the midpoint. Your report should be submitted before your scheduled checkpoint slot. The status report should include:\nSchematics of anything on a breadboard, Block diagrams of the logic on your FPGA, An outline of the routines used on the MCU. You should include as an appendix either your Verilog code or software that is mostly complete (but do not have to have both ready). You must be ready to demonstrate some working hardware in the lab.\nProficiency\n\nClear and concise written summary of current status [] Schematics of all breadboarded circuits [] Block diagram of system components and the interfaces between them [] Hardware demo functioning (potentially with some minor bugs) [] More than 25% of the way to the final deliverable [] Clear description of microcontroller routines [] All external parts ordered\n\nExcellence\n[] All interfaces in the block diagram defined (e.g., SPI, I2C, GPIO) [] Hardware demo functioning well [] Writing is well organized [] Solid grammar or spelling issues (no more than a few minor errors which do not detract from the point). [] Completed riskiest element of the project [] More than 50% of the way to the final deliverable"
   }
 ]
