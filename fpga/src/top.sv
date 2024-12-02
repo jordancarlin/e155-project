@@ -1,6 +1,6 @@
 module top(input  logic       clk, reset,
-           input  logic       sck, sdi,
-           output logic       sdo,
+          //  input  logic       sck, sdi,
+          //  output logic       sdo,
           //  output logic       vgaclk, // 25.175 MHz VGA clock
            output logic       hsync, vsync,
           //  output logic       sync_b, blank_b, // to monitor & DAC
@@ -11,10 +11,15 @@ module top(input  logic       clk, reset,
   logic brush;
   logic [2:0] colorCode, newColor;
   logic [7:0] spiPacket;
-  logic ready;
+  // logic ready;
 
-  vga vga(.clk, .reset, .vgaclk, .hsync, .vsync, .sync_b, .blank_b, .vgaX, .vgaY); //, .r, .g, .b);
-  pixelStore pixelStore(.clk, .brush, .rx(vgaX), .ry(vgaY), .wx(x), .wy(y), .colorCode, .newColor, .ready);
+  assign brush = 1;
+  assign newColor = 3'b101;
+  assign x = vgaX;
+  assign y= vgaY;
+
+  vga vga(.clk, .reset, .vgaclk, .hsync, .vsync, .vgaX, .vgaY); //, .r, .g, .b);
+  pixelStore pixelStore(.clk(vgaclk), .brush, .rx(vgaX), .ry(vgaY), .wx(x), .wy(y), .colorCode, .newColor);
   colorDecode colorDecode(.brush, .colorCode, .r, .g, .b);
   // spiDecode spiDecode(.clk, .spiPacket, .brush, .newColor, .x, .y, .ready); // should this use sck as clock?
   // spi spi(.sck, .sdi, .sdo, .spiPacket);
