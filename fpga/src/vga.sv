@@ -2,7 +2,7 @@ module vga(input  logic       clk, reset,
            output logic       vgaclk, // 25.175 MHz VGA clock
            output logic       hsync, vsync,
            output logic       sync_b, blank_b, // to monitor & DAC
-          //  output logic [7:0] r, g, b // to video DAC
+           //  output logic [7:0] r, g, b // to video DAC
            output logic [7:0] vgaX, vgaY); // to pixelStore
 
   // Use a PLL to create the 25.175 MHz VGA pixel clock

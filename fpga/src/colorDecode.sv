@@ -1,6 +1,6 @@
 module colorDecode (input  logic       brush,
                     input  logic [2:0] colorCode,
-                    output logic [7:0] r, g, b);
+                    output logic [3:0] r, g, b);
 
   localparam white = 3'b000;
   localparam red = 3'b001;
@@ -10,14 +10,14 @@ module colorDecode (input  logic       brush,
   localparam purple = 3'b101;
   localparam erase = 3'b111;
 
-  localparam redRGB = {8'd255, 8'd0, 8'd0};
-  localparam greenRGB = {8'd0, 8'd255, 8'd0};
-  localparam blueRGB = {8'd0, 8'd0, 8'd255};
-  localparam yellowRGB = {8'd255, 8'd255, 8'd0};
-  localparam purpleRGB = {8'd255, 8'd0, 8'd255};
-  localparam whiteRGB = {8'd255, 8'd255, 8'd255};
-  localparam eraseRGB = {8'd0, 8'd0, 8'd0};
-  localparam brushRGB = {8'd255, 8'd165, 8'd0};
+  localparam redRGB = {4'hFFF, 4'h000, 4'h000};
+  localparam greenRGB = {4'h000, 4'hFFF, 4'h000};
+  localparam blueRGB = {4'h000, 4'h000, 4'hFFF};
+  localparam yellowRGB = {4'hFFF, 4'hFFF, 4'h000};
+  localparam purpleRGB = {4'hFFF, 4'h000, 4'hFFF};
+  localparam whiteRGB = {4'hFFF, 4'hFFF, 4'hFFF};
+  localparam eraseRGB = {4'h000, 4'h000, 4'h000};
+  localparam brushRGB = {4'hFFF, 4'hF80, 4'h000};
 
   // convert color to rgb values
   always_comb
