@@ -18,8 +18,8 @@
 				<BScanVal>0</BScanVal>
 			</Bypass>
 			<File>../../impl_1/pictionary_impl_1.bin</File>
-			<FileTime>12/02/24 00:29:51</FileTime>
-			<JedecChecksum>0xFBD7</JedecChecksum>
+			<FileTime>12/02/24 02:12:14</FileTime>
+			<JedecChecksum>0xFC77</JedecChecksum>
 			<MemoryType>External SPI Flash Memory (SPI FLASH)</MemoryType>
 			<Operation>Erase,Program,Verify</Operation>
 			<Option>
@@ -99,7 +99,7 @@
 	</ProjectOptions>
 	<CableOptions>
 		<CableName>USB2</CableName>
-		<PortAdd>USB2</PortAdd>
+		<PortAdd>FTUSB-0</PortAdd>
 		<USBID>UPduino v3.1 Location 0000 Serial </USBID>
 	</CableOptions>
 </ispXCF>

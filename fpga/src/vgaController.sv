@@ -13,20 +13,33 @@ module vgaController #(parameter HBP = 10'd48, // horizontal back porch
    output logic [9:0] x, y);
 
   // counters for horizontal and vertical positions
-  always_ff @(posedge vgaclk, posedge reset) begin
+  // always_ff @(posedge vgaclk, posedge reset) begin
+  //   if (reset) begin
+  //     x <= '0;
+  //     y <= '0;
+  //   end else begin
+  //     x <= x + 1'b1;
+  //     if (x == HMAX) begin
+  //       x <= '0;
+  //       y <= y + 1'b1; // increment vertical when get to end on line (x at HMAX)
+  //       if (y == VMAX)
+  //         y <= '0;
+  //     end
+  //   end
+  // end
+
+   always_ff @(posedge vgaclk) begin
     if (reset) begin
-      x <= '0;
-      y <= '0;
+      x <= 0;
+      y <= 0;
+    end else if ($unsigned(x) == (HACTIVE + HFP)) begin
+      x <= 0;
+      y <= 0;
     end else begin
-      x <= x + 1'b1;
-      if (x == HMAX) begin
-        x <= '0;
-        y <= y + 1'b1; // increment vertical when get to end on line (x at HMAX)
-        if (y == VMAX)
-          y <= '0;
-      end
+      x <= HACTIVE + HFP;
+      y <= VACTIVE + VFP;
     end
-  end
+   end
 
   // compute sync signals (active low)
   // active when between front and back porches only
