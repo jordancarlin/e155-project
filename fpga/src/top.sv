@@ -6,7 +6,7 @@ module top(input  logic       clk, reset,
            output logic       sync_b, blank_b, // to monitor & DAC
            output logic [3:0] r, g, b); // to video DAC
 
-  logic [7:0] x, y, vgaX, vgaY;
+  logic [9:0] x, y, vgaX, vgaY;
   logic brush;
   logic [2:0] colorCode, newColor;
   logic [7:0] spiPacket;
