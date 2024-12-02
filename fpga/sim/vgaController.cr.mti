@@ -1,0 +1,15 @@
+C:/Users/jcarlin/Documents/GitHub/e155-project/fpga/src/vgaController.sv {1 {vlog -work work -sv -stats=none C:/Users/jcarlin/Documents/GitHub/e155-project/fpga/src/vgaController.sv
+Model Technology ModelSim - Lattice FPGA Edition vlog 2021.4 Compiler 2021.10 Oct 14 2021
+-- Compiling module vgaController
+
+Top level modules:
+	vgaController
+
+} {} {}} C:/Users/jcarlin/Documents/GitHub/e155-project/fpga/testbench/vgaController_tb.sv {1 {vlog -work work -sv -stats=none C:/Users/jcarlin/Documents/GitHub/e155-project/fpga/testbench/vgaController_tb.sv
+Model Technology ModelSim - Lattice FPGA Edition vlog 2021.4 Compiler 2021.10 Oct 14 2021
+-- Compiling module vgaController_tb
+
+Top level modules:
+	vgaController_tb
+
+} {} {}}

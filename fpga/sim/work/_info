@@ -1,0 +1,63 @@
+m255
+K4
+z2
+!s11f vlog 2021.4 2021.10, Oct 14 2021
+13
+!s112 1.1
+!i10d 8192
+!i10e 25
+!i10f 100
+cModel Technology
+dC:/Users/jcarlin/Documents/GitHub/e155-lab3/fpga/sim/key_decoder_tb
+vvgaController
+Z0 DXx6 sv_std 3 std 0 22 VYECXdT12H8WgbUP_5Y6:3
+Z1 !s110 1733137984
+!i10b 1
+!s100 V_=:[koA8ca>aGg<KngAK3
+I;XeM2naTNL2l;bL28SViX1
+S1
+Z2 dC:/Users/jcarlin/Documents/GitHub/e155-project/fpga/sim
+w1733134739
+8C:/Users/jcarlin/Documents/GitHub/e155-project/fpga/src/vgaController.sv
+FC:/Users/jcarlin/Documents/GitHub/e155-project/fpga/src/vgaController.sv
+!i122 2
+L0 1 53
+Z3 VDg1SIo80bB@j0V0VzS_@n1
+Z4 OT;L;2021.4;73
+r1
+!s85 0
+31
+Z5 !s108 1733137984.000000
+!s107 C:/Users/jcarlin/Documents/GitHub/e155-project/fpga/src/vgaController.sv|
+!s90 -reportprogress|300|-work|work|-sv|-stats=none|C:/Users/jcarlin/Documents/GitHub/e155-project/fpga/src/vgaController.sv|
+!s101 -O0
+!i113 1
+Z6 o-work work -sv -O0
+Z7 tCvgOpt 0
+nvga@controller
+vvgaController_tb
+R0
+R1
+!i10b 1
+!s100 k>7jdD51jb9;0YNKPnSOS2
+Ibe^_2jXb;2ljdOEinIh2U0
+S1
+R2
+w1733137594
+8C:/Users/jcarlin/Documents/GitHub/e155-project/fpga/testbench/vgaController_tb.sv
+FC:/Users/jcarlin/Documents/GitHub/e155-project/fpga/testbench/vgaController_tb.sv
+!i122 3
+L0 3 46
+R3
+R4
+r1
+!s85 0
+31
+R5
+!s107 C:/Users/jcarlin/Documents/GitHub/e155-project/fpga/testbench/vgaController_tb.sv|
+!s90 -reportprogress|300|-work|work|-sv|-stats=none|C:/Users/jcarlin/Documents/GitHub/e155-project/fpga/testbench/vgaController_tb.sv|
+!s101 -O0
+!i113 1
+R6
+R7
+nvga@controller_tb
