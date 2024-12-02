@@ -4,10 +4,14 @@ module pixelStore (input  logic clk,
                    input  logic [2:0] newColor,
                    output logic [2:0] colorCode);
 
-  logic [7:0][7:0][2:0] colorArray;
+  logic [2:0] colorArray [9:0][9:0];
+
+  initial begin
+    $readmemh("testcolor.mem", colorArray);
+  end
 
   always_ff @(posedge clk) begin
-    if(brush & ready) colorArray[wy][wx] <= newColor;
-    colorCode <= colorArray[ry][rx];
+    // if(brush & ready) colorArray[wy][wx] <= newColor;
+    colorCode <= colorArray[ry[3:0]][rx[3:0]];
   end
 endmodule
