@@ -49,5 +49,5 @@ module vgaController #(parameter HBP = 10'd48, // horizontal back porch
   // assign sync_b = 1'b0; // this should be 0 for newer monitors
 
   // force outputs to black when not writing pixels
-  // assign blank_b = (x < HACTIVE) & (y < VACTIVE);
+  assign blank_b = (x < HACTIVE) & (y < VACTIVE);
 endmodule
