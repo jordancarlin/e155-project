@@ -12,7 +12,7 @@ module pixelStore (input  logic clk,
 
   always_comb begin
     if ($unsigned(rx) >= 200 || $unsigned(ry) >= 200) begin
-      colorCode = 3'b000;
+      colorCode = 3'b111;
     end else begin
       colorCode = colorCodeRam;
     end

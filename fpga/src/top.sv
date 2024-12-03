@@ -16,6 +16,7 @@ module top(input  logic       clk_hf, reset,
   // logic ready;
 
   assign brush = 0;
+  assign test = 0;
   assign newColor = 3'b101;
   assign x = vgaX[7:0];
   assign y= vgaY[7:0];
