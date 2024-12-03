@@ -1,6 +1,5 @@
 module top(input  logic       clk_hf, reset,
-          //  input  logic       sck, sdi,
-          //  output logic       sdo,
+           input  logic       sck, sdi, cs
            output logic       clk, // 25.175 MHz VGA clock
            output logic       hsync, vsync,
            output logic       blank_b, test,// to monitor & DAC
@@ -64,10 +63,6 @@ module top(input  logic       clk_hf, reset,
   //   end
   // end
 
-  assign rBlanked = r & {4{blank_b}};
-  assign gBlanked = g & {4{blank_b}};
-  assign bBlanked = b & {4{blank_b}};
-
   // spiDecode spiDecode(.clk, .spiPacket, .brush, .newColor, .x, .y, .ready); // should this use sck as clock?
   // spi spi(.sck, .sdi, .sdo, .spiPacket);
 
@@ -89,5 +84,7 @@ module top(input  logic       clk_hf, reset,
   //   // .spi_pwkup_o( )
   //   );
 
-
+  assign rBlanked = r & {4{blank_b}};
+  assign gBlanked = g & {4{blank_b}};
+  assign bBlanked = b & {4{blank_b}};
 endmodule
