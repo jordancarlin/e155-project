@@ -23,7 +23,7 @@ module vgaController #(parameter HBP = 10'd48, // horizontal back porch
         x <= '0;
         y <= y + 1'b1; // increment vertical when get to end on line (x at HMAX)
         if (y == VMAX)
-          y <= '0;
+          y <= '0;     
       end
     end
   end

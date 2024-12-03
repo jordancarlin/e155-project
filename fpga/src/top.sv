@@ -3,7 +3,7 @@ module top(input  logic       clk_hf, reset,
           //  output logic       sdo,
            output logic       clk, // 25.175 MHz VGA clock
            output logic       hsync, vsync,
-           output logic       blank_b, // to monitor & DAC
+           output logic       blank_b, test,// to monitor & DAC
            output logic [3:0] rBlanked, gBlanked, bBlanked); // to video DAC
 
   logic [9:0] x, y, vgaX, vgaY;
@@ -14,7 +14,7 @@ module top(input  logic       clk_hf, reset,
   logic [7:0] spiPacket;
   // logic ready;
 
-  assign brush = 1;
+  assign brush = 0;
   assign newColor = 3'b101;
   assign x = vgaX;
   assign y= vgaY;
@@ -29,21 +29,41 @@ module top(input  logic       clk_hf, reset,
   vgaController vgaController(.clk, .reset, .hsync, .vsync, .blank_b, .x(vgaX), .y(vgaY));
 
   pixelStore pixelStore(.clk, .brush, .rx(vgaX), .ry(vgaY), .wx(x), .wy(y), .colorCode, .newColor);
-  //colorDecode colorDecode(.brush, .colorCode, .r, .g, .b);
+  colorDecode colorDecode(.brush, .colorCode, .r, .g, .b);
 
-  assign r = 4'hF;
-  assign b = 4'hF;
-  assign g = 4'hF;
+  // assign r = 4'hF;
+  // assign b = 4'h0;
+  // assign g = 4'hF;
 
-  // assign rBlanked = r;
-  // assign gBlanked = g;
-  // assign bBlanked = b;
+  // logic [1:0] count;
+  // always_ff @ (posedge clk) begin
+  //   test <= '0;
+  //   if (reset) count <= '0;
+  //   else begin 
+  //     if ($unsigned(count) == 0) {r, g, b} <= 12'hF00;
+  //     else if ($unsigned(count) == 1) {r, g, b} <= 12'h0F0;
+  //     else if ($unsigned(count) == 2) {r, g, b} <= 12'h00F;
+  //     else begin
+  //       {r, g, b} <= 12'hF0F;
+  //       count <= '0;
+  //       test <= 1'b1;
+  //     end
+  //     count <= count + 1'b1;
+  //   end
+  // end
+
+  // always_ff @ (posedge clk) begin
+  //   if (reset) {r, g, b} = 12'hF00;
+  //   else begin
+  //     if (r == 4'hF) {r, g, b} = 12'h0F0;
+  //     else {r, g, b} = 12'hF00;
+  //   end
+  // end
 
   assign rBlanked = r & {4{blank_b}};
   assign gBlanked = g & {4{blank_b}};
   assign bBlanked = b & {4{blank_b}};
 
-  // colorDecode colorDecode(.brush, .colorCode, .r, .g, .b);
   // spiDecode spiDecode(.clk, .spiPacket, .brush, .newColor, .x, .y, .ready); // should this use sck as clock?
   // spi spi(.sck, .sdi, .sdo, .spiPacket);
 
