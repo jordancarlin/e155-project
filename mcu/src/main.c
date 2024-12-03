@@ -23,7 +23,7 @@ Purpose : A function that will measure the frequency and duty cycle of
 //  _7_ _6_ _5_    _4_    _3_ _2_ _1_ _0_
 //   1   1   1   [br_up]   0   [colors] 
 //     CONFIG             data
-char color_spi; 
+char color_spi[2]; 
 char just_set;
 
 // assume 200 x 200 (so we need 8 bits for x and y each)
@@ -72,7 +72,7 @@ int main(void) {
 
 ///////////////////////////// COLOR BUTTONS ///////////////////////////////
   configureSettings();
-  color_spi |= 0b111 << 5; // header for the color_spi is set
+  color_spi[1] |= 0b111 << 5; // header for the color_spi is set
   just_set = 0;
 ////////////////////////////////////////////////////////////////////////
 
@@ -88,12 +88,13 @@ int main(void) {
     // for (int i=0; i<1000; i++);
 
     printf("Color: %d\n", color_spi);
-    color_spi &= ~(0b1 << BRUSHUP_BITS);
-    color_spi |=  (digitalRead(BRUSH_UP) << BRUSHUP_BITS);
+    color_spi[1] &= ~(0b1 << BRUSHUP_BITS);
+    color_spi[1] |=  (digitalRead(BRUSH_UP) << BRUSHUP_BITS);
 
     if(just_set) {
       digitalWrite(SPI_CE, 1);
-      spiSendReceive(color_spi);
+      spiSendReceive(color_spi[1]);
+      spiSendReceive(0);
       digitalWrite(SPI_CE, 0);
     }
 
@@ -219,7 +220,7 @@ void configureSettings(void) {
 *  The Handler that is called when the button is pressed
 */
 void EXTI9_5_IRQHandler (void){
-    color_spi &= ~(0b111 << COLOR_BITS);
+    color_spi[1] &= ~(0b111 << COLOR_BITS);
   just_set = 1;
 
     // Check that the button was what triggered our interrupt
@@ -227,35 +228,35 @@ void EXTI9_5_IRQHandler (void){
         // If so, clear the interrupt (NB: Write 1 to reset)
 
         EXTI->PR1 |= (1 << _FLD2VAL(EXTI_PR1_PIF8, 1));
-        color_spi &= ~(0b111 << COLOR_BITS);
-        color_spi |=  (RED_BITS << COLOR_BITS);
+        color_spi[1] &= ~(0b111 << COLOR_BITS);
+        color_spi[1] |=  (RED_BITS << COLOR_BITS);
 
     } else if (EXTI->PR1 & (1 << 9)) {    // PA9 = GREEN
 
         // If so, clear the interrupt (NB: Write 1 to reset)
         EXTI->PR1 |= (1 << _FLD2VAL(EXTI_PR1_PIF9, 1));
-        color_spi &= ~(0b111 << COLOR_BITS);
-        color_spi |=  (GREEN_BITS << COLOR_BITS);
+        color_spi[1] &= ~(0b111 << COLOR_BITS);
+        color_spi[1] |=  (GREEN_BITS << COLOR_BITS);
 
     } else if (EXTI->PR1 & (1 << 6)) {    // PB6 = PURPLE
 
         // If so, clear the interrupt (NB: Write 1 to reset)
         EXTI->PR1 |= (1 << _FLD2VAL(EXTI_PR1_PIF6, 1));
-        color_spi &= ~(0b111 << COLOR_BITS);
-        color_spi |=  (PURPLE_BITS << COLOR_BITS);
+        color_spi[1] &= ~(0b111 << COLOR_BITS);
+        color_spi[1] |=  (PURPLE_BITS << COLOR_BITS);
 
     } else if (EXTI->PR1 & (1 << 7)) {    // PB7 = ERASE
 
         // If so, clear the interrupt (NB: Write 1 to reset)
         EXTI->PR1 |= (1 << _FLD2VAL(EXTI_PR1_PIF7, 1));
-        color_spi &= ~(0b111 << COLOR_BITS);
-        color_spi |=  (ERASE_BITS << COLOR_BITS);
+        color_spi[1] &= ~(0b111 << COLOR_BITS);
+        color_spi[1] |=  (ERASE_BITS << COLOR_BITS);
 
     } 
 }
 
 void EXTI15_10_IRQHandler (void){ // -> not working atm
-    color_spi &= ~(0b111 << COLOR_BITS);
+    color_spi[1] &= ~(0b111 << COLOR_BITS);
   just_set = 1;
 
     // Check that the button was what triggered our interrupt
@@ -263,21 +264,21 @@ void EXTI15_10_IRQHandler (void){ // -> not working atm
 
         // If so, clear the interrupt (NB: Write 1 to reset)
         EXTI->PR1 |= (1 << _FLD2VAL(EXTI_PR1_PIF10, 1));
-        color_spi &= ~(0b111 << COLOR_BITS);
-        color_spi |=  (BLUE_BITS << COLOR_BITS);
+        color_spi[1] &= ~(0b111 << COLOR_BITS);
+        color_spi[1] |=  (BLUE_BITS << COLOR_BITS);
 
     } else if (EXTI->PR1 & (1 << 12)) {    // PA12 = YELLOW
 
         // If so, clear the interrupt (NB: Write 1 to reset)
         EXTI->PR1 |= (1 << _FLD2VAL(EXTI_PR1_PIF12, 1));
-        color_spi &= ~(0b111 << COLOR_BITS);
-        color_spi |=  (YELLOW_BITS << COLOR_BITS);
+        color_spi[1] &= ~(0b111 << COLOR_BITS);
+        color_spi[1] |=  (YELLOW_BITS << COLOR_BITS);
 
     }
 }
 
 void EXTI0_IRQHandler (void){
-    color_spi &= ~(0b111 << COLOR_BITS);
+    color_spi[1] &= ~(0b111 << COLOR_BITS);
   just_set = 1;
 
     // Check that the button was what triggered our interrupt
@@ -285,8 +286,8 @@ void EXTI0_IRQHandler (void){
 
         // If so, clear the interrupt (NB: Write 1 to reset)
         EXTI->PR1 |= (1 << _FLD2VAL(EXTI_PR1_PIF0, 1));
-        color_spi &= ~(0b111 << COLOR_BITS);
-        color_spi |=  (WHITE_BITS << COLOR_BITS);
+        color_spi[1] &= ~(0b111 << COLOR_BITS);
+        color_spi[1] |=  (WHITE_BITS << COLOR_BITS);
 
     } 
 }
