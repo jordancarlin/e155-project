@@ -25,7 +25,9 @@ module top(input  logic       clk_hf, reset,
   // Screen is 800 clocks wide by 525 tall, but only 640 x 480 used
   // HSync = 1/(39.772 ns *800) = 31.470 kHz
   // Vsync = 31.474 kHz / 525 = 59.94 Hz (~60 Hz refresh rate)
+  /* verilator lint_off PINCONNECTEMPTY */
   syspll syspll(.ref_clk_i(clk_hf), .rst_n_i(~reset), .outcore_o(clk), .outglobal_o());
+  /* verilator lint_on PINCONNECTEMPTY */
 
   vgaController vgaController(.clk, .reset, .hsync, .vsync, .blank_b, .x(vgaX), .y(vgaY));
 
