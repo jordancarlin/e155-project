@@ -22,3 +22,4 @@ qrun.out
 vsim.wlf
 *.vcd
 etch*
+obj_dir/
