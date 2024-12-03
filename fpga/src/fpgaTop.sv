@@ -7,11 +7,13 @@ module fpgaTop(input  logic       reset,
                output logic [3:0] r, g, b); // to video DAC
 
   logic clk_hf;
+  logic reset_n;
+  assign reset_n = ~reset;
 
   // internal high speed oscillator
   HSOSC hf_osc(.CLKHFPU(1'b1), .CLKHFEN(1'b1), .CLKHF(clk_hf));
 
-  top top(.*);
+  top top(.reset(reset_n), .*);
 
 endmodule
 

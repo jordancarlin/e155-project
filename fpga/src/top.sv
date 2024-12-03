@@ -23,9 +23,10 @@ module top(input  logic       clk_hf, reset,
   // Screen is 800 clocks wide by 525 tall, but only 640 x 480 used
   // HSync = 1/(39.772 ns *800) = 31.470 kHz
   // Vsync = 31.474 kHz / 525 = 59.94 Hz (~60 Hz refresh rate)
-  syspll syspll(.ref_clk_i(clk_hf), .rst_n_i(reset), .outcore_o(clk), .outglobal_o());
+  syspll syspll(.ref_clk_i(clk_hf), .rst_n_i(~reset), .outcore_o(clk), .outglobal_o());
 
-  vga vga(.clk, .reset, .hsync, .vsync, .vgaX, .vgaY); //, .r, .g, .b);
+  vgaController vgaController(.clk, .reset, .hsync, .vsync, .x(vgaX), .y(vgaY));
+
   pixelStore pixelStore(.clk, .brush, .rx(vgaX), .ry(vgaY), .wx(x), .wy(y), .colorCode, .newColor);
   colorDecode colorDecode(.brush, .colorCode, .r, .g, .b);
   // spiDecode spiDecode(.clk, .spiPacket, .brush, .newColor, .x, .y, .ready); // should this use sck as clock?
