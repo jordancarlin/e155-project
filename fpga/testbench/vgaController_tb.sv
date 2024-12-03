@@ -7,8 +7,8 @@ module vgaController_tb;
   logic reset;
   logic hsync;
   logic vsync;
-  logic [9:0] x;
-  logic [9:0] y;
+  logic [7:0] x;
+  logic [7:0] y;
 
   // Instantiate the vgaController module
   vgaController dut (.*);

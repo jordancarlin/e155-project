@@ -6,7 +6,7 @@ module top(input  logic       clk_hf, reset,
            output logic       blank_b, test,// to monitor & DAC
            output logic [3:0] rBlanked, gBlanked, bBlanked); // to video DAC
 
-  logic [9:0] x, y, vgaX, vgaY;
+  logic [7:0] x, y, vgaX, vgaY;
   logic [3:0] r, g, b;
   // logic blank_b;
   logic brush;

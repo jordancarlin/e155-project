@@ -10,7 +10,7 @@ module vgaController #(parameter HBP = 10'd48, // horizontal back porch
                       VMAX = VBP + VACTIVE + VFP + VSYN) //32+480+11+2=525: number of vertical pixels
   (input  logic       clk, reset,
    output logic       hsync, vsync, blank_b,
-   output logic [9:0] x, y);
+   output logic [7:0] x, y);
 
   // counters for horizontal and vertical positions
   always_ff @(posedge clk, posedge reset) begin

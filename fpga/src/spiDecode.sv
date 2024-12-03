@@ -2,7 +2,7 @@ module spiDecode(input  logic       clk,
            output logic ready,
            input  logic [7:0] spiPacket,
            output logic       brush,
-           output logic [9:0] x, y,
+           output logic [7:0] x, y,
            output logic [2:0] newColor);
 
   typedef enum logic [1:0] { CONF, XPOS, YPOS } SPI_TYPE;
