@@ -8,12 +8,12 @@ module vgaController #(parameter HBP = 10'd48, // horizontal back porch
                       VFP = 10'd11, // vertical front porch
                       VSYN = 10'd2, // vertical sync pulse = 2 to move electron gun back to top
                       VMAX = VBP + VACTIVE + VFP + VSYN) //32+480+11+2=525: number of vertical pixels
-  (input  logic       vgaclk, reset,
+  (input  logic       clk, reset,
    output logic       hsync, vsync,// sync_b, blank_b,
    output logic [9:0] x, y);
 
   // counters for horizontal and vertical positions
-  always_ff @(posedge vgaclk, posedge reset) begin
+  always_ff @(posedge clk, posedge reset) begin
     if (reset) begin
       x <= '0;
       y <= '0;
@@ -28,7 +28,7 @@ module vgaController #(parameter HBP = 10'd48, // horizontal back porch
     end
   end
 
-  //  always_ff @(posedge vgaclk) begin
+  //  always_ff @(posedge clk) begin
   //   if (reset) begin
   //     x <= 0;
   //     y <= 0;

@@ -3,7 +3,7 @@
 module vgaController_tb;
 
   // Testbench signals
-  logic vgaclk;
+  logic clk;
   logic reset;
   logic hsync;
   logic vsync;
@@ -11,19 +11,12 @@ module vgaController_tb;
   logic [9:0] y;
 
   // Instantiate the vgaController module
-  vgaController dut (
-    .vgaclk(vgaclk),
-    .reset(reset),
-    .hsync(hsync),
-    .vsync(vsync),
-    .x(x),
-    .y(y)
-  );
+  vgaController dut (.*);
 
   // Clock generation
   initial begin
-    vgaclk = 0;
-    forever #5 vgaclk = ~vgaclk;
+    clk = 0;
+    forever #5 clk = ~clk;
   end
 
   // Test sequence
