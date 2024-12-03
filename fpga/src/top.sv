@@ -3,12 +3,12 @@ module top(input  logic       clk_hf, reset,
           //  output logic       sdo,
            output logic       clk, // 25.175 MHz VGA clock
            output logic       hsync, vsync,
-          //  output logic       sync_b, blank_b, // to monitor & DAC
+           output logic       blank_b, // to monitor & DAC
            output logic [3:0] rBlanked, gBlanked, bBlanked); // to video DAC
 
   logic [9:0] x, y, vgaX, vgaY;
   logic [3:0] r, g, b;
-  logic blank_b;
+  // logic blank_b;
   logic brush;
   logic [2:0] colorCode, newColor;
   logic [7:0] spiPacket;
@@ -31,13 +31,17 @@ module top(input  logic       clk_hf, reset,
   pixelStore pixelStore(.clk, .brush, .rx(vgaX), .ry(vgaY), .wx(x), .wy(y), .colorCode, .newColor);
   //colorDecode colorDecode(.brush, .colorCode, .r, .g, .b);
 
-  assign r = 4'h0;
+  assign r = 4'hF;
   assign b = 4'hF;
-  assign g = 4'h0;
+  assign g = 4'hF;
 
-  assign rBlanked = r & ~{4{blank_b}};
-  assign gBlanked = g & ~{4{blank_b}};
-  assign bBlanked = b & ~{4{blank_b}};
+  // assign rBlanked = r;
+  // assign gBlanked = g;
+  // assign bBlanked = b;
+
+  assign rBlanked = r & {4{blank_b}};
+  assign gBlanked = g & {4{blank_b}};
+  assign bBlanked = b & {4{blank_b}};
 
   // colorDecode colorDecode(.brush, .colorCode, .r, .g, .b);
   // spiDecode spiDecode(.clk, .spiPacket, .brush, .newColor, .x, .y, .ready); // should this use sck as clock?
