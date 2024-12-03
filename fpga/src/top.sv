@@ -4,10 +4,11 @@ module top(input  logic       clk_hf, reset,
            output logic       clk, // 25.175 MHz VGA clock
            output logic       hsync, vsync,
           //  output logic       sync_b, blank_b, // to monitor & DAC
-           output logic [3:0] r, g, b); // to video DAC
+           output logic [3:0] rBlanked, gBlanked, bBlanked); // to video DAC
 
   // logic clk, sync_b, blank_b;
   logic [9:0] x, y, vgaX, vgaY;
+  logic blank_b;
   logic brush;
   logic [2:0] colorCode, newColor;
   logic [7:0] spiPacket;
@@ -25,10 +26,16 @@ module top(input  logic       clk_hf, reset,
   // Vsync = 31.474 kHz / 525 = 59.94 Hz (~60 Hz refresh rate)
   syspll syspll(.ref_clk_i(clk_hf), .rst_n_i(~reset), .outcore_o(clk), .outglobal_o());
 
-  vgaController vgaController(.clk, .reset, .hsync, .vsync, .x(vgaX), .y(vgaY));
+  vgaController vgaController(.clk, .reset, .hsync, .vsync, .blank_b, .x(vgaX), .y(vgaY));
 
   pixelStore pixelStore(.clk, .brush, .rx(vgaX), .ry(vgaY), .wx(x), .wy(y), .colorCode, .newColor);
   colorDecode colorDecode(.brush, .colorCode, .r, .g, .b);
+
+
+  assign rBlanked = r & ~blank_b;
+  assign gBlanked = g & ~blank_b;
+  assign bBlanked = b & ~blank_b;
+
   // spiDecode spiDecode(.clk, .spiPacket, .brush, .newColor, .x, .y, .ready); // should this use sck as clock?
   // spi spi(.sck, .sdi, .sdo, .spiPacket);
 
