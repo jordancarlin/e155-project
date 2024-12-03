@@ -1,9 +1,7 @@
 module fpgaTop(input  logic       reset,
-              //  input  logic       sck, sdi,
-              //  output logic       sdo,
-               output logic       clk, // 25.175 MHz VGA clock
-               output logic       hsync, vsync,
-               output logic       blank_b, test, // to monitor & DAC
+               input  logic       sck, sdi, cs, // SPI from MCU
+               output logic       hsync, vsync, // to VGA monitor
+               output logic       test,
                output logic [3:0] rBlanked, gBlanked, bBlanked); // to video DAC
 
   logic clk_hf;
