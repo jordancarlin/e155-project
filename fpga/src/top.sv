@@ -31,11 +31,15 @@ module top(input  logic       clk_hf, reset,
   pixelStore pixelStore(.clk, .brush, .rx(vgaX), .ry(vgaY), .wx(x), .wy(y), .colorCode, .newColor);
   colorDecode colorDecode(.brush, .colorCode, .r, .g, .b);
 
+  assign r = 4'h0;
+  assign b = 4'hF;
+  assign g = 4'h0;
 
   assign rBlanked = r & ~blank_b;
   assign gBlanked = g & ~blank_b;
   assign bBlanked = b & ~blank_b;
 
+  // colorDecode colorDecode(.brush, .colorCode, .r, .g, .b);
   // spiDecode spiDecode(.clk, .spiPacket, .brush, .newColor, .x, .y, .ready); // should this use sck as clock?
   // spi spi(.sck, .sdi, .sdo, .spiPacket);
 

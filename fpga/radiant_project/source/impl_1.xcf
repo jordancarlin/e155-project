@@ -18,7 +18,7 @@
 				<BScanVal>0</BScanVal>
 			</Bypass>
 			<File>../../impl_1/pictionary_impl_1.bin</File>
-			<FileTime>12/02/24 16:56:34</FileTime>
+			<FileTime>12/02/24 20:16:05</FileTime>
 			<JedecChecksum>0xFC77</JedecChecksum>
 			<MemoryType>External SPI Flash Memory (SPI FLASH)</MemoryType>
 			<Operation>Erase,Program,Verify</Operation>
