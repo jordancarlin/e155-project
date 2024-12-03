@@ -32,17 +32,11 @@ module vgaController_tb;
     reset = 1;
     #20;
     reset = 0;
-
-    // Run simulation for a specific period
-    #1000;
-
-    // Finish simulation
-    $finish;
   end
 
   // Monitor signals
-  initial begin
-    $monitor("Time: %0t | hsync: %b | vsync: %b | x: %d | y: %d", $time, hsync, vsync, x, y);
-  end
+  // initial begin
+  //   $monitor("Time: %0t | hsync: %b | vsync: %b | x: %d | y: %d", $time, hsync, vsync, x, y);
+  // end
 
 endmodule

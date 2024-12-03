@@ -11,53 +11,53 @@ cModel Technology
 dC:/Users/jcarlin/Documents/GitHub/e155-lab3/fpga/sim/key_decoder_tb
 vvgaController
 Z0 DXx6 sv_std 3 std 0 22 VYECXdT12H8WgbUP_5Y6:3
-Z1 !s110 1733137984
+!s110 1733183477
 !i10b 1
-!s100 V_=:[koA8ca>aGg<KngAK3
-I;XeM2naTNL2l;bL28SViX1
+!s100 [bB?B2<1aR^JgU[ndmS1:1
+I3NAH@`6JFQIhL7OB>>h3G1
 S1
-Z2 dC:/Users/jcarlin/Documents/GitHub/e155-project/fpga/sim
-w1733134739
+Z1 dC:/lscc/radiant/3.2/modeltech/win32loem
+w1733183446
 8C:/Users/jcarlin/Documents/GitHub/e155-project/fpga/src/vgaController.sv
 FC:/Users/jcarlin/Documents/GitHub/e155-project/fpga/src/vgaController.sv
-!i122 2
+!i122 7
 L0 1 53
-Z3 VDg1SIo80bB@j0V0VzS_@n1
-Z4 OT;L;2021.4;73
+Z2 VDg1SIo80bB@j0V0VzS_@n1
+Z3 OT;L;2021.4;73
 r1
 !s85 0
 31
-Z5 !s108 1733137984.000000
+!s108 1733183477.000000
 !s107 C:/Users/jcarlin/Documents/GitHub/e155-project/fpga/src/vgaController.sv|
-!s90 -reportprogress|300|-work|work|-sv|-stats=none|C:/Users/jcarlin/Documents/GitHub/e155-project/fpga/src/vgaController.sv|
+!s90 -reportprogress|300|-work|work|-sv|-O0|C:/Users/jcarlin/Documents/GitHub/e155-project/fpga/src/vgaController.sv|
 !s101 -O0
 !i113 1
-Z6 o-work work -sv -O0
-Z7 tCvgOpt 0
+Z4 o-work work -sv -O0
+Z5 tCvgOpt 0
 nvga@controller
 vvgaController_tb
 R0
-R1
+!s110 1733183857
 !i10b 1
-!s100 k>7jdD51jb9;0YNKPnSOS2
-Ibe^_2jXb;2ljdOEinIh2U0
+!s100 _n3Ndb?]L4>M<?:1=kf3>3
+I8[PfQz@GlWSjC3ab8bLdJ0
 S1
-R2
-w1733137594
+R1
+w1733183851
 8C:/Users/jcarlin/Documents/GitHub/e155-project/fpga/testbench/vgaController_tb.sv
 FC:/Users/jcarlin/Documents/GitHub/e155-project/fpga/testbench/vgaController_tb.sv
-!i122 3
-L0 3 46
+!i122 12
+L0 3 40
+R2
 R3
-R4
 r1
 !s85 0
 31
-R5
+!s108 1733183857.000000
 !s107 C:/Users/jcarlin/Documents/GitHub/e155-project/fpga/testbench/vgaController_tb.sv|
-!s90 -reportprogress|300|-work|work|-sv|-stats=none|C:/Users/jcarlin/Documents/GitHub/e155-project/fpga/testbench/vgaController_tb.sv|
+!s90 -reportprogress|300|-work|work|-sv|-O0|C:/Users/jcarlin/Documents/GitHub/e155-project/fpga/testbench/vgaController_tb.sv|
 !s101 -O0
 !i113 1
-R6
-R7
+R4
+R5
 nvga@controller_tb
