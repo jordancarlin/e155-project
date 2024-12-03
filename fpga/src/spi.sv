@@ -1,11 +1,7 @@
-module spi (input  logic       sck, sdi,
-            output logic       sdo,
-            output logic [7:0] spiPacket);
-
-  logic [7:0] spiPacketCaptured;
+module spi (input  logic       sck, sdi, cs,
+            output logic [7:0] spiPacket1, spiPacket2);
 
   always_ff @(posedge sck)
-    {spiPacketCaptured, spiPacket} = {spiPacket[6:0], sdi}; // this logic doesn't seem quite right yet
+    if (cs) {spiPacket1, spiPacket2} = {spiPacket1[6:0], spiPacket2, sdi};
 
-  assign sdo = 0;
 endmodule
