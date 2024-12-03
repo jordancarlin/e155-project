@@ -2,13 +2,13 @@ module colorDecode (input  logic       brush,
                     input  logic [2:0] colorCode,
                     output logic [3:0] r, g, b);
 
-  localparam white = 3'b000;
+  localparam erase = 3'b000;
   localparam red = 3'b001;
   localparam blue = 3'b010;
   localparam green = 3'b011;
   localparam yellow = 3'b100;
   localparam purple = 3'b101;
-  localparam erase = 3'b111;
+  localparam white = 3'b111;
 
   localparam redRGB = {4'hF, 4'h0, 4'h0};
   localparam greenRGB = {4'h0, 4'hF, 4'h0};

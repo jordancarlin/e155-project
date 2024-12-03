@@ -47,7 +47,7 @@ module top(input  logic       clk_hf, reset,
 
   vgaController vgaController(.clk, .reset, .hsync, .vsync, .blank_b, .x(vgaX), .y(vgaY));
 
-  pixelStore pixelStore(.clk, .brush, .rx(vgaX), .ry(vgaY), .wx(x), .wy(y), .colorCode, .newColor);
+  pixelStore pixelStore(.clk, .reset, .brush, .rx(vgaX), .ry(vgaY), .wx(x), .wy(y), .colorCode, .newColor);
   colorDecode colorDecode(.brush, .colorCode, .r, .g, .b);
 
   assign rBlanked = r & {4{blank_b}};

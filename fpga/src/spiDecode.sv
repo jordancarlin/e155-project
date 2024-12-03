@@ -24,10 +24,12 @@ module spiDecode(input  logic       ready,
     newColor = '0;
     x = '0;
     y = '0;
+	updateConfig = '0;
     case (spiType)
       CONF: begin
               brush    = spiPacket1Ready[4];
               newColor = spiPacket1Ready[2:0];
+			  updateConfig = 1;
             end
       POS: begin
              x = spiPacket1Ready;
