@@ -25,7 +25,7 @@ module top(input  logic       clk_hf, reset,
   // Vsync = 31.474 kHz / 525 = 59.94 Hz (~60 Hz refresh rate)
   syspll syspll(.ref_clk_i(clk_hf), .rst_n_i(reset), .outcore_o(clk), .outglobal_o());
 
-  vga vga(.clk, .reset, .clk, .hsync, .vsync, .vgaX, .vgaY); //, .r, .g, .b);
+  vga vga(.clk, .reset, .hsync, .vsync, .vgaX, .vgaY); //, .r, .g, .b);
   pixelStore pixelStore(.clk, .brush, .rx(vgaX), .ry(vgaY), .wx(x), .wy(y), .colorCode, .newColor);
   colorDecode colorDecode(.brush, .colorCode, .r, .g, .b);
   // spiDecode spiDecode(.clk, .spiPacket, .brush, .newColor, .x, .y, .ready); // should this use sck as clock?
