@@ -6,7 +6,8 @@ module top(input  logic       clk_hf, reset,
            output logic       blank_b, test,// to monitor & DAC
            output logic [3:0] rBlanked, gBlanked, bBlanked); // to video DAC
 
-  logic [7:0] x, y, vgaX, vgaY;
+  logic [7:0] x, y;
+  logic [9:0] vgaX, vgaY;
   logic [3:0] r, g, b;
   // logic blank_b;
   logic brush;
@@ -16,8 +17,8 @@ module top(input  logic       clk_hf, reset,
 
   assign brush = 0;
   assign newColor = 3'b101;
-  assign x = vgaX;
-  assign y= vgaY;
+  assign x = vgaX[7:0];
+  assign y= vgaY[7:0];
 
   // Use a PLL to create the 25.175 MHz VGA pixel clock
   // 25.175 MHz clk period = 39.772 ns
@@ -39,7 +40,7 @@ module top(input  logic       clk_hf, reset,
   // always_ff @ (posedge clk) begin
   //   test <= '0;
   //   if (reset) count <= '0;
-  //   else begin 
+  //   else begin
   //     if ($unsigned(count) == 0) {r, g, b} <= 12'hF00;
   //     else if ($unsigned(count) == 1) {r, g, b} <= 12'h0F0;
   //     else if ($unsigned(count) == 2) {r, g, b} <= 12'h00F;
