@@ -5,7 +5,7 @@ module pixelStore (input  logic clk, reset,
                    input  logic [9:0] rx, ry,
                    output logic [2:0] colorCode);
 
-  logic [7:0] rxRam, ryRam;
+  logic [9:0] rxRam, ryRam;
 
   // 640 * 480
   // 180 * 180
@@ -23,8 +23,8 @@ module pixelStore (input  logic clk, reset,
   // end
 
   always_comb begin
-    rxRam = rx - 230;
-    ryRam = ry - 150;
+    rxRam = rx - 10'd230;
+    ryRam = ry - 10'd150;
 
     if (rxRam < 0 | ryRam < 0)
       colorCode = 3'b101;
@@ -39,7 +39,6 @@ module pixelStore (input  logic clk, reset,
     // end else begin
     //   colorCode = colorCodeRam;
     // end
-  end
 
   pixelRam pixelRam(
     .wr_clk_i(clk),
