@@ -40,12 +40,12 @@ module pixelStore_tb;
     #10 reset = 0;
 
     // Test case 1: Read from an address, write to that address, and then read from it again
-    #10 rx = 10'd20; ry = 10'd20;
-    #10 brush = 1; newColor = 3'b101; wx = 8'd20; wy = 8'd20;
-    #10 brush = 0; rx = 10'd20; ry = 10'd20;
+    #10 rx = 10'd300; ry = 10'd300;
+    #10 brush = 1; newColor = 3'b100; wx = 8'd300; wy = 8'd300;
+    #50 brush = 0; rx = 10'd300; ry = 10'd300;
 
     // Test case 2: Read from an out-of-bounds coordinate
-    #10 rx = 10'd1024; ry = 10'd1024;
+    #100 rx = 10'd600; ry = 10'd400;
 
     // Test case 3: Read from an address before writing another color
     #10 rx = 10'd40; ry = 10'd40;

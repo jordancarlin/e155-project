@@ -1,6 +1,7 @@
 m255
 K4
 z2
+!s11e vcom 2021.4 2021.10, Oct 14 2021
 !s11f vlog 2021.4 2021.10, Oct 14 2021
 13
 !s112 1.1
@@ -12,20 +13,20 @@ dC:/Users/jcarlin/Documents/GitHub/e155-lab3/fpga/sim/key_decoder_tb
 vvgaController
 Z0 DXx6 sv_std 3 std 0 22 VYECXdT12H8WgbUP_5Y6:3
 !s110 1733183477
+Z1 VDg1SIo80bB@j0V0VzS_@n1
+r1
+!s85 0
 !i10b 1
 !s100 [bB?B2<1aR^JgU[ndmS1:1
 I3NAH@`6JFQIhL7OB>>h3G1
 S1
-Z1 dC:/lscc/radiant/3.2/modeltech/win32loem
+Z2 dC:/lscc/radiant/3.2/modeltech/win32loem
 w1733183446
 8C:/Users/jcarlin/Documents/GitHub/e155-project/fpga/src/vgaController.sv
 FC:/Users/jcarlin/Documents/GitHub/e155-project/fpga/src/vgaController.sv
 !i122 7
 L0 1 53
-Z2 VDg1SIo80bB@j0V0VzS_@n1
 Z3 OT;L;2021.4;73
-r1
-!s85 0
 31
 !s108 1733183477.000000
 !s107 C:/Users/jcarlin/Documents/GitHub/e155-project/fpga/src/vgaController.sv|
@@ -38,20 +39,20 @@ nvga@controller
 vvgaController_tb
 R0
 !s110 1733183857
+R1
+r1
+!s85 0
 !i10b 1
 !s100 _n3Ndb?]L4>M<?:1=kf3>3
 I8[PfQz@GlWSjC3ab8bLdJ0
 S1
-R1
+R2
 w1733183851
 8C:/Users/jcarlin/Documents/GitHub/e155-project/fpga/testbench/vgaController_tb.sv
 FC:/Users/jcarlin/Documents/GitHub/e155-project/fpga/testbench/vgaController_tb.sv
 !i122 12
 L0 3 40
-R2
 R3
-r1
-!s85 0
 31
 !s108 1733183857.000000
 !s107 C:/Users/jcarlin/Documents/GitHub/e155-project/fpga/testbench/vgaController_tb.sv|

@@ -9,11 +9,35 @@ module pixelStore (input  logic clk, reset,
                    output logic [2:0] colorCode);
 
   logic [9:0] rxRam, ryRam;
-  logic [2:0] colorCodeRam;
+  logic [2:0] colorCodeRam, testColor;
+  logic [31:0] counter;
+
+  always_ff @(posedge clk) begin
+    if (reset) begin
+      testColor <= erase;
+      counter <= '0;
+    end else if (counter < 16000) begin
+      testColor <= red;
+      counter <= counter + 1;
+    end else if (counter < 32000) begin
+      testColor <= blue;
+      counter <= counter + 1;
+    end else if (counter < 48000) begin
+      testColor <= green;
+      counter <= counter + 1;
+    end else if (counter < 65000) begin
+      testColor <= red;
+      counter <= counter + 1;
+    end else begin
+      testColor <= yellow;
+      counter <= '0;
+    end
+  end
+
 
   always_comb begin
-    rxRam = (rx - (HACTIVE - MAX_COORDINATE)/2) >> 1;
-    ryRam = (ry - (VACTIVE - MAX_COORDINATE)/2) >> 1;
+    rxRam = (rx - (HACTIVE - MAX_COORDINATE)/4) >> 1;
+    ryRam = (ry - (VACTIVE - MAX_COORDINATE)/4) >> 1;
 
     if (rxRam < 0 | ryRam < 0)
       colorCode = purple;
@@ -36,9 +60,9 @@ module pixelStore (input  logic clk, reset,
     .wr_clk_en_i(1'b1),
     .rd_en_i(1'b1),
     .rd_clk_en_i(1'b1),
-    .wr_en_i(brush),
-    .wr_data_i(newColor),
-    .wr_addr_i({wy[6:0],wx}),
-    .rd_addr_i({ryRam[6:0],rxRam[7:0]}),
+    .wr_en_i(1'b1),//brush),
+    .wr_data_i(testColor),
+    .wr_addr_i(15'h2c2c),//{wy[6:0],wx}),
+    .rd_addr_i(15'h2c2c),//{ryRam[6:0],rxRam[7:0]}),
     .rd_data_o(colorCodeRam));
 endmodule
