@@ -29,7 +29,7 @@ module spiDecode(input  logic       ready,
       CONF: begin
               brush    = spiPacket1Ready[4];
               newColor = spiPacket1Ready[2:0];
-			  updateConfig = 1;
+              updateConfig = 1;
             end
       POS: begin
              x = spiPacket1Ready;
