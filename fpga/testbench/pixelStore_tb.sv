@@ -1,5 +1,3 @@
-`include "pixelStore.sv"
-
 module pixelStore_tb;
 
   logic clk, reset, brush;
