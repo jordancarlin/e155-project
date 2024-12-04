@@ -1,14 +1,19 @@
 module spiFSM(input clk, reset, cs,
-              output ready);
+              output ready, test);
 
   typedef enum logic [1:0] { SPI_IDLE, SPI_HOLD, SPI_DONE } SPI_STATE;
   SPI_STATE spiState, spiNextState;
+  
+  logic testTemp;
+  assign test = testTemp;
 
   always_ff @(posedge clk) begin
     if (reset) begin
+      testTemp <= 1'b1;
       spiState <= SPI_IDLE;
     end else begin
       spiState <= spiNextState;
+      testTemp <= 1'b0;
     end
   end
 
@@ -22,11 +27,12 @@ module spiFSM(input clk, reset, cs,
                   if (cs) spiNextState = SPI_HOLD;
                   else spiNextState = SPI_DONE;
                 end
-      SPI_DONE: spiNextState = SPI_IDLE;
+      SPI_DONE: spiNextState = SPI_DONE;
       default: spiNextState = SPI_IDLE;
     endcase
   end
 
+  // assign test = spiState == SPI_DONE;
   assign ready = spiState == SPI_DONE;
 
 endmodule

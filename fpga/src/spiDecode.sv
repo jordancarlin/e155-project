@@ -15,9 +15,8 @@ module spiDecode(input  logic       ready,
 
   // Determine packet type
   always_comb
-    // if (&spiPacket1[7:5]) spiType <= CONF;
-    // else
-    spiType <= POS;
+    if (&spiPacket1[7:5]) spiType <= CONF;
+    else spiType <= POS;
 
   // Decode packet
   always_comb begin
@@ -28,8 +27,8 @@ module spiDecode(input  logic       ready,
     updateConfig = '0;
     case (spiType)
       CONF: begin
-              brush    = spiPacket1Ready[4];
-              newColor = spiPacket1Ready[2:0];
+              brush    = '1;//spiPacket1Ready[4];
+              newColor = green;//spiPacket1Ready[2:0];
               updateConfig = 1;
             end
       POS: begin

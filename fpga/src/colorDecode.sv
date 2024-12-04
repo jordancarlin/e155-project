@@ -7,8 +7,9 @@ module colorDecode (input  logic       brush,
 
   // convert color to rgb values
   always_comb
-    if(brush) {r, g, b} = brushRGB;
-    else case(colorCode)
+    // if(brush) {r, g, b} = brushRGB;
+    // else 
+    case(colorCode)
       red:     {r, g, b} = redRGB;
       green:   {r, g, b} = greenRGB;
       blue:    {r, g, b} = blueRGB;

@@ -1,3 +1,4 @@
+`include "colors.svh"
 module top(input  logic       clk_hf, reset,
            input  logic       sck, sdi, cs, // SPI from MCU
            output logic       hsync, vsync, // to VGA monitor
@@ -14,7 +15,9 @@ module top(input  logic       clk_hf, reset,
   logic [2:0] colorCode, newColor, newColorUpdate;
   logic updateConfig;
 
-  spiTop spiTop(.clk, .reset, .sck, .sdi, .cs, .brushUpdate, .x, .y, .newColorUpdate, .updateConfig, .sdiSync(test));
+  // assign test = ready;
+
+  spiTop spiTop(.clk, .reset(reset), .sck, .sdi, .cs, .brushUpdate, .x, .y, .newColorUpdate, .updateConfig, .test(test));
 
   // Save brush state and color
   always_ff @(posedge clk) begin
@@ -37,9 +40,9 @@ module top(input  logic       clk_hf, reset,
   syspll syspll(.ref_clk_i(clk_hf), .rst_n_i(~reset), .outcore_o(clk), .outglobal_o());
   /* verilator lint_on PINCONNECTEMPTY */
 
-  vgaController vgaController(.clk, .reset, .hsync, .vsync, .blank_b, .x(vgaX), .y(vgaY));
+  vgaController vgaController(.clk, .reset(reset), .hsync, .vsync, .blank_b, .x(vgaX), .y(vgaY));
 
-  pixelStore pixelStore(.clk, .reset, .brush, .rx(vgaX), .ry(vgaY), .wx(x), .wy(y), .colorCode, .newColor);
+  pixelStore pixelStore(.clk, .reset(reset), .brush, .rx(vgaX), .ry(vgaY), .wx(x), .wy(y), .colorCode, .newColor);
   colorDecode colorDecode(.brush, .colorCode, .r, .g, .b);
 
   assign rBlanked = r ;//& {4{blank_b}};
