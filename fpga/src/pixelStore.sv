@@ -71,12 +71,7 @@ module pixelStore (input  logic clk, reset,
     colorCodeRam <= colorArray[{ryRam[6:0],rxRam[6:0]}];
 
   always_ff @( posedge clk )
-    if (reset) begin
-      integer i;
-      for (i = 0; i < 16384; i++) begin
-        colorArray[i] <= '0;
-      end
-    end else if (1'b1)
+    if (1'b1)
       colorArray[{wy[6:0], wx[6:0]}] <= newColor;
 
 
