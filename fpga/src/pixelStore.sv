@@ -49,7 +49,7 @@ module pixelStore (input  logic clk, reset,
       if (rx == 50 | ry == 50)
         colorCode = colorCodeRam;
       else
-       colorCode = purple;
+        colorCode = purple;
     end
     else
       colorCode = colorCodeRam;
