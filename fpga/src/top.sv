@@ -4,7 +4,6 @@ module top(input  logic       clk_hf, reset,
            output logic       test,
            output logic [3:0] rBlanked, gBlanked, bBlanked); // to video DAC
 
-  assign test = 0;
 
   logic clk;
   logic [7:0] x, y;
@@ -14,12 +13,16 @@ module top(input  logic       clk_hf, reset,
   logic brush, brushUpdate;
   logic [2:0] colorCode, newColor, newColorUpdate;
   logic updateConfig;
+  assign test = updateConfig;
 
   spiTop spiTop(.clk, .reset, .sck, .sdi, .cs, .brushUpdate, .x, .y, .newColorUpdate, .updateConfig);
 
   // Save brush state and color
   always_ff @(posedge clk) begin
-    if (updateConfig) begin
+    if (reset) begin
+      brush <= 1;
+      newColor <= green;
+    end else if (updateConfig) begin
       brush <= brushUpdate;
       newColor <= newColorUpdate;
     end
@@ -40,7 +43,7 @@ module top(input  logic       clk_hf, reset,
   pixelStore pixelStore(.clk, .reset, .brush, .rx(vgaX), .ry(vgaY), .wx(x), .wy(y), .colorCode, .newColor);
   colorDecode colorDecode(.brush, .colorCode, .r, .g, .b);
 
-  assign rBlanked = r & {4{blank_b}};
-  assign gBlanked = g & {4{blank_b}};
-  assign bBlanked = b & {4{blank_b}};
+  assign rBlanked = r ;//& {4{blank_b}};
+  assign gBlanked = g ;//& {4{blank_b}};
+  assign bBlanked = b ;//& {4{blank_b}};
 endmodule

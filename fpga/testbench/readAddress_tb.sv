@@ -1,11 +1,8 @@
-`include "vgaParameters.svh"
-
 module readAddress_tb;
 
   logic clk, reset, brush;
   logic [2:0] newColor;
   logic [7:0] wx, wy;
-  logic [9:0] rx, ry;
   logic [2:0] colorCode;
   logic hsync, vsync, blank_b;
   logic [9:0] vgaX, vgaY;

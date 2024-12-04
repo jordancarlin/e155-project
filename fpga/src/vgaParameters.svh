@@ -13,6 +13,6 @@ parameter VFP = 10'd11; // vertical front porch
 parameter VSYN = 10'd2; // vertical sync pulse = 2 to move electron gun back to top
 parameter VMAX = VBP + VACTIVE + VFP + VSYN; //32+480+11+2=525: number of vertical pixels
 
-parameter MAX_COORDINATE = 180; // max coordinate for drawing
+parameter MAX_COORDINATE = 128; // max coordinate for drawing
 
 `endif // VGA_PARAMETERS

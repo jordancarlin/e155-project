@@ -24,7 +24,7 @@ module spiDecode(input  logic       ready,
     newColor = '0;
     x = '0;
     y = '0;
-	updateConfig = '0;
+	  updateConfig = '0;
     case (spiType)
       CONF: begin
               brush    = spiPacket1Ready[4];
