@@ -13,9 +13,8 @@ module top(input  logic       clk_hf, reset,
   logic brush, brushUpdate;
   logic [2:0] colorCode, newColor, newColorUpdate;
   logic updateConfig;
-  assign test = updateConfig;
 
-  spiTop spiTop(.clk, .reset, .sck, .sdi, .cs, .brushUpdate, .x, .y, .newColorUpdate, .updateConfig);
+  spiTop spiTop(.clk, .reset, .sck, .sdi, .cs, .brushUpdate, .x, .y, .newColorUpdate, .updateConfig, .ready(test));
 
   // Save brush state and color
   always_ff @(posedge clk) begin

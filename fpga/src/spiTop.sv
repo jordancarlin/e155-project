@@ -1,11 +1,11 @@
 module spiTop(input  logic       clk, reset, sck, sdi, cs,
-              output logic       brushUpdate,
+              output logic       brushUpdate, ready,
               output logic [7:0] x, y,
               output logic [2:0] newColorUpdate,
               output logic       updateConfig);
 
   logic [7:0] spiPacket1, spiPacket2;
-  logic ready;
+  // logic ready;
   logic sckSync, sdiSync, csSync;
 
   // synchronize inputs from MCU
