@@ -13,19 +13,9 @@ module top(input  logic       clk_hf, reset,
   logic blank_b;
   logic brush, brushUpdate;
   logic [2:0] colorCode, newColor, newColorUpdate;
-  logic [7:0] spiPacket1, spiPacket2;
-  logic ready, updateConfig;
+  logic updateConfig;
 
-  logic sckSync, sdiSync, csSync;
-
-  // synchronize inputs from MCU
-  synchronizer sck_sync(.clk, .reset, .async_signal(sck), .sync_signal(sckSync));
-  synchronizer sdi_sync(.clk, .reset, .async_signal(sdi), .sync_signal(sdiSync));
-  synchronizer cs_sync(.clk, .reset, .async_signal(cs),  .sync_signal(csSync));
-
-  spi spi(.sck(sckSync), .sdi(sdiSync), .cs(csSync), .spiPacket1, .spiPacket2);
-  spiFSM spiFSM(.clk, .reset, .cs(csSync), .ready);
-  spiDecode spiDecode(.ready, .spiPacket1, .spiPacket2, .updateConfig, .brush(brushUpdate), .x, .y, .newColor(newColorUpdate));
+  spiTop spiTop(.clk, .reset, .sck, .sdi, .cs, .brushUpdate, .x, .y, .newColorUpdate, .updateConfig);
 
   // Save brush state and color
   always_ff @(posedge clk) begin
