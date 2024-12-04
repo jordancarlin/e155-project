@@ -11,7 +11,7 @@ module pixelStore (input  logic clk, reset,
   // 180 * 180
   // 360 * 360
 
-  localparam MAX_COORDINATE = 180;
+  localparam MAX_COORDINATE = 90;
 
   logic [2:0] colorCodeRam; //
   // logic [2:0] colorArray [40000:0];
@@ -23,8 +23,8 @@ module pixelStore (input  logic clk, reset,
   // end
 
   always_comb begin
-    rxRam = rx - 10'd230;
-    ryRam = ry - 10'd150;
+    rxRam = (rx - 10'd230) >> 1;
+    ryRam = (ry - 10'd150) >> 1;
 
     if (rxRam < 0 | ryRam < 0)
       colorCode = 3'b101;
