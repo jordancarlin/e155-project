@@ -62,7 +62,7 @@ module pixelStore (input  logic clk, reset,
     .rd_clk_en_i(1'b1),
     .wr_en_i(1'b1),//brush),
     .wr_data_i(testColor),
-    .wr_addr_i(15'h2c2c),//{wy[6:0],wx}),
-    .rd_addr_i(15'h2c2c),//{ryRam[6:0],rxRam[7:0]}),
+    .wr_addr_i({wy[6:0],wx}),
+    .rd_addr_i({ryRam[6:0],rxRam[7:0]}),
     .rd_data_o(colorCodeRam));
 endmodule
