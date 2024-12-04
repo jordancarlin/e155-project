@@ -1,16 +1,10 @@
-module vgaController #(parameter HBP = 10'd48, // horizontal back porch
-                      HACTIVE = 10'd640, // number of pixels per line
-                      HFP = 10'd16, // horizontal front porch
-                      HSYN = 10'd96, // horizontal sync pulse = 60 to move electron gun back to left
-                      HMAX = HBP + HACTIVE + HFP + HSYN, //48+640+16+96=800: number of horizontal pixels
-                      VBP = 10'd32, // vertical back porch
-                      VACTIVE = 10'd480, // number of lines
-                      VFP = 10'd11, // vertical front porch
-                      VSYN = 10'd2, // vertical sync pulse = 2 to move electron gun back to top
-                      VMAX = VBP + VACTIVE + VFP + VSYN) //32+480+11+2=525: number of vertical pixels
-  (input  logic       clk, reset,
-   output logic       hsync, vsync, blank_b,
-   output logic [9:0] x, y);
+`include "vgaParameters.svh"
+
+module vgaController (
+  input  logic       clk, reset,
+  output logic       hsync, vsync, blank_b,
+  output logic [9:0] x, y
+);
 
   // counters for horizontal and vertical positions
   always_ff @(posedge clk, posedge reset) begin

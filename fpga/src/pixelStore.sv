@@ -1,3 +1,6 @@
+`include "vgaParameters.svh"
+`include "colors.svh"
+
 module pixelStore (input  logic clk, reset,
                    input  logic brush,
                    input  logic [2:0] newColor,
@@ -6,30 +9,16 @@ module pixelStore (input  logic clk, reset,
                    output logic [2:0] colorCode);
 
   logic [9:0] rxRam, ryRam;
-
-  // 640 * 480
-  // 180 * 180
-  // 360 * 360
-
-  localparam MAX_COORDINATE = 90;
-
-  logic [2:0] colorCodeRam; //
-  // logic [2:0] colorArray [40000:0];
-
-
-  // always_ff @(posedge clk) begin
-  //   if(brush) colorArray[] <= newColor;
-  //   colorCodeRam <= colorArray[{ry[7:0],rx[7:0]}];
-  // end
+  logic [2:0] colorCodeRam;
 
   always_comb begin
-    rxRam = (rx - 10'd230) >> 1;
-    ryRam = (ry - 10'd150) >> 1;
+    rxRam = (rx - (HACTIVE - MAX_COORDINATE)/2) >> 1;
+    ryRam = (ry - (VACTIVE - MAX_COORDINATE)/2) >> 1;
 
     if (rxRam < 0 | ryRam < 0)
-      colorCode = 3'b101;
+      colorCode = purple;
     else if (rxRam >= MAX_COORDINATE | ryRam >= MAX_COORDINATE)
-      colorCode = 3'b101;
+      colorCode = purple;
     else
       colorCode = colorCodeRam;
   end
