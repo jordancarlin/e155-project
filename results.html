@@ -39,6 +39,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="site_libs/bootstrap/bootstrap-1e11af2c615e4fa5fc28a0535ba6a826.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="site_libs/quarto-contrib/videojs/video.min.js"></script>
+<link href="site_libs/quarto-contrib/videojs/video-js.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -128,8 +130,17 @@ ul.task-list li input[type="checkbox"] {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#spi" id="toc-spi" class="nav-link active" data-scroll-target="#spi">SPI</a></li>
+  <li><a href="#vga" id="toc-vga" class="nav-link" data-scroll-target="#vga">VGA</a></li>
+  <li><a href="#the-build" id="toc-the-build" class="nav-link" data-scroll-target="#the-build">The Build</a></li>
+  <li><a href="#final-updates" id="toc-final-updates" class="nav-link" data-scroll-target="#final-updates">Final Updates</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -158,8 +169,87 @@ ul.task-list li input[type="checkbox"] {
 <li><label><input type="checkbox">Any relevant simulation results or oscilloscope traces</label></li>
 <li><label><input type="checkbox">Videos or photos of the final project or any intermediate build steps.</label></li>
 </ul>
+<section id="spi" class="level2">
+<h2 class="anchored" data-anchor-id="spi">SPI</h2>
+<p>We knew that there were two potential SPI packets that could be received: either a color bit packet, or a location packet. The color packet was encoded such that it contained configuration bits 111 at the beginning, which could never be reached by x or y since they exceeded the array range being used (<a href="#fig-colorSPI" class="quarto-xref">Figure&nbsp;1</a> and <a href="#fig-xySPI" class="quarto-xref">Figure&nbsp;2</a>).</p>
+<div id="fig-colorSPI" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-colorSPI-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="mcu_images/color_spi.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-colorSPI-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: The bits of color SPI package.
+</figcaption>
+</figure>
+</div>
+<div id="fig-xySPI" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-xySPI-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="mcu_images/loc_spi.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-xySPI-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2: The bits of the location SPI package.
+</figcaption>
+</figure>
+</div>
+<p>The system was confirmed to be transmitting via SPI early on during the Mid-semester check-in:</p>
+<p><img src="mcu_images/1_locs.png" class="img-fluid"></p>
+<p><img src="mcu_images/4_locs.png" class="img-fluid"></p>
+<p><img src="mcu_images/9_locs.png" class="img-fluid"></p>
+<p>We needed to confirm that the FPGA was properly reaching its desired states based on the incoming SPI packets. This was confirmed using oscilloscope probes attached to the incoming SCK, MOSI, and CS channels.</p>
+<p>In a method similar to that seen in the following images, various states that the FPGA was able to decipher and use to define its state variables.</p>
+<p>All channels are encoded such that Channel 1 is CS, Channel 2 is MOSI, and Channel 3 is SCK.</p>
+<p><img src="images/DS1Z_QuickPrint4 copy.png" class="img-fluid"></p>
+<p><em>This image confirms that the SPI packets are carrying accurate data (i.e.&nbsp;the location of the brush) to the FPGA.</em></p>
+<p><img src="images/DS1Z_QuickPrint6 copy.png" class="img-fluid"></p>
+<p><em>This image uses channel 4, the dark blue channel, to confirm that we were properly reaching a “ready” state within our FSM block diagram. This was set to be true based on the MOSI signal, which it can be seen to match the MOSI signal on Channel 2</em></p>
+</section>
+<section id="vga" class="level2">
+<h2 class="anchored" data-anchor-id="vga">VGA</h2>
+<p>The final system was able to put the brush up and down, change its color, and move about the screen. Implementation was still being made to change the bit size using the potentiometer, however this was halted by the MCU no longer being able to connect to JLink when connected to the Adapter board.</p>
+<p>The final system is able to consistently update and change depending on the color and pin inputs. As can be seen in <a href="#fig-workingImage" class="quarto-xref">Figure&nbsp;3</a>, the system was able to create and draw the systems.</p>
+<div id="fig-workingImage" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-workingImage-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/working_drawing.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-workingImage-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3: An image depicting our system creating drawings on the screen via the MCU to FPGA communication.
+</figcaption>
+</figure>
+</div>
+<p>The following are multiple videos that were taken while troubleshooting and moving our systems into the real world.</p>
+<p>First, we the system was able to print to the VGA system at a single pixel by directly setting the index of a given array. This system, as we later discovered using the Netlist feature in Lattice Radiant, did not use RAM. We started by setting all the values outside of our grid (128x128 pixels) pink.</p>
+<div class="{fig-video1}">
+<div class="quarto-video ratio ratio-16x9"><iframe data-external="1" src="https://www.youtube.com/embed/esy1g3UIZK4" title="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe></div>
+<p>A video of our planned designated screen on the design with the outline of our block.</p>
+</div>
+<p>After this, we began trying to set the values according to what we had received via wx and wy. We confirmed the wx and wy were correct in simulation (<strong>?@fig-workingSim</strong>) by confirming that when wx and wy were at a set value, for example 100 and 100, and set to <code>0'b001</code> (encoding for red), the RAM was recording that value. This was confirmed within the MemoryList feature of ModelSim.</p>
+<div class="quarto-video ratio ratio-16x9"><iframe data-external="1" src="https://www.youtube.com/embed/2N7uzxsJKm8" title="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe></div>
+<p>However, while printing we ran into an issue; the RAM was not being correctly indexed by the system. It was only possible to alter pixels directly using an address in the matrix.</p>
+<div class="quarto-video ratio ratio-16x9"><iframe data-external="1" src="https://www.youtube.com/embed/ZuUvgkFCoQ8" title="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe></div>
+<p><em>A video of trying to read while setting bits according to whats stored in the wx and wy bits at a specific section; these bits should be the color that is stored for a specific location, but when they are sent into the array they don’t update correctly, resulting in the oscillating pattern seen above.</em></p>
+<p>This can be seen in the following video (<strong>?@fig-video2</strong>), where we tried to set the data within the file to wx and wy while reading out the values. The User Guide specified that the RAM that we were attempting to use was “pseudo dual”, but didn’t specify what this meant.</p>
+<p>As a result, we moved onto using SPRAM instead. SPRAM required that we doubled the clock speed, but at the same time permitted for better contorl of what we were sending and receiving to the screen. This is where we began to see results.</p>
+<div class="quarto-video"><video id="video_shortcode_videojs_video1" class="video-js vjs-default-skin vjs-fluid" controls="" preload="auto" data-setup="{}" title=""><source src="https://www.youtube.com/shorts/lj3WRqj4F5A"></video></div>
+<p>The video above is a demonstration of color being transmitted correctly. With the confirmation of SPI working, we were able to confirm that we should be updating colors correctly, and with this video we confirmed with certainty that the SPI was able to receive. Our next steps involved filling the entire screen with this data rather than just the noise present in this video.</p>
+<div class="quarto-video ratio ratio-16x9"><iframe data-external="1" src="https://www.youtube.com/embed/NjBG17eC-Dw" title="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe></div>
+<p>The video above was confirmation that we could control every bit we wanted to using a write x and y of our choosing. From there, it was a very quick fix to begin moving the pixels about the board with details sent using the other package for xy bits.</p>
+</section>
+<section id="the-build" class="level2">
+<h2 class="anchored" data-anchor-id="the-build">The Build</h2>
+<p>Our Final project was made using several bread boards, as well as several printed components that give it a finished look.</p>
+<p>The joystick was soldered onto a small protoboard to prevent noise and avoid messy wiring.</p>
+<p>All seven buttons were put onto a separate bread board to ensure proper circuitry, and were wired in long distance to prevent complex wiring.</p>
+<p>The switch and the potentiometer were both free floating, but have been given housing that provides easy control for the user when the design is working.</p>
+</section>
+<section id="final-updates" class="level2">
+<h2 class="anchored" data-anchor-id="final-updates">Final Updates</h2>
+<p>Zoe managed to break the Dev board while confused, meaning that MCU’s can no longer connect to JLink on the current board.</p>
+<p>This means that the system can not currently print designs, even though they were confirmed to have been working as expected in the past. Planned future updates include moving to a different Dev board just to see if that fixes the issue.</p>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -580,6 +670,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 });
 </script>
 </div> <!-- /content -->
+<script>videojs(video_shortcode_videojs_video1);</script>
 
 
 
