@@ -2,27 +2,12 @@
 title: "Meet the Team"
 ---
 
-Here are links to the relevant sources if desired.
+Jordan Carlin is a junior engineering major at Harvey Mudd College interested in computer engineering and digital design. He is currently doing research as a Clay-Wolkin Fellow at Harvey Mudd's VLSI lab working on a superscalar implementation of the open-source [OpenHW-Group CVW RISC-V SoC](https://github.com/openhwgroup/cvw). He has experience with SystemVerilog and RISC-V assembly and would love to continue growing his computer engineering skills. He's always excited to learn new things and would be happy to connect with you!
 
+![](./images/jordan.jpg)
 
+Mae g’ovannen! My name is Zoe Worrall, and I am currently a senior Engineering Major at Harvey Mudd College.
 
-Details on Proficiency and Excellency Specs:
+Although I have experience with a broad range of engineering topics including materials engineering, continuum mechanics, and manufacturing, my primary interests lie in signal processing, radio frequency, and optical systems.
 
-Proficiency:
-[] Project meets most of of the specifications as laid out in the proposal with explanations for any specifications that weren’t met.
-    
-[] System operates without any major bugs (e.g., doesn’t freeze in operation)
-    
-[] Document listing each spec from the proposal along with a short (e.g., 3-5 sentence) summary explaining whether the spec was met or not.
-
-[] Technical documentation (e.g., schematics, code, block diagrams) available for review at checkoff.
-    
-[] Verilog HDL is functional and cleanly formatted
-    
-[] MCU C code is functional and cleanly formatted
-
-Excellency: 
-Project meets all the specifications as laid out in the proposal.
-Project is polished (e.g., wires are hidden, any physical interfaces are well-designed and reliable, clean user interface)
-Verilog code is efficient and demonstrates best coding practices (e.g., modularity, testbenches were appropriate, etc.)
-C code is efficient and well organized (e.g., code encapsulated in functions and custom libraries as appropriate)
+![](./images/zoe.jpg)
