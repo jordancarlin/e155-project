@@ -26,7 +26,7 @@ module spiTop(input  logic       clk, reset, sck, sdi, cs,
     if (reset) begin
       holdTest <= 1'b0;
       counter <= '0;
-    end else if (updateConfig) begin
+    end else if (brushUpdate) begin
       holdTest <= 1'b1;
       counter <= 1;
     end else if (counter > 30) begin
