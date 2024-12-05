@@ -1,23 +1,25 @@
-C:/Users/jcarlin/Documents/GitHub/e155-project/fpga/src/fpgaTop.sv {1 {vlog -work work -sv -stats=none C:/Users/jcarlin/Documents/GitHub/e155-project/fpga/src/fpgaTop.sv
+C:/Users/jcarlin/Documents/GitHub/e155-project/fpga/src/spiDecode.sv {1 {vlog -work work -sv -stats=none C:/Users/jcarlin/Documents/GitHub/e155-project/fpga/src/spiDecode.sv
+Model Technology ModelSim - Lattice FPGA Edition vlog 2021.4 Compiler 2021.10 Oct 14 2021
+-- Compiling package spiDecode_sv_unit
+-- Compiling module spiDecode
+
+Top level modules:
+	spiDecode
+
+} {} {}} C:/Users/jcarlin/Documents/GitHub/e155-project/fpga/src/fpgaTop.sv {1 {vlog -work work -sv -stats=none C:/Users/jcarlin/Documents/GitHub/e155-project/fpga/src/fpgaTop.sv
 Model Technology ModelSim - Lattice FPGA Edition vlog 2021.4 Compiler 2021.10 Oct 14 2021
 -- Compiling module fpgaTop
 
 Top level modules:
 	fpgaTop
 
-} {} {}} C:/Users/jcarlin/Documents/GitHub/e155-project/fpga/src/vgaParameters.svh {1 {vlog -work work -sv -stats=none C:/Users/jcarlin/Documents/GitHub/e155-project/fpga/src/vgaParameters.svh
+} {} {}} C:/Users/jcarlin/Documents/GitHub/e155-project/fpga/src/vgaController.sv {1 {vlog -work work -sv -stats=none C:/Users/jcarlin/Documents/GitHub/e155-project/fpga/src/vgaController.sv
 Model Technology ModelSim - Lattice FPGA Edition vlog 2021.4 Compiler 2021.10 Oct 14 2021
--- Compiling package vgaParameters_svh_unit
+-- Compiling package vgaController_sv_unit
+-- Compiling module vgaController
 
 Top level modules:
-	--none--
-
-} {} {}} C:/Users/jcarlin/Documents/GitHub/e155-project/fpga/src/colors.svh {1 {vlog -work work -sv -stats=none C:/Users/jcarlin/Documents/GitHub/e155-project/fpga/src/colors.svh
-Model Technology ModelSim - Lattice FPGA Edition vlog 2021.4 Compiler 2021.10 Oct 14 2021
--- Compiling package colors_svh_unit
-
-Top level modules:
-	--none--
+	vgaController
 
 } {} {}} C:/Users/jcarlin/Documents/GitHub/e155-project/fpga/testbench/pixelStore_tb.sv {1 {vlog -work work -sv -stats=none C:/Users/jcarlin/Documents/GitHub/e155-project/fpga/testbench/pixelStore_tb.sv
 Model Technology ModelSim - Lattice FPGA Edition vlog 2021.4 Compiler 2021.10 Oct 14 2021
@@ -40,6 +42,14 @@ Model Technology ModelSim - Lattice FPGA Edition vlog 2021.4 Compiler 2021.10 Oc
 Top level modules:
 	vgaController_tb
 
+} {} {}} C:/Users/jcarlin/Documents/GitHub/e155-project/fpga/src/pixelStore.sv {1 {vlog -work work -sv -stats=none C:/Users/jcarlin/Documents/GitHub/e155-project/fpga/src/pixelStore.sv
+Model Technology ModelSim - Lattice FPGA Edition vlog 2021.4 Compiler 2021.10 Oct 14 2021
+-- Compiling package pixelStore_sv_unit
+-- Compiling module pixelStore
+
+Top level modules:
+	pixelStore
+
 } {} {}} C:/Users/jcarlin/Documents/GitHub/e155-project/fpga/testbench/top_tb.sv {1 {vlog -work work -sv -stats=none C:/Users/jcarlin/Documents/GitHub/e155-project/fpga/testbench/top_tb.sv
 Model Technology ModelSim - Lattice FPGA Edition vlog 2021.4 Compiler 2021.10 Oct 14 2021
 
@@ -51,15 +61,42 @@ Model Technology ModelSim - Lattice FPGA Edition vlog 2021.4 Compiler 2021.10 Oc
 Top level modules:
 	syspll
 
-} {} {}} C:/Users/jcarlin/Documents/GitHub/e155-project/fpga/radiant_project/pixelRam/rtl/pixelRam.v {1 {vlog -work work -stats=none C:/Users/jcarlin/Documents/GitHub/e155-project/fpga/radiant_project/pixelRam/rtl/pixelRam.v
+} {} {}} C:/Users/jcarlin/Documents/GitHub/e155-project/fpga/src/vgaParameters.sv {1 {vlog -work work -sv -stats=none C:/Users/jcarlin/Documents/GitHub/e155-project/fpga/src/vgaParameters.sv
 Model Technology ModelSim - Lattice FPGA Edition vlog 2021.4 Compiler 2021.10 Oct 14 2021
--- Compiling module pixelRam
--- Compiling module pixelRam_ipgen_lscc_ram_dp
--- Compiling module pixelRam_ipgen_lscc_ram_dp_main
--- Compiling module pixelRam_ipgen_lscc_ram_dp_core
+-- Compiling package vgaParameters_sv_unit
 
 Top level modules:
-	pixelRam
+	--none--
+
+} {} {}} C:/Users/jcarlin/Documents/GitHub/e155-project/fpga/src/spiFSM.sv {1 {vlog -work work -sv -stats=none C:/Users/jcarlin/Documents/GitHub/e155-project/fpga/src/spiFSM.sv
+Model Technology ModelSim - Lattice FPGA Edition vlog 2021.4 Compiler 2021.10 Oct 14 2021
+-- Compiling module spiFSM
+
+Top level modules:
+	spiFSM
+
+} {} {}} C:/Users/jcarlin/Documents/GitHub/e155-project/fpga/src/colors.sv {1 {vlog -work work -sv -stats=none C:/Users/jcarlin/Documents/GitHub/e155-project/fpga/src/colors.sv
+Model Technology ModelSim - Lattice FPGA Edition vlog 2021.4 Compiler 2021.10 Oct 14 2021
+-- Compiling package colors_sv_unit
+
+Top level modules:
+	--none--
+
+} {} {}} C:/Users/jcarlin/Documents/GitHub/e155-project/fpga/src/top.sv {1 {vlog -work work -sv -stats=none C:/Users/jcarlin/Documents/GitHub/e155-project/fpga/src/top.sv
+Model Technology ModelSim - Lattice FPGA Edition vlog 2021.4 Compiler 2021.10 Oct 14 2021
+-- Compiling package top_sv_unit
+-- Compiling module top
+
+Top level modules:
+	top
+
+} {} {}} C:/Users/jcarlin/Documents/GitHub/e155-project/fpga/src/colorDecode.sv {1 {vlog -work work -sv -stats=none C:/Users/jcarlin/Documents/GitHub/e155-project/fpga/src/colorDecode.sv
+Model Technology ModelSim - Lattice FPGA Edition vlog 2021.4 Compiler 2021.10 Oct 14 2021
+-- Compiling package colorDecode_sv_unit
+-- Compiling module colorDecode
+
+Top level modules:
+	colorDecode
 
 } {} {}} C:/Users/jcarlin/Documents/GitHub/e155-project/fpga/radiant_project/syspll/syspll/rtl/syspll_bb.v {1 {vlog -work work -stats=none C:/Users/jcarlin/Documents/GitHub/e155-project/fpga/radiant_project/syspll/syspll/rtl/syspll_bb.v
 Model Technology ModelSim - Lattice FPGA Edition vlog 2021.4 Compiler 2021.10 Oct 14 2021
@@ -67,13 +104,6 @@ Model Technology ModelSim - Lattice FPGA Edition vlog 2021.4 Compiler 2021.10 Oc
 
 Top level modules:
 	syspll
-
-} {} {}} C:/Users/jcarlin/Documents/GitHub/e155-project/fpga/radiant_project/pixelRam/rtl/pixelRam_bb.v {1 {vlog -work work -stats=none C:/Users/jcarlin/Documents/GitHub/e155-project/fpga/radiant_project/pixelRam/rtl/pixelRam_bb.v
-Model Technology ModelSim - Lattice FPGA Edition vlog 2021.4 Compiler 2021.10 Oct 14 2021
--- Compiling module pixelRam
-
-Top level modules:
-	pixelRam
 
 } {} {}} C:/Users/jcarlin/Documents/GitHub/e155-project/fpga/src/synchronizer.sv {1 {vlog -work work -sv -stats=none C:/Users/jcarlin/Documents/GitHub/e155-project/fpga/src/synchronizer.sv
 Model Technology ModelSim - Lattice FPGA Edition vlog 2021.4 Compiler 2021.10 Oct 14 2021

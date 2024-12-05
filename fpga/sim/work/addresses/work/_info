@@ -1,6 +1,7 @@
 m255
 K4
 z2
+!s11e vcom 2021.4 2021.10, Oct 14 2021
 !s11f vlog 2021.4 2021.10, Oct 14 2021
 13
 !s112 1.1
@@ -11,19 +12,19 @@ cModel Technology
 dC:/Users/jcarlin/Documents/GitHub/e155-project/fpga/sim/work/pixelStore
 vclk_rst_gen
 Z0 !s110 1733293059
+Z1 VDg1SIo80bB@j0V0VzS_@n1
+r1
+!s85 0
 !i10b 1
 !s100 I[28kD75:fKWl:m1TFIR]1
 IU0SL2]eM`XW]ZcRoS?0H?0
-Z1 dC:/Users/jcarlin/Documents/GitHub/e155-project/fpga/sim/work/addresses
+Z2 dC:/Users/jcarlin/Documents/GitHub/e155-project/fpga/sim/work/addresses
 w1615878336
 8C:/Users/jcarlin/Documents/GitHub/e155-project/fpga/radiant_project/pixelRam/testbench/clk_rst_gen.v
 FC:/Users/jcarlin/Documents/GitHub/e155-project/fpga/radiant_project/pixelRam/testbench/clk_rst_gen.v
 !i122 37
 L0 6 37
-Z2 VDg1SIo80bB@j0V0VzS_@n1
 Z3 OT;L;2021.4;73
-r1
-!s85 0
 31
 Z4 !s108 1733293059.000000
 Z5 !s107 C:/Users/jcarlin/Documents/GitHub/e155-project/fpga/radiant_project/pixelRam/testbench/dut_inst.v|C:/Users/jcarlin/Documents/GitHub/e155-project/fpga/radiant_project/pixelRam/testbench/dut_params.v|C:/Users/jcarlin/Documents/GitHub/e155-project/fpga/radiant_project/pixelRam/testbench/clk_rst_gen.v|C:/Users/jcarlin/Documents/GitHub/e155-project/fpga/radiant_project/pixelRam/testbench/pdp_master.v|C:/Users/jcarlin/Documents/GitHub/e155-project/fpga/radiant_project/pixelRam/testbench/mem_model.v|C:/Users/jcarlin/Documents/GitHub/e155-project/fpga/radiant_project/pixelRam/testbench/tb_top.v|
@@ -34,9 +35,9 @@ Z7 o-work work -O0
 Z8 tCvgOpt 0
 vcolorDecode
 Z9 DXx6 sv_std 3 std 0 22 VYECXdT12H8WgbUP_5Y6:3
-DXx4 work 19 colorDecode_sv_unit 0 22 37IZRJU9EB9D1=Dj6GIGZ0
-Z10 !s110 1733375050
-R2
+DXx4 work 19 colorDecode_sv_unit 0 22 klRH]P`@MU1=1TA1BmQg@3
+Z10 !s110 1733394662
+R1
 r1
 !s85 0
 !i10b 1
@@ -44,16 +45,16 @@ r1
 IJMdjcK93FQf34_db2gVkj3
 !s105 colorDecode_sv_unit
 S1
-R1
-Z11 w1733353023
+R2
+Z11 w1733392120
 Z12 8C:/Users/jcarlin/Documents/GitHub/e155-project/fpga/src/colorDecode.sv
 Z13 FC:/Users/jcarlin/Documents/GitHub/e155-project/fpga/src/colorDecode.sv
-!i122 122
+!i122 152
 L0 4 19
 R3
 31
-Z14 !s108 1733375050.000000
-Z15 !s107 C:/Users/jcarlin/Documents/GitHub/e155-project/fpga/src/colors.svh|C:/Users/jcarlin/Documents/GitHub/e155-project/fpga/src/vgaParameters.svh|C:/Users/jcarlin/Documents/GitHub/e155-project/fpga/src/colorDecode.sv|
+Z14 !s108 1733394662.000000
+Z15 !s107 C:/Users/jcarlin/Documents/GitHub/e155-project/fpga/src/colors.sv|C:/Users/jcarlin/Documents/GitHub/e155-project/fpga/src/vgaParameters.sv|C:/Users/jcarlin/Documents/GitHub/e155-project/fpga/src/colorDecode.sv|
 Z16 !s90 -reportprogress|300|-work|work|-sv|-stats=none|C:/Users/jcarlin/Documents/GitHub/e155-project/fpga/src/colorDecode.sv|
 !s101 -O0
 !i113 1
@@ -61,25 +62,24 @@ Z17 o-work work -sv -O0
 R8
 ncolor@decode
 XcolorDecode_sv_unit
-Z18 !s125 LATTICE_CONN
 R9
-R18
+Z18 !s125 LATTICE_CONN
 R10
-V37IZRJU9EB9D1=Dj6GIGZ0
+VklRH]P`@MU1=1TA1BmQg@3
 r1
 !s85 0
 !i10b 1
 !s100 =F;J3<fQof_9@cEj2G]UF0
-I37IZRJU9EB9D1=Dj6GIGZ0
+IklRH]P`@MU1=1TA1BmQg@3
 !i103 1
 S1
-R1
+R2
 R11
 R12
 R13
-Z19 FC:/Users/jcarlin/Documents/GitHub/e155-project/fpga/src/vgaParameters.svh
-Z20 FC:/Users/jcarlin/Documents/GitHub/e155-project/fpga/src/colors.svh
-!i122 122
+Z19 FC:/Users/jcarlin/Documents/GitHub/e155-project/fpga/src/vgaParameters.sv
+Z20 FC:/Users/jcarlin/Documents/GitHub/e155-project/fpga/src/colors.sv
+!i122 152
 Z21 L0 5 0
 R3
 31
@@ -91,10 +91,37 @@ R16
 R17
 R8
 ncolor@decode_sv_unit
-Xcolors_svh_unit
+Xcolors_sv_unit
 R9
 R18
 R10
+Veo8_QVJ]KNO>mcIQ3<;ZH3
+r1
+!s85 0
+!i10b 1
+!s100 VH;`SGg^6A][2C4B<2f_Z2
+Ieo8_QVJ]KNO>mcIQ3<;ZH3
+!i103 1
+S1
+R2
+Z22 w1733284677
+8C:/Users/jcarlin/Documents/GitHub/e155-project/fpga/src/colors.sv
+R20
+!i122 153
+Z23 L0 4 0
+R3
+31
+R14
+!s107 C:/Users/jcarlin/Documents/GitHub/e155-project/fpga/src/colors.sv|
+!s90 -reportprogress|300|-work|work|-sv|-stats=none|C:/Users/jcarlin/Documents/GitHub/e155-project/fpga/src/colors.sv|
+!s101 -O0
+!i113 1
+R17
+R8
+Xcolors_svh_unit
+R9
+R18
+!s110 1733375050
 Vm5Xec1QALDUEBnkEcGF?S3
 r1
 !s85 0
@@ -103,15 +130,15 @@ r1
 Im5Xec1QALDUEBnkEcGF?S3
 !i103 1
 S1
-R1
-w1733284677
+R2
+R22
 8C:/Users/jcarlin/Documents/GitHub/e155-project/fpga/src/colors.svh
-R20
+FC:/Users/jcarlin/Documents/GitHub/e155-project/fpga/src/colors.svh
 !i122 123
-Z22 L0 4 0
+R23
 R3
 31
-R14
+!s108 1733375050.000000
 !s107 C:/Users/jcarlin/Documents/GitHub/e155-project/fpga/src/colors.svh|
 !s90 -reportprogress|300|-work|work|-sv|-stats=none|C:/Users/jcarlin/Documents/GitHub/e155-project/fpga/src/colors.svh|
 !s101 -O0
@@ -121,20 +148,20 @@ R8
 vfpgaTop
 R9
 R10
+R1
+r1
+!s85 0
 !i10b 1
 !s100 Jdl^iHX5Ym=YPCZT:Dz@>3
 I0kTP:Vbe7lg`LM]CYii0a2
 S1
-R1
+R2
 w1733367187
 8C:/Users/jcarlin/Documents/GitHub/e155-project/fpga/src/fpgaTop.sv
 FC:/Users/jcarlin/Documents/GitHub/e155-project/fpga/src/fpgaTop.sv
-!i122 124
+!i122 154
 L0 1 16
-R2
 R3
-r1
-!s85 0
 31
 R14
 !s107 C:/Users/jcarlin/Documents/GitHub/e155-project/fpga/src/fpgaTop.sv|
@@ -146,19 +173,19 @@ R8
 nfpga@top
 vmem_model
 R0
+R1
+r1
+!s85 0
 !i10b 1
 !s100 Hi24LPUd4Sn^Daj@Md33]3
 IS9SMC_N?6]5ZQ]QSZK@oY3
-R1
+R2
 w1615878338
 8C:/Users/jcarlin/Documents/GitHub/e155-project/fpga/radiant_project/pixelRam/testbench/mem_model.v
 FC:/Users/jcarlin/Documents/GitHub/e155-project/fpga/radiant_project/pixelRam/testbench/mem_model.v
 !i122 37
 L0 4 346
-R2
 R3
-r1
-!s85 0
 31
 R4
 R5
@@ -169,19 +196,19 @@ R7
 R8
 vpdp_master
 R0
+R1
+r1
+!s85 0
 !i10b 1
 !s100 L@G5cA=XFCRfIS_k;56]b0
 ICl<QV1_UD`PN?LSbmC:g>1
-R1
+R2
 w1712791658
 8C:/Users/jcarlin/Documents/GitHub/e155-project/fpga/radiant_project/pixelRam/testbench/pdp_master.v
 FC:/Users/jcarlin/Documents/GitHub/e155-project/fpga/radiant_project/pixelRam/testbench/pdp_master.v
 !i122 37
 L0 6 320
-R2
 R3
-r1
-!s85 0
 31
 R4
 R5
@@ -192,22 +219,22 @@ R7
 R8
 vpixelRam
 R18
-Z23 !s110 1733375051
+Z24 !s110 1733375051
+R1
+r1
+!s85 0
 !i10b 1
 !s100 YWggA3]fX_;<o9@l=o`TW0
 I=bhT05:G47mjRJUlVINE91
-R1
-Z24 w1733299670
+R2
+Z25 w1733299670
 8C:/Users/jcarlin/Documents/GitHub/e155-project/fpga/radiant_project/pixelRam/rtl/pixelRam_bb.v
 FC:/Users/jcarlin/Documents/GitHub/e155-project/fpga/radiant_project/pixelRam/rtl/pixelRam_bb.v
 !i122 139
 L0 10 14
-R2
 R3
-r1
-!s85 0
 31
-Z25 !s108 1733375051.000000
+Z26 !s108 1733375051.000000
 !s107 C:/Users/jcarlin/Documents/GitHub/e155-project/fpga/radiant_project/pixelRam/rtl/pixelRam_bb.v|
 !s90 -reportprogress|300|-work|work|-stats=none|C:/Users/jcarlin/Documents/GitHub/e155-project/fpga/radiant_project/pixelRam/rtl/pixelRam_bb.v|
 !s101 -O0
@@ -216,72 +243,72 @@ R7
 R8
 npixel@ram
 vpixelRam_ipgen_lscc_ram_dp
-R23
+R24
+R1
+r1
+!s85 0
 !i10b 1
 !s100 gjkf5dF8Q9ZJ<Skf7<_Qb0
 IAomKUzeV]e`3bN@^R20lk1
-R1
-R24
-Z26 8C:/Users/jcarlin/Documents/GitHub/e155-project/fpga/radiant_project/pixelRam/rtl/pixelRam.v
-Z27 FC:/Users/jcarlin/Documents/GitHub/e155-project/fpga/radiant_project/pixelRam/rtl/pixelRam.v
+R2
+R25
+Z27 8C:/Users/jcarlin/Documents/GitHub/e155-project/fpga/radiant_project/pixelRam/rtl/pixelRam.v
+Z28 FC:/Users/jcarlin/Documents/GitHub/e155-project/fpga/radiant_project/pixelRam/rtl/pixelRam.v
 !i122 138
 L0 252 350
-R2
 R3
-r1
-!s85 0
 31
-R25
-Z28 !s107 C:/Users/jcarlin/Documents/GitHub/e155-project/fpga/radiant_project/pixelRam/rtl/pixelRam.v|
-Z29 !s90 -reportprogress|300|-work|work|-stats=none|C:/Users/jcarlin/Documents/GitHub/e155-project/fpga/radiant_project/pixelRam/rtl/pixelRam.v|
+R26
+Z29 !s107 C:/Users/jcarlin/Documents/GitHub/e155-project/fpga/radiant_project/pixelRam/rtl/pixelRam.v|
+Z30 !s90 -reportprogress|300|-work|work|-stats=none|C:/Users/jcarlin/Documents/GitHub/e155-project/fpga/radiant_project/pixelRam/rtl/pixelRam.v|
 !s101 -O0
 !i113 1
 R7
 R8
 npixel@ram_ipgen_lscc_ram_dp
 vpixelRam_ipgen_lscc_ram_dp_core
-R23
+R24
+R1
+r1
+!s85 0
 !i10b 1
 !s100 B`R`acI`6alKTVl5<GaN]1
 IX7G[kZog>Kbj4MR194C=k3
-R1
-R24
-R26
+R2
+R25
 R27
+R28
 !i122 138
 L0 3996 2847
-R2
 R3
-r1
-!s85 0
 31
-R25
-R28
+R26
 R29
+R30
 !s101 -O0
 !i113 1
 R7
 R8
 npixel@ram_ipgen_lscc_ram_dp_core
 vpixelRam_ipgen_lscc_ram_dp_main
-R23
+R24
+R1
+r1
+!s85 0
 !i10b 1
 !s100 Nmc]82o`KTiYm438O`Bzk0
 IPc1[><GD:@QOnh]Bb3B@J1
-R1
-R24
-R26
+R2
+R25
 R27
+R28
 !i122 138
 L0 657 3278
-R2
 R3
-r1
-!s85 0
 31
-R25
-R28
+R26
 R29
+R30
 !s101 -O0
 !i113 1
 R7
@@ -289,26 +316,26 @@ R8
 npixel@ram_ipgen_lscc_ram_dp_main
 vpixelStore
 R9
-DXx4 work 18 pixelStore_sv_unit 0 22 D]IzFLEf2W<1bLW2aD?aT2
-Z30 !s110 1733375880
-R2
+DXx4 work 18 pixelStore_sv_unit 0 22 z:g9R]UF6HzWNbeB1EmGf1
+R10
+R1
 r1
 !s85 0
 !i10b 1
-!s100 1JaXzMGJ_d8ek6QUCJN@X3
-I3f19Q4N>olV9TPFOJ12_P3
+!s100 EQcH[4cVTmc4Ki<IH;hOl3
+I::7=RN7]`mHQOLT^TO4am0
 !s105 pixelStore_sv_unit
 S1
-R1
-Z31 w1733375790
+R2
+Z31 w1733394431
 Z32 8C:/Users/jcarlin/Documents/GitHub/e155-project/fpga/src/pixelStore.sv
 Z33 FC:/Users/jcarlin/Documents/GitHub/e155-project/fpga/src/pixelStore.sv
-!i122 144
-L0 4 111
+!i122 155
+L0 4 147
 R3
 31
-Z34 !s108 1733375880.000000
-!s107 C:/Users/jcarlin/Documents/GitHub/e155-project/fpga/src/colors.svh|C:/Users/jcarlin/Documents/GitHub/e155-project/fpga/src/vgaParameters.svh|C:/Users/jcarlin/Documents/GitHub/e155-project/fpga/src/pixelStore.sv|
+R14
+Z34 !s107 C:/Users/jcarlin/Documents/GitHub/e155-project/fpga/src/colors.sv|C:/Users/jcarlin/Documents/GitHub/e155-project/fpga/src/vgaParameters.sv|C:/Users/jcarlin/Documents/GitHub/e155-project/fpga/src/pixelStore.sv|
 Z35 !s90 -reportprogress|300|-work|work|-sv|-stats=none|C:/Users/jcarlin/Documents/GitHub/e155-project/fpga/src/pixelStore.sv|
 !s101 -O0
 !i113 1
@@ -316,30 +343,29 @@ R17
 R8
 npixel@store
 XpixelStore_sv_unit
-R18
 R9
 R18
-R30
-VD]IzFLEf2W<1bLW2aD?aT2
+R10
+Vz:g9R]UF6HzWNbeB1EmGf1
 r1
 !s85 0
 !i10b 1
-!s100 lGm09:ji_kmb9[mmLo5@B2
-ID]IzFLEf2W<1bLW2aD?aT2
+!s100 fjbKST35^mK@iI:7XaEKN2
+Iz:g9R]UF6HzWNbeB1EmGf1
 !i103 1
 S1
-R1
+R2
 R31
 R32
 R33
 R19
 R20
-!i122 144
+!i122 155
 R21
 R3
 31
+R14
 R34
-Z36 !s107 C:/Users/jcarlin/Documents/GitHub/e155-project/fpga/src/colors.svh|C:/Users/jcarlin/Documents/GitHub/e155-project/fpga/src/vgaParameters.svh|C:/Users/jcarlin/Documents/GitHub/e155-project/fpga/src/pixelStore.sv|
 R35
 !s101 -O0
 !i113 1
@@ -348,23 +374,23 @@ R8
 npixel@store_sv_unit
 vpixelStore_tb
 R9
-R23
+Z36 !s110 1733394663
+R1
+r1
+!s85 0
 !i10b 1
 !s100 5:3BF?18@_U^>2labR]6K1
 INbdQ6;PUINoM7KMgCo:OS2
 S1
-R1
+R2
 w1733287951
 8C:/Users/jcarlin/Documents/GitHub/e155-project/fpga/testbench/pixelStore_tb.sv
 FC:/Users/jcarlin/Documents/GitHub/e155-project/fpga/testbench/pixelStore_tb.sv
-!i122 133
+!i122 164
 L0 1 63
-R2
 R3
-r1
-!s85 0
 31
-R25
+Z37 !s108 1733394663.000000
 !s107 C:/Users/jcarlin/Documents/GitHub/e155-project/fpga/testbench/pixelStore_tb.sv|
 !s90 -reportprogress|300|-work|work|-sv|-stats=none|C:/Users/jcarlin/Documents/GitHub/e155-project/fpga/testbench/pixelStore_tb.sv|
 !s101 -O0
@@ -374,23 +400,23 @@ R8
 npixel@store_tb
 vreadAddress_tb
 R9
-!s110 1733375454
+R36
+R1
+r1
+!s85 0
 !i10b 1
 !s100 gOR0?ioRQk<1:gLBkb7@B3
 IdYcQjaZD`1G]8Bc_VV]Zk1
 S1
-R1
+R2
 w1733375447
 8C:/Users/jcarlin/Documents/GitHub/e155-project/fpga/testbench/readAddress_tb.sv
 FC:/Users/jcarlin/Documents/GitHub/e155-project/fpga/testbench/readAddress_tb.sv
-!i122 142
+!i122 165
 L0 1 69
-R2
 R3
-r1
-!s85 0
 31
-!s108 1733375454.000000
+R37
 !s107 C:/Users/jcarlin/Documents/GitHub/e155-project/fpga/testbench/readAddress_tb.sv|
 !s90 -reportprogress|300|-work|work|-sv|-stats=none|C:/Users/jcarlin/Documents/GitHub/e155-project/fpga/testbench/readAddress_tb.sv|
 !s101 -O0
@@ -401,20 +427,20 @@ nread@address_tb
 vspi
 R9
 R10
+R1
+r1
+!s85 0
 !i10b 1
 !s100 c9m6e@z3>>[YH>g:2g1hO0
 Ig=hg`L6LGhJF8A4JomX8B3
 S1
-R1
-Z37 w1733226183
+R2
+Z38 w1733226183
 8C:/Users/jcarlin/Documents/GitHub/e155-project/fpga/src/spi.sv
 FC:/Users/jcarlin/Documents/GitHub/e155-project/fpga/src/spi.sv
-!i122 126
+!i122 156
 L0 1 7
-R2
 R3
-r1
-!s85 0
 31
 R14
 !s107 C:/Users/jcarlin/Documents/GitHub/e155-project/fpga/src/spi.sv|
@@ -425,57 +451,56 @@ R17
 R8
 vspiDecode
 R9
-DXx4 work 17 spiDecode_sv_unit 0 22 zTm`bMOJiP?^KbkffzFD:1
-Z38 !s110 1733375571
-R2
+DXx4 work 17 spiDecode_sv_unit 0 22 a0NiWhz@8<?[YI<b[E;5K2
+R10
+R1
 r1
 !s85 0
 !i10b 1
-!s100 XbXM5FoPMlX4zAQW@z]kD3
-IV`Mao2UaAhhPgGL7LNDMf1
+!s100 >bedBhjmO?Ob`EI9@eb`?2
+Iz=4JT8TE5kZMemF^c0LaK2
 !s105 spiDecode_sv_unit
 S1
-R1
-Z39 w1733375559
+R2
+Z39 w1733393670
 Z40 8C:/Users/jcarlin/Documents/GitHub/e155-project/fpga/src/spiDecode.sv
 Z41 FC:/Users/jcarlin/Documents/GitHub/e155-project/fpga/src/spiDecode.sv
-!i122 143
+!i122 157
 L0 2 40
 R3
 31
-Z42 !s108 1733375571.000000
-Z43 !s107 C:/Users/jcarlin/Documents/GitHub/e155-project/fpga/src/colors.svh|C:/Users/jcarlin/Documents/GitHub/e155-project/fpga/src/spiDecode.sv|
-Z44 !s90 -reportprogress|300|-work|work|-sv|-stats=none|C:/Users/jcarlin/Documents/GitHub/e155-project/fpga/src/spiDecode.sv|
+R14
+Z42 !s107 C:/Users/jcarlin/Documents/GitHub/e155-project/fpga/src/colors.sv|C:/Users/jcarlin/Documents/GitHub/e155-project/fpga/src/spiDecode.sv|
+Z43 !s90 -reportprogress|300|-work|work|-sv|-stats=none|C:/Users/jcarlin/Documents/GitHub/e155-project/fpga/src/spiDecode.sv|
 !s101 -O0
 !i113 1
 R17
 R8
 nspi@decode
 XspiDecode_sv_unit
-R18
 R9
 R18
-R38
-VzTm`bMOJiP?^KbkffzFD:1
+R10
+Va0NiWhz@8<?[YI<b[E;5K2
 r1
 !s85 0
 !i10b 1
 !s100 3^>6`zR>;zZ<8Uh9l]G?C2
-IzTm`bMOJiP?^KbkffzFD:1
+Ia0NiWhz@8<?[YI<b[E;5K2
 !i103 1
 S1
-R1
+R2
 R39
 R40
 R41
 R20
-!i122 143
-R22
+!i122 157
+R23
 R3
 31
+R14
 R42
 R43
-R44
 !s101 -O0
 !i113 1
 R17
@@ -484,20 +509,20 @@ nspi@decode_sv_unit
 vspiFSM
 R9
 R10
-!i10b 1
-!s100 DWm;<Q2z432LSGV2FWQbc3
-ITmVj[jA0J[S<AlC:_aBCI0
-S1
 R1
-w1733357823
-8C:/Users/jcarlin/Documents/GitHub/e155-project/fpga/src/spiFSM.sv
-FC:/Users/jcarlin/Documents/GitHub/e155-project/fpga/src/spiFSM.sv
-!i122 127
-L0 1 36
-R2
-R3
 r1
 !s85 0
+!i10b 1
+!s100 `LIRl:Y72dY:MH<zDbdjN0
+IdAkQ<4YfE2>IkT>U8L=dm1
+S1
+R2
+R31
+8C:/Users/jcarlin/Documents/GitHub/e155-project/fpga/src/spiFSM.sv
+FC:/Users/jcarlin/Documents/GitHub/e155-project/fpga/src/spiFSM.sv
+!i122 158
+L0 1 36
+R3
 31
 R14
 !s107 C:/Users/jcarlin/Documents/GitHub/e155-project/fpga/src/spiFSM.sv|
@@ -509,22 +534,21 @@ R8
 nspi@f@s@m
 vspiTop
 R9
-R18
 R10
-!i10b 1
-!s100 S>6OEhO[RWk99E<V_H3]51
-I18]bER`T786goN[;__RhI1
-S1
 R1
-w1733357728
-8C:/Users/jcarlin/Documents/GitHub/e155-project/fpga/src/spiTop.sv
-FC:/Users/jcarlin/Documents/GitHub/e155-project/fpga/src/spiTop.sv
-!i122 128
-L0 1 19
-R2
-R3
 r1
 !s85 0
+!i10b 1
+!s100 ZfIBWg7;NiaV0>`5ahh5a1
+IIa>zdAZM3U6[k;?WkL2Hg0
+S1
+R2
+R31
+8C:/Users/jcarlin/Documents/GitHub/e155-project/fpga/src/spiTop.sv
+FC:/Users/jcarlin/Documents/GitHub/e155-project/fpga/src/spiTop.sv
+!i122 159
+L0 1 25
+R3
 31
 R14
 !s107 C:/Users/jcarlin/Documents/GitHub/e155-project/fpga/src/spiTop.sv|
@@ -536,21 +560,21 @@ R8
 nspi@top
 vsynchronizer
 R9
-R23
+R10
+R1
+r1
+!s85 0
 !i10b 1
 !s100 U<50Ci@8YFkaO5]JY^KCE1
 IzRl8nmPHAQ::n@=EeCcf:0
 S1
-R1
-R37
+R2
+R38
 8C:/Users/jcarlin/Documents/GitHub/e155-project/fpga/src/synchronizer.sv
 FC:/Users/jcarlin/Documents/GitHub/e155-project/fpga/src/synchronizer.sv
-!i122 129
+!i122 160
 L0 1 18
-R2
 R3
-r1
-!s85 0
 31
 R14
 !s107 C:/Users/jcarlin/Documents/GitHub/e155-project/fpga/src/synchronizer.sv|
@@ -561,22 +585,22 @@ R17
 R8
 vsyspll
 R18
-R23
+R36
+R1
+r1
+!s85 0
 !i10b 1
 !s100 N6VAgoAa^R^VK>VM`bl8J3
 IWKdTPPf5d>k423PYcJOAL1
-R1
-Z45 w1733288879
+R2
+Z44 w1733288879
 8C:/Users/jcarlin/Documents/GitHub/e155-project/fpga/radiant_project/syspll/syspll/rtl/syspll_bb.v
 FC:/Users/jcarlin/Documents/GitHub/e155-project/fpga/radiant_project/syspll/syspll/rtl/syspll_bb.v
-!i122 137
+!i122 168
 L0 10 6
-R2
 R3
-r1
-!s85 0
 31
-R25
+R37
 !s107 C:/Users/jcarlin/Documents/GitHub/e155-project/fpga/radiant_project/syspll/syspll/rtl/syspll_bb.v|
 !s90 -reportprogress|300|-work|work|-stats=none|C:/Users/jcarlin/Documents/GitHub/e155-project/fpga/radiant_project/syspll/syspll/rtl/syspll_bb.v|
 !s101 -O0
@@ -584,22 +608,22 @@ R25
 R7
 R8
 vsyspll_ipgen_lscc_pll
-R23
+R36
+R1
+r1
+!s85 0
 !i10b 1
 !s100 DUn]UDbX1NQVWo<hcj=QZ0
 IBjbCQC[UdRPaJbAc_;6@h2
-R1
-R45
+R2
+R44
 8C:/Users/jcarlin/Documents/GitHub/e155-project/fpga/radiant_project/syspll/syspll/rtl/syspll.v
 FC:/Users/jcarlin/Documents/GitHub/e155-project/fpga/radiant_project/syspll/syspll/rtl/syspll.v
-!i122 136
+!i122 167
 L0 105 120
-R2
 R3
-r1
-!s85 0
 31
-R25
+R37
 !s107 C:/Users/jcarlin/Documents/GitHub/e155-project/fpga/radiant_project/syspll/syspll/rtl/syspll.v|
 !s90 -reportprogress|300|-work|work|-stats=none|C:/Users/jcarlin/Documents/GitHub/e155-project/fpga/radiant_project/syspll/syspll/rtl/syspll.v|
 !s101 -O0
@@ -608,10 +632,13 @@ R7
 R8
 vtb_top
 R0
+R1
+r1
+!s85 0
 !i10b 1
 !s100 6N7j1E?0dGgaONXEGncm53
 IFZ7PKEJkSWj92<mDi=l@43
-R1
+R2
 w1733230622
 8C:/Users/jcarlin/Documents/GitHub/e155-project/fpga/radiant_project/pixelRam/testbench/tb_top.v
 FC:/Users/jcarlin/Documents/GitHub/e155-project/fpga/radiant_project/pixelRam/testbench/tb_top.v
@@ -619,10 +646,7 @@ FC:/Users/jcarlin/Documents/GitHub/e155-project/fpga/radiant_project/pixelRam/te
 FC:/Users/jcarlin/Documents/GitHub/e155-project/fpga/radiant_project/pixelRam/testbench/dut_inst.v
 !i122 37
 L0 68 308
-R2
 R3
-r1
-!s85 0
 31
 R4
 R5
@@ -633,65 +657,64 @@ R7
 R8
 vtop
 R9
-DXx4 work 11 top_sv_unit 0 22 4dEU9h3iC5:3NL`Facack1
-R23
-R2
+DXx4 work 11 top_sv_unit 0 22 GH7ITWo[9g?aBE]IeJ;<n3
+R10
+R1
 r1
 !s85 0
 !i10b 1
-!s100 bFRz@hUFcmm9>R1K;]K681
-I6eX=T5M>J;@i25`Zocb?83
+!s100 Dbh3<dFJ]HSP=TEC3MzGb0
+I>kZ7o8=hJJbDfQ0mBNP=A3
 !s105 top_sv_unit
 S1
-R1
-Z46 w1733369106
-Z47 8C:/Users/jcarlin/Documents/GitHub/e155-project/fpga/src/top.sv
-Z48 FC:/Users/jcarlin/Documents/GitHub/e155-project/fpga/src/top.sv
-!i122 130
+R2
+Z45 w1733393629
+Z46 8C:/Users/jcarlin/Documents/GitHub/e155-project/fpga/src/top.sv
+Z47 FC:/Users/jcarlin/Documents/GitHub/e155-project/fpga/src/top.sv
+!i122 161
 L0 2 54
 R3
 31
-R25
-Z49 !s107 C:/Users/jcarlin/Documents/GitHub/e155-project/fpga/src/colors.svh|C:/Users/jcarlin/Documents/GitHub/e155-project/fpga/src/top.sv|
-Z50 !s90 -reportprogress|300|-work|work|-sv|-stats=none|C:/Users/jcarlin/Documents/GitHub/e155-project/fpga/src/top.sv|
+R14
+Z48 !s107 C:/Users/jcarlin/Documents/GitHub/e155-project/fpga/src/colors.sv|C:/Users/jcarlin/Documents/GitHub/e155-project/fpga/src/top.sv|
+Z49 !s90 -reportprogress|300|-work|work|-sv|-stats=none|C:/Users/jcarlin/Documents/GitHub/e155-project/fpga/src/top.sv|
 !s101 -O0
 !i113 1
 R17
 R8
 Xtop_sv_unit
-R18
 R9
 R18
-R23
-V4dEU9h3iC5:3NL`Facack1
+R10
+VGH7ITWo[9g?aBE]IeJ;<n3
 r1
 !s85 0
 !i10b 1
 !s100 Q=7OGj2]cz7iT;KG7zW^e2
-I4dEU9h3iC5:3NL`Facack1
+IGH7ITWo[9g?aBE]IeJ;<n3
 !i103 1
 S1
-R1
+R2
+R45
 R46
 R47
-R48
 R20
-!i122 130
-R22
+!i122 161
+R23
 R3
 31
-R25
+R14
+R48
 R49
-R50
 !s101 -O0
 !i113 1
 R17
 R8
 vvgaController
 R9
-DXx4 work 21 vgaController_sv_unit 0 22 ;E=EDDO0]gZ2D4<W7_C371
-R23
-R2
+DXx4 work 21 vgaController_sv_unit 0 22 V4NQVVoKeYIN]Zk^biFO22
+R10
+R1
 r1
 !s85 0
 !i10b 1
@@ -699,47 +722,46 @@ r1
 IPE1HKzooPldz@liJ8zGX63
 !s105 vgaController_sv_unit
 S1
-R1
-Z51 w1733371346
-Z52 8C:/Users/jcarlin/Documents/GitHub/e155-project/fpga/src/vgaController.sv
-Z53 FC:/Users/jcarlin/Documents/GitHub/e155-project/fpga/src/vgaController.sv
-!i122 131
+R2
+R11
+Z50 8C:/Users/jcarlin/Documents/GitHub/e155-project/fpga/src/vgaController.sv
+Z51 FC:/Users/jcarlin/Documents/GitHub/e155-project/fpga/src/vgaController.sv
+!i122 162
 L0 3 45
 R3
 31
-R25
-Z54 !s107 C:/Users/jcarlin/Documents/GitHub/e155-project/fpga/src/vgaParameters.svh|C:/Users/jcarlin/Documents/GitHub/e155-project/fpga/src/vgaController.sv|
-Z55 !s90 -reportprogress|300|-work|work|-sv|-stats=none|C:/Users/jcarlin/Documents/GitHub/e155-project/fpga/src/vgaController.sv|
+R14
+Z52 !s107 C:/Users/jcarlin/Documents/GitHub/e155-project/fpga/src/vgaParameters.sv|C:/Users/jcarlin/Documents/GitHub/e155-project/fpga/src/vgaController.sv|
+Z53 !s90 -reportprogress|300|-work|work|-sv|-stats=none|C:/Users/jcarlin/Documents/GitHub/e155-project/fpga/src/vgaController.sv|
 !s101 -O0
 !i113 1
 R17
 R8
 nvga@controller
 XvgaController_sv_unit
-R18
 R9
 R18
-R23
-V;E=EDDO0]gZ2D4<W7_C371
+R10
+VV4NQVVoKeYIN]Zk^biFO22
 r1
 !s85 0
 !i10b 1
 !s100 aS2KX[Ab;O4k0R@QI[Qd=1
-I;E=EDDO0]gZ2D4<W7_C371
+IV4NQVVoKeYIN]Zk^biFO22
 !i103 1
 S1
-R1
+R2
+R11
+R50
 R51
-R52
-R53
 R19
-!i122 131
+!i122 162
 R21
 R3
 31
-R25
-R54
-R55
+R14
+R52
+R53
 !s101 -O0
 !i113 1
 R17
@@ -747,23 +769,23 @@ R8
 nvga@controller_sv_unit
 vvgaController_tb
 R9
-R23
+R36
+R1
+r1
+!s85 0
 !i10b 1
 !s100 MHg^^WFd_DERH<;L1VZ8O1
 Io=^be0T7[fB[QOCNI?Q9i3
 S1
-R1
+R2
 w1733371054
 8C:/Users/jcarlin/Documents/GitHub/e155-project/fpga/testbench/vgaController_tb.sv
 FC:/Users/jcarlin/Documents/GitHub/e155-project/fpga/testbench/vgaController_tb.sv
-!i122 135
+!i122 166
 L0 3 33
-R2
 R3
-r1
-!s85 0
 31
-R25
+R37
 !s107 C:/Users/jcarlin/Documents/GitHub/e155-project/fpga/testbench/vgaController_tb.sv|
 !s90 -reportprogress|300|-work|work|-sv|-stats=none|C:/Users/jcarlin/Documents/GitHub/e155-project/fpga/testbench/vgaController_tb.sv|
 !s101 -O0
@@ -771,10 +793,38 @@ R25
 R17
 R8
 nvga@controller_tb
+XvgaParameters_sv_unit
+R9
+R18
+R10
+VRCcWhGHJ?`oVS0GbNd`LT0
+r1
+!s85 0
+!i10b 1
+!s100 ER__z[626>JQ0>XPXz@@f0
+IRCcWhGHJ?`oVS0GbNd`LT0
+!i103 1
+S1
+R2
+Z54 w1733301518
+8C:/Users/jcarlin/Documents/GitHub/e155-project/fpga/src/vgaParameters.sv
+R19
+!i122 163
+R21
+R3
+31
+R14
+!s107 C:/Users/jcarlin/Documents/GitHub/e155-project/fpga/src/vgaParameters.sv|
+!s90 -reportprogress|300|-work|work|-sv|-stats=none|C:/Users/jcarlin/Documents/GitHub/e155-project/fpga/src/vgaParameters.sv|
+!s101 -O0
+!i113 1
+R17
+R8
+nvga@parameters_sv_unit
 XvgaParameters_svh_unit
 R9
 R18
-R23
+R24
 VoIDGm0:MJB7:4bm6<0e9W3
 r1
 !s85 0
@@ -783,15 +833,15 @@ r1
 IoIDGm0:MJB7:4bm6<0e9W3
 !i103 1
 S1
-R1
-w1733301518
+R2
+R54
 8C:/Users/jcarlin/Documents/GitHub/e155-project/fpga/src/vgaParameters.svh
-R19
+FC:/Users/jcarlin/Documents/GitHub/e155-project/fpga/src/vgaParameters.svh
 !i122 132
 R21
 R3
 31
-R25
+R26
 !s107 C:/Users/jcarlin/Documents/GitHub/e155-project/fpga/src/vgaParameters.svh|
 !s90 -reportprogress|300|-work|work|-sv|-stats=none|C:/Users/jcarlin/Documents/GitHub/e155-project/fpga/src/vgaParameters.svh|
 !s101 -O0
