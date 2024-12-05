@@ -147,23 +147,29 @@ module pixelStore (input  logic clk, reset,
 
 
 // SPRAM
-
-  typedef enum logic { RAM_READ, RAM_WRITE } RAM_STATE;
+  logic [13:0] resetCount;
+  typedef enum logic { RAM_SETUP RAM_READ, RAM_WRITE } RAM_STATE;
   RAM_STATE ramState, ramNextState;
 
   always_ff @( posedge clk ) begin
     if (reset) begin
-      ramState <= RAM_READ;
+      ramState <= RAM_SETUP;
+      resetCount <= '0;
     end else begin
       ramState <= ramNextState;
+      resetCount <= resetCount + 1'b1;
     end
   end
 
   always_comb begin
     if (reset) begin
-      ramNextState = RAM_READ;
+      ramNextState = RAM_SETUP;
     end else begin
       case(ramState)
+        RAM_SETUP: begin
+                    if ($unsigned(resetCount) == 16384) ramNextState = RAM_READ;
+                    else ramNextState = RAM_SETUP;
+                  end
         RAM_READ: ramNextState = RAM_WRITE;
         RAM_WRITE: ramNextState = RAM_READ;
         default: ramNextState = RAM_READ;
@@ -173,24 +179,31 @@ module pixelStore (input  logic clk, reset,
 
   logic [13:0] ramAdr;
   logic ramWE;
-  logic [15:0] ramData;
+  logic [15:0] ramWriteData, ramData;
 
   always_comb begin
     case(ramState)
+      RAM_SETUP: begin
+                   ramAdr = resetCount;
+                   ramWE = 1'b1;
+                   ramWriteData = 0;
+                 end
       RAM_READ: begin
                   ramAdr = {ryRam[6:0], rxRam[6:0]};
                   ramWE = 0;
+                  ramWriteData = 0;
                 end
       RAM_WRITE: begin
-                  ramAdr = {wy[6:0], wx[6:0]};
+                  ramAdr = 14'd128;//{wy[6:0], wx[6:0]};
                   ramWE = brush;
+                  ramWriteData = {13'b0,newColor};
                 end
     endcase
   end
 
 
   SP256K spramPixelArray(
-  .DI({13'b0,newColor}),
+  .DI(ramWriteData),
   .AD(ramAdr),
   .MASKWE(4'b1111),
   .WE(ramWE),
@@ -201,7 +214,13 @@ module pixelStore (input  logic clk, reset,
   .PWROFF_N(1'b1),
   .DO(ramData));
 
-  assign colorCode = ramData[2:0];
+  logic [15:0] ramDataFlopped;
+
+  always_ff @(posedge clk)
+    if (reset) ramDataFlopped <= '0;
+    else ramDataFlopped <= ramData;
+
+  assign colorCodeRam = ramDataFlopped[2:0];
 
 
 endmodule
