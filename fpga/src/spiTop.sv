@@ -20,27 +20,27 @@ module spiTop(input  logic       clk, reset, sck, sdi, cs,
   spiDecode spiDecode(.ready(ready), .spiPacket1(spiPacket1), .spiPacket2(spiPacket2), .updateConfig(updateConfig), .brush(brushUpdate), .x(x), .y(y), .newColor(newColorUpdate));
 
 
-  logic holdReady;
+  logic holdTest;
   logic [31:0] counter;
   always_ff @(posedge clk)
     if (reset) begin
-      holdReady <= 1'b0;
+      holdTest <= 1'b0;
       counter <= '0;
-    end else if (ready) begin
-      holdReady <= 1'b1;
+    end else if (x[0]) begin
+      holdTest <= 1'b1;
       counter <= 1;
     end else if (counter > 30) begin
-      holdReady <= '0;
+      holdTest <= '0;
       counter <= '0;
-    end else if (holdReady) begin
-      holdReady <= '1;
+    end else if (holdTest) begin
+      holdTest <= '1;
       counter <= counter + 1;
     end else begin
-      holdReady <= '0;
+      holdTest <= '0;
       counter <= 0;
     end
 
-  assign test = (spiPacket1[5] & holdReady);
+  assign test = (holdTest);
 
 
 endmodule
