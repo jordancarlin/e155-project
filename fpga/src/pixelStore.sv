@@ -148,7 +148,7 @@ module pixelStore (input  logic clk, reset,
 
 // SPRAM
   logic [13:0] resetCount;
-  typedef enum logic { RAM_SETUP RAM_READ, RAM_WRITE } RAM_STATE;
+  typedef enum logic [1:0] { RAM_SETUP, RAM_READ, RAM_WRITE } RAM_STATE;
   RAM_STATE ramState, ramNextState;
 
   always_ff @( posedge clk ) begin
@@ -167,7 +167,7 @@ module pixelStore (input  logic clk, reset,
     end else begin
       case(ramState)
         RAM_SETUP: begin
-                    if ($unsigned(resetCount) == 16384) ramNextState = RAM_READ;
+                    if ($unsigned(resetCount) == 14'd16383) ramNextState = RAM_READ;
                     else ramNextState = RAM_SETUP;
                   end
         RAM_READ: ramNextState = RAM_WRITE;
