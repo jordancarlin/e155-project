@@ -70,17 +70,17 @@ module pixelStore (input  logic clk, reset,
   assign temp2 = 7'd75;
 
   logic [2:0] colorArray[16384-1:0];
-  initial begin
-    $readmemb("testcolor.mem", colorArray);
-  end
+  // initial begin
+  //   $readmemb("testcolor.mem", colorArray);
+  // end
 
 
   always_ff @(posedge clk)
     colorCodeRam <= colorArray[{ryRam[6:0],rxRam[6:0]}];
 
-  // always_ff @( posedge clk )
-  //   if (1'b1)
-  //     colorArray[{temp2, temp2}] <= green;
+  always_ff @( posedge clk )
+    // if (1'b1)
+    colorArray[{wy[6:0], wx[6:0]}] <= green;
 
 
   // pixelRam pixelRam(
