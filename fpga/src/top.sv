@@ -15,6 +15,10 @@ module top(input  logic       clk_hf, reset,
   logic [2:0] colorCode, newColor, newColorUpdate;
   logic updateConfig;
 
+  logic [9:0] x2, y2;
+  assign x2 = 'b0;
+  assign y2 = 'b0;
+
   // assign test = ready;
 
   spiTop spiTop(.clk(clk), .reset(reset), .sck(sck), .sdi(sdi), .cs(cs), .brushUpdate(brushUpdate), .x(x), .y(y), .newColorUpdate(newColorUpdate), .updateConfig(updateConfig), .test(test));
@@ -42,7 +46,7 @@ module top(input  logic       clk_hf, reset,
 
   vgaController vgaController(.clk(clk), .reset(reset), .hsync(hsync), .vsync(vsync), .blank_b(blank_b), .x(vgaX), .y(vgaY));
 
-  pixelStore pixelStore(.clk(clk), .reset(reset), .brush(brush), .rx(vgaX), .ry(vgaY), .wx(x), .wy(y), .colorCode(colorCode), .newColor(newColor));
+  pixelStore pixelStore(.clk(clk), .reset(reset), .brush(brush), .rx(vgaX), .ry(vgaY), .wx(x2), .wy(y2), .colorCode(colorCode), .newColor(newColor));
   colorDecode colorDecode(.brush(brush), .colorCode(colorCode), .r(r), .g(g), .b(b));
 
   assign rBlanked = r ;//& {4{blank_b}};

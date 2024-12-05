@@ -4,7 +4,7 @@
 module pixelStore (input  logic clk, reset,
                    input  logic brush,
                    input  logic [2:0] newColor,
-                   input  logic [7:0] wx, wy,
+                   input  logic [9:0] wx, wy,
                    input  logic [9:0] rx, ry,
                    output logic [2:0] colorCode);
 
@@ -45,11 +45,13 @@ module pixelStore (input  logic clk, reset,
     //   colorCode = purple;
     // else
         // if (rx > ((HACTIVE - MAX_COORDINATE)*3/4) | ry > ((VACTIVE - MAX_COORDINATE)*3/4))
-    if (rx > 128 | ry > 128)
+    if (ry > 128 | rx > 128)
       colorCode = erase;
-    else if (rx %50==0 | ry %50==0) begin
-      if (rx == 50 | ry == 50)
+    else if (rx %32==0 | ry %32==0) begin
+      if (rx == 32 | ry == 32)
         colorCode = colorCodeRam;
+      else if (rx == 64 | ry == 64)
+        colorCode = green;
       else
         colorCode = purple;
     end
@@ -65,9 +67,9 @@ module pixelStore (input  logic clk, reset,
     //   colorCode = colorCodeRam;
     // end //
 
-  logic [6:0] temp1, temp2;
-  assign temp1 = 7'd50;
-  assign temp2 = 7'd75;
+  //logic [6:0] temp1, temp2;
+  //assign temp1 = 7'd64;
+  //assign temp2 = 7'd33;
 
   logic [2:0] colorArray[16384-1:0];
   // initial begin
@@ -80,18 +82,22 @@ module pixelStore (input  logic clk, reset,
     if (reset)
       re <= 0;
     else
-      re <= ~re;
+      if(re) re <=0;
+	  else   re <=1;
   end
 
   assign we = ~re;
 
   always_ff @(posedge clk)
     if (re)
-      colorCodeRam <= colorArray[{ryRam[6:0],rxRam[6:0]}];
-
-  always_ff @( posedge clk )
-    if (we)
-    colorArray[{temp2, temp1}] <= green;
+		colorCodeRam <= colorArray[{ryRam[6:0],rxRam[6:0]}];
+	//end;
+  
+  always_ff @(posedge clk)
+      //colorArray[{50,50}] <= green;
+	 // colorArray[{49,50}] <= green;
+	 if (temp_w == temp_r)
+		colorArray[{512}] <=3'b001;    
 
 
   // pixelRam pixelRam(
