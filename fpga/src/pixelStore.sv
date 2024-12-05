@@ -10,6 +10,8 @@ module pixelStore (input  logic clk, reset,
 
   logic [9:0] rxRam, ryRam;
   logic [2:0] colorCodeRam, testColor;
+  logic [6:0] testLocMatrix[16383:0] ;
+  logic [13:0] testLoc;
   // logic [9:0] counter;
   // logic [21:0] counterBig;
 
@@ -38,6 +40,7 @@ module pixelStore (input  logic clk, reset,
   // Create ram
   logic [2:0] colorArray[16384-1:0];
   initial $readmemb("blank.mem", colorArray);
+  initial $readmemd("location.mem", testLocMatrix);
 
 
   always_comb begin
@@ -45,6 +48,8 @@ module pixelStore (input  logic clk, reset,
     // division by 2 on outside groups pixels into pairs, doubles size
     rxRam = rx;// * (MAX_COORDINATE/HMAX); //- (HMAX - MAX_COORDINATE)/4)/2;
     ryRam = ry;// * (MAX_COORDINATE/VMAX); //- (VMAX - MAX_COORDINATE)/4)/2;;
+
+    testLoc = testLocMatrix[{wx[6:0]}];
 
     // if (rx < ((HACTIVE - MAX_COORDINATE)/4) | ry < ((VACTIVE - MAX_COORDINATE)/4))
     //   colorCode = purple;
@@ -114,8 +119,12 @@ module pixelStore (input  logic clk, reset,
 		colorCodeRam <= colorArray[{ryRam[6:0],rxRam[6:0]}];
 	//end;
 
+
+
   always_ff @(posedge clk) begin
-    colorArray[{wy[6:0],wx[6:0]}] <= newColor;
+    //colorArray[{wy[6:0],wx[6:0]}] <= newColor;
+    colorArray[{129}] <= newColor;
+
   //colorArray[{50,50}] <= green;
   //colorArray[{49,50}] <= green;
 	//colorArray[928] <= blue;
