@@ -80,7 +80,7 @@ module pixelStore (input  logic clk, reset,
 
   always_ff @( posedge clk )
     // if (1'b1)
-    colorArray[{wy[6:0], wx[6:0]}] <= green;
+    colorArray[{temp2, wx[6:0]}] <= green;
 
 
   // pixelRam pixelRam(
