@@ -62,8 +62,8 @@ module readAddress_tb;
 
   // Monitor signals
   initial begin
-    $monitor("Time=%0t, reset=%b, brush=%b, newColor=%b, wx=%d, wy=%d, vgaX=%d, vgaY=%d, colorCode=%b",
-             $time, reset, brush, newColor, wx, wy, vgaX, vgaY, colorCode);
+    $monitor("Time=%0t, reset=%b, brush=%b, newColor=%b, wx=%d, wy=%d, vgaX=%d, vgaY=%d, colorCode=%b, rx=%b ry=%b curly=%b",
+             $time, reset, brush, newColor, wx, wy, vgaX, vgaY, colorCode, vgaX, vgaY, {vgaX,vgaY});
   end
 
 endmodule

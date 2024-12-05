@@ -25,7 +25,7 @@ module spiFSM(input clk, reset, cs,
                   if (cs) spiNextState = SPI_HOLD;
                   else spiNextState = SPI_DONE;
                 end
-      SPI_DONE: spiNextState = SPI_DONE;
+      SPI_DONE: spiNextState = SPI_IDLE;
       default: spiNextState = SPI_IDLE;
     endcase
   end
