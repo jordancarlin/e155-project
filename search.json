@@ -7,11 +7,32 @@
     "text": "Midpoint report: A 4-page report (plus appendices) documenting your design at the midpoint. Your report should be submitted before your scheduled checkpoint slot. The status report should include:\nSchematics of anything on a breadboard, Block diagrams of the logic on your FPGA, An outline of the routines used on the MCU. You should include as an appendix either your Verilog code or software that is mostly complete (but do not have to have both ready). You must be ready to demonstrate some working hardware in the lab.\nProficiency\n\nClear and concise written summary of current status [] Schematics of all breadboarded circuits [] Block diagram of system components and the interfaces between them [] Hardware demo functioning (potentially with some minor bugs) [] More than 25% of the way to the final deliverable [] Clear description of microcontroller routines [] All external parts ordered\n\nExcellence\n[] All interfaces in the block diagram defined (e.g., SPI, I2C, GPIO) [] Hardware demo functioning well [] Writing is well organized [] Solid grammar or spelling issues (no more than a few minor errors which do not detract from the point). [] Completed riskiest element of the project [] More than 50% of the way to the final deliverable"
   },
   {
+    "objectID": "results.html",
+    "href": "results.html",
+    "title": "Results",
+    "section": "",
+    "text": "A discussion of the overall performance of the final system\nAny relevant simulation results or oscilloscope traces\nVideos or photos of the final project or any intermediate build steps."
+  },
+  {
     "objectID": "index.html",
     "href": "index.html",
     "title": "Jordan and Zoe E155 Final Project",
     "section": "",
-    "text": "This is a website for Jordan and Zoe’s Pictionary Project."
+    "text": "Welcome to MicroP(ictionary)!\nThis design project sought to create a Pictionary device that would allow users to draw whatever color they see fit on a screen."
+  },
+  {
+    "objectID": "index.html#brief",
+    "href": "index.html#brief",
+    "title": "Jordan and Zoe E155 Final Project",
+    "section": "",
+    "text": "Welcome to MicroP(ictionary)!\nThis design project sought to create a Pictionary device that would allow users to draw whatever color they see fit on a screen."
+  },
+  {
+    "objectID": "index.html#abstract",
+    "href": "index.html#abstract",
+    "title": "Jordan and Zoe E155 Final Project",
+    "section": "Abstract",
+    "text": "Abstract\nMicroP(ictionary) is a game for lab students that want to play online, but have to play using hardware instead. The goal of this project was to make a Pictionary game with the following specs:\n\n7 Buttons to control 7 different colors\n\n\nA potentiometer to control the thickness of the brush being used\n\n\nA brush up/down switch that controls whether the brush is drawing or not\n\n\nA joystick to control where we are on the board.\n\nThe project had two separate pieces; the MCU that collects and stores the current status of the brush (including color, thickness, and location), and the FPGA, which has an onboard RAM that stores the color left behind by the brush or simply shows the user their current location. The brush will always be orange. The MCU consistently sends SPI updates of the location of the user to the FPGA board, and the FPGA board then outputs this data onto the computer screen. When the user updates the colors of the board or decides to put the brush down, the system sends an additional SPI package with the updated color and brush up/down information.\nThis program was extremely close to working, but likely due to a high level of power flux, the board connection between the MCU and the FPGA has been shorted. The MCU can be connected to via JLink separate from the board, but when it is plugged into the board, JLink can no longer connect.\nPrior to this issue, the device was able to draw x/y locations, as well as travel in a controlled manner about the screen.\nA video prior to this was not captured demonstrating how the brush was able to travel about the screen and leave a trail: this video, however, displays how the brush’s current color was being captured and making it over to the VGA device, and how control of whether the color was changed via the brush up/down switch was changed.\n\nThe overview of this system can be seen in Figure 1.\n\n\n\n\n\n\nFigure 1: This is the block diagram of what the system looks like from top down. Note that there are a large number of pins going into the MCU"
   },
   {
     "objectID": "mcu.html",
@@ -42,6 +63,13 @@
     "text": "We are currently able to perform all necessary functions required for the final prototype, and mainly now need to configure the SPI connection and performance of the FPGA. As it stands, this video demonstrates the readouts of the board, as well as a representation of the data it will be sending to the FPGA board, at any given point in time. When the timer is replaced with a much shorter one, these updates will be sent at a frequency of roughly 1 kHz, although we will vary this depending on what we decide works best for timing on the FPGA."
   },
   {
+    "objectID": "documentation.html",
+    "href": "documentation.html",
+    "title": "Documentation",
+    "section": "",
+    "text": "Here are links to the relevant sources if desired.\nDetails on Proficiency and Excellency Specs:\nProficiency: [] Project meets most of of the specifications as laid out in the proposal with explanations for any specifications that weren’t met.\n[] System operates without any major bugs (e.g., doesn’t freeze in operation)\n[] Document listing each spec from the proposal along with a short (e.g., 3-5 sentence) summary explaining whether the spec was met or not.\n[] Technical documentation (e.g., schematics, code, block diagrams) available for review at checkoff.\n[] Verilog HDL is functional and cleanly formatted\n[] MCU C code is functional and cleanly formatted\nExcellency: Project meets all the specifications as laid out in the proposal. Project is polished (e.g., wires are hidden, any physical interfaces are well-designed and reliable, clean user interface) Verilog code is efficient and demonstrates best coding practices (e.g., modularity, testbenches were appropriate, etc.) C code is efficient and well organized (e.g., code encapsulated in functions and custom libraries as appropriate)"
+  },
+  {
     "objectID": "fpga.html",
     "href": "fpga.html",
     "title": "FPGA",
@@ -68,5 +96,12 @@
     "title": "FPGA",
     "section": "",
     "text": "A second version of all of the Verilog is written and (almost) passing synthesis. The inital version that was designed had to scrapped because the hierarchy and interfaces between each module were woefully insufficient. A new block diagram (Figure 1) was created with a far shallower hierarchy to allow for more communication between modules. The old design for the pixel array was also not being detected properly as a RAM. The current version is being detected as a block RAM with the expected read, write, and enable ports.\nThe current design passes the first few stages of synthesis, but is currently running into issues with place and route and with timing. The timing issues likely stem from clock issues becasue the SPI sck needs to drive some of the design while the VGA vgaclk needs to drive other parts of it. Using multiple clocks is far from ideal, but is necessary because of the strict timing requirements for VGA monitors. The place and route issues likely stem from the timing problems, but it is not possible to know for sure until the timing issues are resolved.\nThe other part of the FPGA process that is currently underway is verification of the design. Testbenches are in their early stage of creation and will be used to verify the SPI half of the design and the VGA half of the design separately. Depending on how those go, a full system testbench will likely be created to verify the entire design."
+  },
+  {
+    "objectID": "team.html",
+    "href": "team.html",
+    "title": "Meet the Team",
+    "section": "",
+    "text": "Here are links to the relevant sources if desired.\nDetails on Proficiency and Excellency Specs:\nProficiency: [] Project meets most of of the specifications as laid out in the proposal with explanations for any specifications that weren’t met.\n[] System operates without any major bugs (e.g., doesn’t freeze in operation)\n[] Document listing each spec from the proposal along with a short (e.g., 3-5 sentence) summary explaining whether the spec was met or not.\n[] Technical documentation (e.g., schematics, code, block diagrams) available for review at checkoff.\n[] Verilog HDL is functional and cleanly formatted\n[] MCU C code is functional and cleanly formatted\nExcellency: Project meets all the specifications as laid out in the proposal. Project is polished (e.g., wires are hidden, any physical interfaces are well-designed and reliable, clean user interface) Verilog code is efficient and demonstrates best coding practices (e.g., modularity, testbenches were appropriate, etc.) C code is efficient and well organized (e.g., code encapsulated in functions and custom libraries as appropriate)"
   }
 ]

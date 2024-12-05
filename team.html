@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Jordan and Zoe E155 Final Project</title>
+<title>Meet the Team – Jordan and Zoe E155 Final Project</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -30,8 +30,6 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<script src="site_libs/quarto-listing/list.min.js"></script>
-<script src="site_libs/quarto-listing/quarto-listing.js"></script>
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -68,66 +66,8 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
-<script>
-
-  window.document.addEventListener("DOMContentLoaded", function (_event) {
-    const listingTargetEl = window.document.querySelector('#listing-listing .list');
-    if (!listingTargetEl) {
-      // No listing discovered, do not attach.
-      return; 
-    }
-
-    const options = {
-      valueNames: ['listing-date','listing-title','listing-author','listing-image','listing-description',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
-      
-      searchColumns: ["listing-date","listing-title","listing-author","listing-image","listing-description"],
-    };
-
-    window['quarto-listings'] = window['quarto-listings'] || {};
-    window['quarto-listings']['listing-listing'] = new List('listing-listing', options);
-
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  });
-
-  window.addEventListener('hashchange',() => {
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  })
-  </script>
 <style>html{ scroll-behavior: smooth; }</style>
 
-  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
-
-<script type="text/javascript">
-const typesetMath = (el) => {
-  if (window.MathJax) {
-    // MathJax Typeset
-    window.MathJax.typeset([el]);
-  } else if (window.katex) {
-    // KaTeX Render
-    var mathElements = el.getElementsByClassName("math");
-    var macros = [];
-    for (var i = 0; i < mathElements.length; i++) {
-      var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN") {
-        window.katex.render(texText.data, mathElements[i], {
-          displayMode: mathElements[i].classList.contains('display'),
-          throwOnError: false,
-          macros: macros,
-          fleqn: false
-        });
-      }
-    }
-  }
-}
-window.Quarto = {
-  typesetMath
-};
-</script>
 
 <link rel="stylesheet" href="styles.css">
 </head>
@@ -150,7 +90,7 @@ window.Quarto = {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link active" href="./index.html" aria-current="page"> 
+    <a class="nav-link" href="./index.html"> 
 <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item">
@@ -176,22 +116,15 @@ window.Quarto = {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">On this page</h2>
-   
-  <ul>
-  <li><a href="#brief" id="toc-brief" class="nav-link active" data-scroll-target="#brief">Brief</a></li>
-  <li><a href="#abstract" id="toc-abstract" class="nav-link" data-scroll-target="#abstract">Abstract</a></li>
-  </ul>
-</nav>
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+        
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Jordan and Zoe E155 Final Project</h1>
+<h1 class="title">Meet the Team</h1>
 </div>
 
 
@@ -208,179 +141,19 @@ window.Quarto = {
 </header>
 
 
-<section id="brief" class="level2">
-<h2 class="anchored" data-anchor-id="brief">Brief</h2>
-<p>Welcome to <strong>MicroP(ictionary)</strong>!</p>
-<p>This design project sought to create a Pictionary device that would allow users to draw whatever color they see fit on a screen.</p>
-</section>
-<section id="abstract" class="level2">
-<h2 class="anchored" data-anchor-id="abstract">Abstract</h2>
-<p>MicroP(ictionary) is a game for lab students that want to play online, but have to play using hardware instead. The goal of this project was to make a Pictionary game with the following specs:</p>
-<blockquote class="blockquote">
-<p>7 Buttons to control 7 different colors</p>
-</blockquote>
-<blockquote class="blockquote">
-<p>A potentiometer to control the thickness of the brush being used</p>
-</blockquote>
-<blockquote class="blockquote">
-<p>A brush up/down switch that controls whether the brush is drawing or not</p>
-</blockquote>
-<blockquote class="blockquote">
-<p>A joystick to control where we are on the board.</p>
-</blockquote>
-<p>The project had two separate pieces; the MCU that collects and stores the current status of the brush (including color, thickness, and location), and the FPGA, which has an onboard RAM that stores the color left behind by the brush or simply shows the user their current location. The brush will always be orange. The MCU consistently sends SPI updates of the location of the user to the FPGA board, and the FPGA board then outputs this data onto the computer screen. When the user updates the colors of the board or decides to put the brush down, the system sends an additional SPI package with the updated color and brush up/down information.</p>
-<p>This program was extremely close to working, but likely due to a high level of power flux, the board connection between the MCU and the FPGA has been shorted. The MCU can be connected to via JLink separate from the board, but when it is plugged into the board, JLink can no longer connect.</p>
-<p>Prior to this issue, the device was able to draw x/y locations, as well as travel in a controlled manner about the screen.</p>
-<p>A video prior to this was not captured demonstrating how the brush was able to travel about the screen and leave a trail: this video, however, displays how the brush’s current color was being captured and making it over to the VGA device, and how control of whether the color was changed via the brush up/down switch was changed.</p>
-<div class="quarto-video ratio ratio-16x9"><iframe data-external="1" src="https://www.youtube.com/embed/NjBG17eC-Dw" title="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe></div>
-<p>The overview of this system can be seen in <a href="#fig-overview" class="quarto-xref">Figure&nbsp;1</a>.</p>
-<div id="fig-overview" class="quarto-float quarto-figure quarto-figure-center anchored">
-<figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-overview-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="images/block_digaram.png" class="img-fluid figure-img">
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-overview-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;1: This is the block diagram of what the system looks like from top down. Note that there are a large number of pins going into the MCU
-</figcaption>
-</figure>
-</div>
+<p>Here are links to the relevant sources if desired.</p>
+<p>Details on Proficiency and Excellency Specs:</p>
+<p>Proficiency: [] Project meets most of of the specifications as laid out in the proposal with explanations for any specifications that weren’t met.</p>
+<p>[] System operates without any major bugs (e.g., doesn’t freeze in operation)</p>
+<p>[] Document listing each spec from the proposal along with a short (e.g., 3-5 sentence) summary explaining whether the spec was met or not.</p>
+<p>[] Technical documentation (e.g., schematics, code, block diagrams) available for review at checkoff.</p>
+<p>[] Verilog HDL is functional and cleanly formatted</p>
+<p>[] MCU C code is functional and cleanly formatted</p>
+<p>Excellency: Project meets all the specifications as laid out in the proposal. Project is polished (e.g., wires are hidden, any physical interfaces are well-designed and reliable, clean user interface) Verilog code is efficient and demonstrates best coding practices (e.g., modularity, testbenches were appropriate, etc.) C code is efficient and well organized (e.g., code encapsulated in functions and custom libraries as appropriate)</p>
 
 
 
-</section>
-
-<div class="quarto-listing quarto-listing-container-default" id="listing-listing">
-<div class="list quarto-listing-default">
-<div class="quarto-post image-right" data-index="0" data-listing-file-modified-sort="1733433590288" data-listing-reading-time-sort="1" data-listing-word-count-sort="169">
-<div class="thumbnail">
-<p><a href="./documentation.html" class="no-external"></a></p><a href="./documentation.html" class="no-external">
-<div class="listing-item-img-placeholder card-img-top" >&nbsp;</div>
-</a><p><a href="./documentation.html" class="no-external"></a></p>
-</div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./documentation.html" class="no-external">Documentation</a>
-</h3>
-<div class="listing-subtitle">
-<a href="./documentation.html" class="no-external"></a>
-</div>
-<div class="listing-description">
-<a href="./documentation.html" class="no-external">Here are links to the relevant sources if desired.</a>
-</div>
-</div>
-<div class="metadata">
-<p><a href="./documentation.html" class="no-external"></a></p><a href="./documentation.html" class="no-external">
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="1" data-listing-date-sort="1731974400000" data-listing-file-modified-sort="1733433590288" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="5" data-listing-word-count-sort="827">
-<div class="thumbnail">
-<p><a href="./fpga.html" class="no-external"></a></p><a href="./fpga.html" class="no-external">
-<p class="card-img-top"><img src="fpga_images/fpgaBlockDiagram.png"  class="thumbnail-image card-img"/></p>
-</a><p><a href="./fpga.html" class="no-external"></a></p>
-</div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./fpga.html" class="no-external">FPGA</a>
-</h3>
-<div class="listing-subtitle">
-<a href="./fpga.html" class="no-external"></a>
-</div>
-<div class="listing-description">
-<a href="./fpga.html" class="no-external">The FPGA controls drives a VGA monitor and stores the image to be displayed on the monitor. It recieves SPI packets from the MCU (see MCU description for an explanation of…</a>
-</div>
-</div>
-<div class="metadata">
-<a href="./fpga.html" class="no-external">
-<div class="listing-date">
-Nov 19, 2024
-</div>
-<div class="listing-author">
-Zoe Worrall (zworrall@g.hmc.edu) &amp; Jordan Carlin (jcarlin@hmc.edu)
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="2" data-listing-date-sort="1731974400000" data-listing-file-modified-sort="1733433590292" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="4" data-listing-word-count-sort="683">
-<div class="thumbnail">
-<p><a href="./mcu.html" class="no-external"></a></p><a href="./mcu.html" class="no-external">
-<p class="card-img-top"><img src="mcu_images/mcu_pins.png"  class="thumbnail-image card-img"/></p>
-</a><p><a href="./mcu.html" class="no-external"></a></p>
-</div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./mcu.html" class="no-external">MCU</a>
-</h3>
-<div class="listing-subtitle">
-<a href="./mcu.html" class="no-external"></a>
-</div>
-<div class="listing-description">
-<a href="./mcu.html" class="no-external">The multicore processor in this project is used to keep track of the current brush state, the color state, the thickness of the brush, and whether the brush is up or down.…</a>
-</div>
-</div>
-<div class="metadata">
-<a href="./mcu.html" class="no-external">
-<div class="listing-date">
-Nov 19, 2024
-</div>
-<div class="listing-author">
-Zoe Worrall (zworrall@g.hmc.edu) &amp; Jordan Carlin (jcarlin@hmc.edu)
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="3" data-listing-file-modified-sort="1733433590296" data-listing-reading-time-sort="1" data-listing-word-count-sort="169">
-<div class="thumbnail">
-<p><a href="./team.html" class="no-external"></a></p><a href="./team.html" class="no-external">
-<div class="listing-item-img-placeholder card-img-top" >&nbsp;</div>
-</a><p><a href="./team.html" class="no-external"></a></p>
-</div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./team.html" class="no-external">Meet the Team</a>
-</h3>
-<div class="listing-subtitle">
-<a href="./team.html" class="no-external"></a>
-</div>
-<div class="listing-description">
-<a href="./team.html" class="no-external">Here are links to the relevant sources if desired.</a>
-</div>
-</div>
-<div class="metadata">
-<p><a href="./team.html" class="no-external"></a></p><a href="./team.html" class="no-external">
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="4" data-listing-file-modified-sort="1733433590296" data-listing-reading-time-sort="1" data-listing-word-count-sort="47">
-<div class="thumbnail">
-<p><a href="./results.html" class="no-external"></a></p><a href="./results.html" class="no-external">
-<div class="listing-item-img-placeholder card-img-top" >&nbsp;</div>
-</a><p><a href="./results.html" class="no-external"></a></p>
-</div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./results.html" class="no-external">Results</a>
-</h3>
-<div class="listing-subtitle">
-<a href="./results.html" class="no-external"></a>
-</div>
-<div class="listing-description">
-<a href="./results.html" class="no-external">
-<li><label><input type="checkbox">A discussion of the overall performance of the final system</label></li>
-<li><label><input type="checkbox">Any relevant simulation results or oscilloscope traces</label></li>
-<li><label><input type="checkbox">Videos or photos of the final project or any intermediate…</label></li></a>
-</div>
-</div>
-<div class="metadata">
-<p><a href="./results.html" class="no-external"></a></p><a href="./results.html" class="no-external">
-</a>
-</div>
-</div>
-</div>
-<div class="listing-no-matching d-none">
-No matching items
-</div>
-</div></main> <!-- /main -->
+</main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
