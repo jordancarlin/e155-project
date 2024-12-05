@@ -1,14 +1,5 @@
 ---
 title: "Jordan and Zoe E155 Final Project"
-listing:
-  contents:
-  - "homepage.qmd"
-  - "documentation.qmd"
-  - "fpga.qmd"
-  - "mcu.qmd"
-  - "results.qmd"
-  - "team.qmd"
-type: grid
 ---
 
 ## Brief
