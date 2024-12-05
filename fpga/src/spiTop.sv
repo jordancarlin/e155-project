@@ -2,7 +2,7 @@ module spiTop(input  logic       clk, reset, sck, sdi, cs,
               output logic       brushUpdate,
               output logic [7:0] x, y,
               output logic [2:0] newColorUpdate,
-              output logic       updateConfig, test);
+              output logic       updateConfig, updatePosition, test);
 
   logic [7:0] spiPacket1, spiPacket2;
   logic ready;
@@ -17,7 +17,7 @@ module spiTop(input  logic       clk, reset, sck, sdi, cs,
 
   spi spi(.sck(sckSync), .sdi(sdiSync), .cs(csSync), .spiPacket1(spiPacket1), .spiPacket2(spiPacket2));
   spiFSM spiFSM(.clk(clk), .reset(reset), .cs(csSync), .ready(ready));
-  spiDecode spiDecode(.ready(ready), .spiPacket1(spiPacket1), .spiPacket2(spiPacket2), .updateConfig(updateConfig), .brush(brushUpdate), .x(x), .y(y), .newColor(newColorUpdate));
+  spiDecode spiDecode(.ready(ready), .spiPacket1(spiPacket1), .spiPacket2(spiPacket2), .updateConfig(updateConfig), .updatePosition(updatePosition), .brush(brushUpdate), .x(x), .y(y), .newColor(newColorUpdate));
 
 
   logic holdTest;
@@ -26,7 +26,7 @@ module spiTop(input  logic       clk, reset, sck, sdi, cs,
     if (reset) begin
       holdTest <= 1'b0;
       counter <= '0;
-    end else if (x[0]) begin
+    end else if (updateConfig) begin
       holdTest <= 1'b1;
       counter <= 1;
     end else if (counter > 30) begin

@@ -1,7 +1,7 @@
 `include "colors.sv"
 module spiDecode(input  logic       ready,
                  input  logic [7:0] spiPacket1, spiPacket2,
-                 output logic       updateConfig,
+                 output logic       updateConfig, updatePosition,
                  output logic       brush,
                  output logic [2:0] newColor,
                  output logic [7:0] x, y);
@@ -26,15 +26,17 @@ module spiDecode(input  logic       ready,
     x = '0;
     y = '0;
     updateConfig = '0;
+    updatePosition = '0;
     case (spiType)
       CONF: begin
               brush    = spiPacket1Ready[4];
               newColor = spiPacket1Ready[2:0];
-              updateConfig = 1;
+              updateConfig = 1 & ready; // maybe without the ready
             end
       POS: begin
               x = spiPacket1Ready;
               y = spiPacket2Ready;
+              updatePosition = 1 & ready;
            end
     endcase
   end

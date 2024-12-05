@@ -10,8 +10,8 @@ module pixelStore (input  logic clk, reset,
 
   logic [9:0] rxRam, ryRam;
   logic [2:0] colorCodeRam, testColor;
-  logic [9:0] counter;
-  logic [21:0] counterBig;
+  // logic [9:0] counter;
+  // logic [21:0] counterBig;
 
   // always_ff @(posedge clk) begin
   //   if (reset) begin
@@ -34,11 +34,10 @@ module pixelStore (input  logic clk, reset,
   //     counter <= '0;
   //   end
   // end
-  logic [2:0] colorArray[16384-1:0];
 
-  initial begin
-    $readmemb("blank.mem", colorArray);
-  end
+  // Create ram
+  logic [2:0] colorArray[16384-1:0];
+  initial $readmemb("blank.mem", colorArray);
 
 
   always_comb begin
@@ -52,7 +51,7 @@ module pixelStore (input  logic clk, reset,
     // else
         // if (rx > ((HACTIVE - MAX_COORDINATE)*3/4) | ry > ((VACTIVE - MAX_COORDINATE)*3/4))
     if (ry > 128 | rx > 128)
-      colorCode = blue;
+      colorCode = outside;
     else
       colorCode = colorCodeRam;
     // else if (rx %32==0 | ry %32==0) begin
@@ -82,43 +81,41 @@ module pixelStore (input  logic clk, reset,
   //    $readmemb("testcolor.mem", colorArray);
   //  end
 
-   //initial begin
-		//$readmemb("green.mem", colorArray[{7'd55,7'd55}]);
-   //end
+  // initial $readmemb("green.mem", colorArray[{7'd55,7'd55}]);
 
-  logic re, we;
+  // logic re, we;
 
-  always_ff @(posedge clk) begin
-    if (reset) begin
-      re <= 0;
-	// counterBig <= 0;
-	// counter <= 256;
-    end else begin
-      if(re) re <=0;
-      else   re <=1;
-	// counterBig <= counterBig + 1;
-	// if (counterBig[20])
-	// 	if (counter == 383)
-	// 		counter <= 256;
-	// 	else
-	// 		counter <= counter +1;
-	// else
-	// 	counter <= counter + 0;
-	// 	  end
-    end
-  end
+  // always_ff @(posedge clk) begin
+  //   if (reset) begin
+  //     re <= 0;
+	// // counterBig <= 0;
+	// // counter <= 256;
+  //   end else begin
+  //     if(re) re <=0;
+  //     else   re <=1;
+	// // counterBig <= counterBig + 1;
+	// // if (counterBig[20])
+	// // 	if (counter == 383)
+	// // 		counter <= 256;
+	// // 	else
+	// // 		counter <= counter +1;
+	// // else
+	// // 	counter <= counter + 0;
+	// // 	  end
+  //   end
+  // end
 
-  assign we = ~re;
-  logic [13:0] adr;
-  assign adr = (wy[6:0] << 7) + {7'b0, wx[6:0]};
+  // assign we = ~re;
+  // logic [13:0] adr;
+  // assign adr = (wy[6:0] << 7) + {7'b0, wx[6:0]};
 
   always_ff @(posedge clk)
-    if (re)
+    // if (re)
 		colorCodeRam <= colorArray[{ryRam[6:0],rxRam[6:0]}];
 	//end;
 
   always_ff @(posedge clk) begin
-    colorArray[adr] <= newColor;
+    colorArray[{wy[6:0],wx[6:0]}] <= newColor;
   //colorArray[{50,50}] <= green;
   //colorArray[{49,50}] <= green;
 	//colorArray[928] <= blue;

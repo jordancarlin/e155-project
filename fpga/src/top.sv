@@ -7,21 +7,21 @@ module top(input  logic       clk_hf, reset,
 
 
   logic clk;
-  logic [7:0] x, y;
+  logic [7:0] x, y, curX, curY;
   logic [9:0] vgaX, vgaY;
   logic [3:0] r, g, b;
   logic blank_b;
   logic brush, brushUpdate;
   logic [2:0] colorCode, newColor, newColorUpdate;
-  logic updateConfig;
+  logic updateConfig, updatePosition;
 
-  logic [7:0] x2, y2;
-  assign x2 = 'b0;
-  assign y2 = 'b0;
+  // logic [7:0] x2, y2;
+  // assign x2 = 'b0;
+  // assign y2 = 'b0;
 
   // assign test = ready;
 
-  spiTop spiTop(.clk(clk), .reset(reset), .sck(sck), .sdi(sdi), .cs(cs), .brushUpdate(brushUpdate), .x(x), .y(y), .newColorUpdate(newColorUpdate), .updateConfig(updateConfig), .test(test));
+  spiTop spiTop(.clk(clk), .reset(reset), .sck(sck), .sdi(sdi), .cs(cs), .brushUpdate(brushUpdate), .x(x), .y(y), .newColorUpdate(newColorUpdate), .updateConfig(updateConfig), .updatePosition(updatePosition), .test(test));
 
   // Save brush state and color
   always_ff @(posedge clk) begin
@@ -31,6 +31,17 @@ module top(input  logic       clk_hf, reset,
     end else if (updateConfig) begin
       brush <= brushUpdate;
       newColor <= newColorUpdate;
+    end
+  end
+
+  // Save current position
+  always_ff @(posedge clk) begin
+    if (reset) begin
+      curX <= '0;
+      curY <= '0;
+    end else if (updatePosition) begin
+      curX <= x;
+      curY <= y;
     end
   end
 
@@ -46,8 +57,8 @@ module top(input  logic       clk_hf, reset,
 
   vgaController vgaController(.clk(clk), .reset(reset), .hsync(hsync), .vsync(vsync), .blank_b(blank_b), .x(vgaX), .y(vgaY));
 
-  pixelStore pixelStore(.clk(clk), .reset(reset), .brush(brush), .rx(vgaX), .ry(vgaY), .wx(x2), .wy(y2), .colorCode(colorCode), .newColor(newColor));
-  colorDecode colorDecode(.brush(brush), .colorCode(colorCode), .r(r), .g(g), .b(b));
+  pixelStore pixelStore(.clk(clk), .reset(reset), .brush(brush), .rx(vgaX), .ry(vgaY), .wx(curX), .wy(curY), .colorCode(colorCode), .newColor(newColor));
+  colorDecode colorDecode(.brush(brush), .colorCode(colorCode), .vgaX(vgaX[7:0]), .vgaY(vgaY[7:0]), .curX(curX), .curY(curY), .r(r), .g(g), .b(b));
 
   assign rBlanked = r ;//& {4{blank_b}};
   assign gBlanked = g ;//& {4{blank_b}};

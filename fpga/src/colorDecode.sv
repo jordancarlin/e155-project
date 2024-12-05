@@ -3,12 +3,14 @@
 
 module colorDecode (input  logic       brush,
                     input  logic [2:0] colorCode,
+                    input  logic [7:0] vgaX, vgaY, curX, curY,
                     output logic [3:0] r, g, b);
 
   // convert color to rgb values
   always_comb
-    // if(brush) {r, g, b} = brushRGB;
-    // else 
+    if (colorCode == outside) {r, g, b} = outsideRGB;
+    else if(vgaX == curX & vgaY == curY) {r, g, b} = brushRGB;
+    else
     case(colorCode)
       red:     {r, g, b} = redRGB;
       green:   {r, g, b} = greenRGB;
