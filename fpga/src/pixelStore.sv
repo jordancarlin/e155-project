@@ -194,7 +194,7 @@ module pixelStore (input  logic clk, reset,
                   ramWriteData = 0;
                 end
       RAM_WRITE: begin
-                  ramAdr = 14'd128;//{wy[6:0], wx[6:0]};
+                  ramAdr = {wy[6:0], wx[6:0]};
                   ramWE = brush;
                   ramWriteData = {13'b0,newColor};
                 end
