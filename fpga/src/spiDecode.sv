@@ -32,8 +32,8 @@ module spiDecode(input  logic       ready,
               updateConfig = 1;
             end
       POS: begin
-             x = spiPacket1Ready;
-             y = spiPacket2Ready;
+              x = spiPacket1Ready;
+              y = spiPacket2Ready;
            end
     endcase
   end

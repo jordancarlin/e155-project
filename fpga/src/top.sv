@@ -17,7 +17,7 @@ module top(input  logic       clk_hf, reset,
 
   // assign test = ready;
 
-  spiTop spiTop(.clk, .reset(reset), .sck, .sdi, .cs, .brushUpdate, .x, .y, .newColorUpdate, .updateConfig, .test(test));
+  spiTop spiTop(.clk(clk), .reset(reset), .sck(sck), .sdi(sdi), .cs(cs), .brushUpdate(brushUpdate), .x(x), .y(y), .newColorUpdate(newColorUpdate), .updateConfig(updateConfig), .test(test));
 
   // Save brush state and color
   always_ff @(posedge clk) begin
@@ -40,10 +40,10 @@ module top(input  logic       clk_hf, reset,
   syspll syspll(.ref_clk_i(clk_hf), .rst_n_i(~reset), .outcore_o(clk), .outglobal_o());
   /* verilator lint_on PINCONNECTEMPTY */
 
-  vgaController vgaController(.clk, .reset(reset), .hsync, .vsync, .blank_b, .x(vgaX), .y(vgaY));
+  vgaController vgaController(.clk(clk), .reset(reset), .hsync(hsync), .vsync(vsync), .blank_b(blank_b), .x(vgaX), .y(vgaY));
 
-  pixelStore pixelStore(.clk, .reset(reset), .brush, .rx(vgaX), .ry(vgaY), .wx(x), .wy(y), .colorCode, .newColor);
-  colorDecode colorDecode(.brush, .colorCode, .r, .g, .b);
+  pixelStore pixelStore(.clk(clk), .reset(reset), .brush(brush), .rx(vgaX), .ry(vgaY), .wx(x), .wy(y), .colorCode(colorCode), .newColor(newColor));
+  colorDecode colorDecode(.brush(brush), .colorCode(colorCode), .r(r), .g(g), .b(b));
 
   assign rBlanked = r ;//& {4{blank_b}};
   assign gBlanked = g ;//& {4{blank_b}};

@@ -6,14 +6,14 @@ module spiTop(input  logic       clk, reset, sck, sdi, cs,
 
   logic [7:0] spiPacket1, spiPacket2;
   logic ready;
-  logic sckSync, csSync;
+  logic sdiSync, sckSync, csSync;
 
   // synchronize inputs from MCU
-  synchronizer sck_sync(.clk, .reset(reset), .async_signal(sck), .sync_signal(sckSync));
-  synchronizer sdi_sync(.clk, .reset(reset), .async_signal(sdi), .sync_signal(sdiSync));
-  synchronizer cs_sync(.clk, .reset(reset), .async_signal(cs),  .sync_signal(csSync));
+  synchronizer sck_sync(.clk(clk), .reset(reset), .async_signal(sck), .sync_signal(sckSync));
+  synchronizer sdi_sync(.clk(clk), .reset(reset), .async_signal(sdi), .sync_signal(sdiSync));
+  synchronizer cs_sync(.clk(clk), .reset(reset), .async_signal(cs),  .sync_signal(csSync));
 
   spi spi(.sck(sckSync), .sdi(sdiSync), .cs(csSync), .spiPacket1(spiPacket1), .spiPacket2(spiPacket2));
-  spiFSM spiFSM(.clk, .reset(reset), .cs(csSync), .ready, .test(test));
-  spiDecode spiDecode(.ready, .spiPacket1, .spiPacket2, .updateConfig, .brush(brushUpdate), .x, .y, .newColor(newColorUpdate));
+  spiFSM spiFSM(.clk(clk), .reset(reset), .cs(csSync), .ready(ready), .test(test));
+  spiDecode spiDecode(.ready(ready), .spiPacket1(spiPacket1), .spiPacket2(spiPacket2), .updateConfig(updateConfig), .brush(brushUpdate), .x(x), .y(y), .newColor(newColorUpdate));
 endmodule
