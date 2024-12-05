@@ -36,9 +36,9 @@ module pixelStore (input  logic clk, reset,
   // end
   logic [2:0] colorArray[16384-1:0];
 
-    initial begin
-     $readmemb("blank.mem", colorArray);
-    end
+  initial begin
+    $readmemb("blank.mem", colorArray);
+  end
 
 
   always_comb begin
@@ -51,9 +51,9 @@ module pixelStore (input  logic clk, reset,
     //   colorCode = purple;
     // else
         // if (rx > ((HACTIVE - MAX_COORDINATE)*3/4) | ry > ((VACTIVE - MAX_COORDINATE)*3/4))
-   if (ry > 128 | rx > 128)
+    if (ry > 128 | rx > 128)
       colorCode = blue;
-   else
+    else
       colorCode = colorCodeRam;
     // else if (rx %32==0 | ry %32==0) begin
     //   if (rx == 32 | ry == 32)
@@ -110,7 +110,7 @@ module pixelStore (input  logic clk, reset,
 
   assign we = ~re;
   logic [13:0] adr;
-  assign adr = (ryRam[6:0] << 7) + rxRam[6:0];
+  assign adr = (wy[6:0] << 7) + {7'b0, wx[6:0]};
 
   always_ff @(posedge clk)
     if (re)
@@ -118,7 +118,7 @@ module pixelStore (input  logic clk, reset,
 	//end;
 
   always_ff @(posedge clk) begin
-    colorArray[adr] <= green;
+    colorArray[adr] <= newColor;
   //colorArray[{50,50}] <= green;
   //colorArray[{49,50}] <= green;
 	//colorArray[928] <= blue;

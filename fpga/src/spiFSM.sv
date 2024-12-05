@@ -1,9 +1,9 @@
 module spiFSM(input clk, reset, cs,
-              output ready, test);
+              output ready);
 
   typedef enum logic [1:0] { SPI_IDLE, SPI_HOLD, SPI_DONE } SPI_STATE;
   SPI_STATE spiState, spiNextState;
-  
+
   //logic testTemp;
   //assign test = testTemp;
 
