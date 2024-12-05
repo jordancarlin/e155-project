@@ -17,7 +17,7 @@ parameter yellowRGB = {4'hF, 4'hF, 4'h0};
 parameter purpleRGB = {4'hF, 4'h0, 4'hF};
 parameter whiteRGB = {4'hF, 4'hF, 4'hF};
 parameter eraseRGB = {4'h0, 4'h0, 4'h0};
-parameter brushRGB = {4'hF, 4'h8, 4'h0};
+parameter brushRGB = {4'hC, 4'h6, 4'h0};
 parameter outsideRGB = {4'h5, 4'h6, 4'h7};
 
 `endif // COLORS

@@ -1,5 +1,10 @@
 `include "vgaParameters.sv"
 
+// 25.175 MHz clk period = 39.772 ns
+// Screen is 800 clocks wide by 525 tall, but only 640 x 480 used
+// HSync = 1/(39.772 ns *800) = 31.470 kHz
+// Vsync = 31.474 kHz / 525 = 59.94 Hz (~60 Hz refresh rate)
+
 module vgaController (
   input  logic       clk, reset,
   output logic       hsync, vsync, blank_b,
@@ -31,19 +36,6 @@ module vgaController (
       end
     end
   end
-
-  //  always_ff @(posedge vgaClk) begin
-  //   if (reset) begin
-  //     x <= 0;
-  //     y <= 0;
-  //   end else if ($unsigned(x) == (HACTIVE + HFP)) begin
-  //     x <= 0;
-  //     y <= 0;
-  //   end else begin
-  //     x <= HACTIVE + HFP;
-  //     y <= VACTIVE + VFP;
-  //   end
-  //  end
 
   // compute sync signals (active low)
   // active when between front and back porches only

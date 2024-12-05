@@ -8,8 +8,6 @@ module spiTop(input  logic       clk, reset, sck, sdi, cs,
   logic ready;
   logic sdiSync, sckSync, csSync;
 
-  // , .test(test)
-
   // synchronize inputs from MCU
   synchronizer sck_sync(.clk(clk), .reset(reset), .async_signal(sck), .sync_signal(sckSync));
   synchronizer sdi_sync(.clk(clk), .reset(reset), .async_signal(sdi), .sync_signal(sdiSync));
@@ -20,27 +18,27 @@ module spiTop(input  logic       clk, reset, sck, sdi, cs,
   spiDecode spiDecode(.ready(ready), .spiPacket1(spiPacket1), .spiPacket2(spiPacket2), .updateConfig(updateConfig), .updatePosition(updatePosition), .brush(brushUpdate), .x(x), .y(y), .newColor(newColorUpdate));
 
 
-  logic holdTest;
-  logic [31:0] counter;
-  always_ff @(posedge clk)
-    if (reset) begin
-      holdTest <= 1'b0;
-      counter <= '0;
-    end else if (brushUpdate) begin
-      holdTest <= 1'b1;
-      counter <= 1;
-    end else if (counter > 30) begin
-      holdTest <= '0;
-      counter <= '0;
-    end else if (holdTest) begin
-      holdTest <= '1;
-      counter <= counter + 1;
-    end else begin
-      holdTest <= '0;
-      counter <= 0;
-    end
+  // logic holdTest;
+  // logic [31:0] counter;
+  // always_ff @(posedge clk)
+  //   if (reset) begin
+  //     holdTest <= 1'b0;
+  //     counter <= '0;
+  //   end else if (brushUpdate) begin
+  //     holdTest <= 1'b1;
+  //     counter <= 1;
+  //   end else if (counter > 30) begin
+  //     holdTest <= '0;
+  //     counter <= '0;
+  //   end else if (holdTest) begin
+  //     holdTest <= '1;
+  //     counter <= counter + 1;
+  //   end else begin
+  //     holdTest <= '0;
+  //     counter <= 0;
+  //   end
 
-  assign test = (holdTest);
+  // assign test = (holdTest);
 
 
 endmodule

@@ -15,12 +15,6 @@ module top(input  logic       clk_hf, reset,
   logic [2:0] colorCode, newColor, newColorUpdate;
   logic updateConfig, updatePosition;
 
-  // logic [7:0] x2, y2;
-  // assign x2 = 'b0;
-  // assign y2 = 'b0;
-
-  // assign test = ready;
-
   spiTop spiTop(.clk(clk), .reset(reset), .sck(sck), .sdi(sdi), .cs(cs), .brushUpdate(brushUpdate), .x(x), .y(y), .newColorUpdate(newColorUpdate), .updateConfig(updateConfig), .updatePosition(updatePosition), .test(test));
 
   // Save brush state and color
@@ -45,12 +39,6 @@ module top(input  logic       clk_hf, reset,
     end
   end
 
-
-  // Use a PLL to create the 25.175 MHz VGA pixel clock
-  // 25.175 MHz clk period = 39.772 ns
-  // Screen is 800 clocks wide by 525 tall, but only 640 x 480 used
-  // HSync = 1/(39.772 ns *800) = 31.470 kHz
-  // Vsync = 31.474 kHz / 525 = 59.94 Hz (~60 Hz refresh rate)
   /* verilator lint_off PINCONNECTEMPTY */
   syspll syspll(.ref_clk_i(clk_hf), .rst_n_i(~reset), .outcore_o(clk), .outglobal_o());
   /* verilator lint_on PINCONNECTEMPTY */
