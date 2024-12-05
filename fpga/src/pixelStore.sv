@@ -36,8 +36,8 @@ module pixelStore (input  logic clk, reset,
   // end
 
   // Create ram
-  logic [2:0] colorArray[16384-1:0];
-  initial $readmemb("blank.mem", colorArray);
+  // logic [2:0] colorArray[16384-1:0];
+  // initial $readmemb("blank.mem", colorArray);
 
 
   always_comb begin
@@ -109,13 +109,13 @@ module pixelStore (input  logic clk, reset,
   // logic [13:0] adr;
   // assign adr = (wy[6:0] << 7) + {7'b0, wx[6:0]};
 
-  always_ff @(posedge clk)
-    // if (re)
-		colorCodeRam <= colorArray[{ryRam[6:0],rxRam[6:0]}];
-	//end;
+  // always_ff @(posedge clk)
+  //   // if (re)
+	// 	colorCodeRam <= colorArray[{ryRam[6:0],rxRam[6:0]}];
+	// //end;
 
-  always_ff @(posedge clk) begin
-    colorArray[{wy[6:0],wx[6:0]}] <= newColor;
+  // always_ff @(posedge clk) begin
+  //   colorArray[{wy[6:0],wx[6:0]}] <= newColor;
   //colorArray[{50,50}] <= green;
   //colorArray[{49,50}] <= green;
 	//colorArray[928] <= blue;
@@ -130,7 +130,7 @@ module pixelStore (input  logic clk, reset,
 	// colorArray[counter] <= green;
 
 	//colorArray[628] <= white;
-	end
+	// end
 
   // pixelRam pixelRam(
   //   .wr_clk_i(clk),
@@ -144,4 +144,64 @@ module pixelStore (input  logic clk, reset,
   //   .wr_addr_i({ryRam[6:0], temp2}),//{wy[6:0],wx}),
   //   .rd_addr_i({ryRam[6:0],rxRam[6:0]}),
   //   .rd_data_o(colorCodeRam));
+
+
+// SPRAM
+
+  typedef enum logic { RAM_READ, RAM_WRITE } RAM_STATE;
+  RAM_STATE ramState, ramNextState;
+
+  always_ff @( posedge clk ) begin
+    if (reset) begin
+      ramState <= RAM_READ;
+    end else begin
+      ramState <= ramNextState;
+    end
+  end
+
+  always_comb begin
+    if (reset) begin
+      ramNextState = RAM_READ;
+    end else begin
+      case(ramState)
+        RAM_READ: ramNextState = RAM_WRITE;
+        RAM_WRITE: ramNextState = RAM_READ;
+        default: ramNextState = RAM_READ;
+      endcase
+    end
+  end
+
+  logic [13:0] ramAdr;
+  logic ramWE;
+  logic [15:0] ramData;
+
+  always_comb begin
+    case(ramState)
+      RAM_READ: begin
+                  ramAdr = {ryRam[6:0], rxRam[6:0]};
+                  ramWE = 0;
+                end
+      RAM_WRITE: begin
+                  ramAdr = {wy[6:0], wx[6:0]};
+                  ramWE = brush;
+                end
+    endcase
+  end
+
+
+  SP256K spramPixelArray(
+  .DI({13'b0,newColor}),
+  .AD(ramAdr),
+  .MASKWE(4'b1111),
+  .WE(ramWE),
+  .CS(1'b1),
+  .CK(clk),
+  .STDBY(1'b0),
+  .SLEEP(1'b0),
+  .PWROFF_N(1'b1),
+  .DO(ramData));
+
+  assign colorCode = ramData[2:0];
+
+
 endmodule
