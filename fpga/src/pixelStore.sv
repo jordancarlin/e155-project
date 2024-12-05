@@ -45,7 +45,9 @@ module pixelStore (input  logic clk, reset,
     //   colorCode = purple;
     // else
         // if (rx > ((HACTIVE - MAX_COORDINATE)*3/4) | ry > ((VACTIVE - MAX_COORDINATE)*3/4))
-    if (rx %50==0 | ry %50==0) begin
+    if (rx > 128 | ry > 128) 
+      colorCode = erase;
+    else if (rx %50==0 | ry %50==0) begin
       if (rx == 50 | ry == 50)
         colorCode = colorCodeRam;
       else
@@ -55,6 +57,8 @@ module pixelStore (input  logic clk, reset,
       colorCode = colorCodeRam;
   end
 
+  
+
     // if ($unsigned(rx) >= MAX_COORDINATE || $unsigned(ry) >= MAX_COORDINATE) begin
     //   colorCode = 3'b101;
     // end else begin
@@ -63,16 +67,16 @@ module pixelStore (input  logic clk, reset,
 
   logic [6:0] temp1, temp2;
   assign temp1 = 7'd50;
-  assign temp2 = 7'd125;
+  assign temp2 = 7'd75;
 
   logic [2:0] colorArray[16384-1:0];
 
   always_ff @(posedge clk)
     colorCodeRam <= colorArray[{ryRam[6:0],rxRam[6:0]}];
 
-  always_ff @( posedge clk )
-    if (1'b1)
-      colorArray[{wy[6:0], wx[6:0]}] <= newColor;
+  // always_ff @( posedge clk )
+  //   if (1'b1)
+  //     colorArray[{temp2, temp2}] <= green;
 
 
   // pixelRam pixelRam(
