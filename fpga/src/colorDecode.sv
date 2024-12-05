@@ -1,5 +1,5 @@
-`include "vgaParameters.svh"
-`include "colors.svh"
+`include "vgaParameters.sv"
+`include "colors.sv"
 
 module colorDecode (input  logic       brush,
                     input  logic [2:0] colorCode,

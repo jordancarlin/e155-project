@@ -1,5 +1,5 @@
-`include "vgaParameters.svh"
-`include "colors.svh"
+`include "vgaParameters.sv"
+`include "colors.sv"
 
 module pixelStore (input  logic clk, reset,
                    input  logic brush,
@@ -34,6 +34,7 @@ module pixelStore (input  logic clk, reset,
   //     counter <= '0;
   //   end
   // end
+  logic [2:0] colorArray[16384-1:0];
 
     initial begin
      $readmemb("blank.mem", colorArray);
@@ -77,7 +78,6 @@ module pixelStore (input  logic clk, reset,
   //assign temp1 = 7'd64;
   //assign temp2 = 7'd33;
 
-  logic [2:0] colorArray[16384-1:0];
   // initial begin
   //    $readmemb("testcolor.mem", colorArray);
   //  end

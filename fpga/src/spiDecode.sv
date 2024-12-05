@@ -1,4 +1,4 @@
-`include "colors.svh"
+`include "colors.sv"
 module spiDecode(input  logic       ready,
                  input  logic [7:0] spiPacket1, spiPacket2,
                  output logic       updateConfig,

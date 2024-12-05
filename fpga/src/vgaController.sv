@@ -1,4 +1,4 @@
-`include "vgaParameters.svh"
+`include "vgaParameters.sv"
 
 module vgaController (
   input  logic       clk, reset,

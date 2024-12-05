@@ -1,4 +1,4 @@
-`include "colors.svh"
+`include "colors.sv"
 module top(input  logic       clk_hf, reset,
            input  logic       sck, sdi, cs, // SPI from MCU
            output logic       hsync, vsync, // to VGA monitor
@@ -15,7 +15,7 @@ module top(input  logic       clk_hf, reset,
   logic [2:0] colorCode, newColor, newColorUpdate;
   logic updateConfig;
 
-  logic [9:0] x2, y2;
+  logic [7:0] x2, y2;
   assign x2 = 'b0;
   assign y2 = 'b0;
 
