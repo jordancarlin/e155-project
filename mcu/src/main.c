@@ -80,7 +80,7 @@ int main(void) {
 
   // infinite loop used to send and receive desired signals
   while(1) {
-    delay_millis(TIM2, 500);
+    delay_millis(TIM2, 1000);
 
     // read the current joystick measurement
     read_XY();
@@ -330,31 +330,31 @@ void initControls(void) {
 uint32_t read_XY(void) {
 
   uint32_t t = read_X();
-  for (int i=0; i<1000; i++);
+  for (int i=0; i<10000; i++);
   uint32_t y = read_Y();
-  for (int i=0; i<1000; i++);
+  for (int i=0; i<10000; i++);
   uint32_t x = read_brushSize();
-  for (int i=0; i<1000; i++);
+  for (int i=0; i<10000; i++);
 
   printf("x is %d, y is %d, t is %d", x, y, t);
 
-  if ((x < 50) && (currX != 0))
+  if ((x < 1160) && (currX != 0))
     currX = currX-1;
-  else if (x < 100)
+  else if (x < 1180)
     currX = currX;
   else if (currX <= 128-thickness)
     currX = currX+1;
   
-  if ((y < 100) && (currY != 0))
+  if ((y < 1920) && (currY != 0))
     currY = currY-1;
-  else if (y < 150)
+  else if (y < 1950)
     currY = currY;
   else if (currY != 128)
     currY = currY+1;
   
-  if (t < 1266)
+  if (t < 1900)
     thickness = 1;
-  else if (t < 2533)
+  else if (t < 2000)
     thickness = 2;
   else
     thickness = 3;

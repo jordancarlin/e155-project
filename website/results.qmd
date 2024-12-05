@@ -1,0 +1,8 @@
+---
+title: "Results"
+---
+  - [ ] A discussion of the overall performance of the final system
+   - [ ] Any relevant simulation results or oscilloscope traces
+   - [ ] Videos or photos of the final project or any intermediate build steps.
+
+   
