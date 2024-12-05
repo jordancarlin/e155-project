@@ -52,10 +52,10 @@ int main(void) {
     RCC->APB1ENR1 |= RCC_APB1ENR1_TIM2EN;
     initTIM(TIM2);
 
-    currX = 100;
-    currY = 100;
+    currX = 25;
+    currY = 25;
 
-    initSPI(0b111, 0, 1);
+    initSPI(0b111, 0, 0);
 
   
   // initialize the buttons/pins used for analog (joystick and potentiometer)
@@ -67,6 +67,7 @@ int main(void) {
   volatile uint32_t y = 0;
   uint32_t loc_arr[2];
   uint16_t timeVibes = 0;
+  uint32_t prevBrush = 0;
 ///////////////////////////////////////////////////////////////////////////
 
 
@@ -79,7 +80,7 @@ int main(void) {
 
   // infinite loop used to send and receive desired signals
   while(1) {
-    delay_millis(TIM2, 1000);
+    delay_millis(TIM2, 500);
 
     // read the current joystick measurement
     read_XY();
@@ -87,9 +88,11 @@ int main(void) {
 
     // for (int i=0; i<1000; i++);
 
-    printf("Color: %d\n", color_spi);
+    printf(" Color and Brush Up: %d\n", color_spi[1]);
     color_spi[1] &= ~(0b1 << BRUSHUP_BITS);
     color_spi[1] |=  (digitalRead(BRUSH_UP) << BRUSHUP_BITS);
+    if (digitalRead(BRUSH_UP) != prevBrush) just_set = 0b1;
+    prevBrush = digitalRead(BRUSH_UP);
 
     if(just_set) {
       digitalWrite(SPI_CE, 1);
@@ -106,13 +109,13 @@ int main(void) {
         loc_arr[0] = currX+i;
         loc_arr[1] = currY+j;
         
-        digitalWrite(PA7, 1);
+        digitalWrite(SPI_CE, 1);
         spiSendReceive(loc_arr[0]);
-        digitalWrite(PA7, 0);
+        digitalWrite(SPI_CE, 0);
 
-        digitalWrite(PA7, 1);
+        digitalWrite(SPI_CE, 1);
         spiSendReceive(loc_arr[1]);
-        digitalWrite(PA7, 0);
+        digitalWrite(SPI_CE, 0);
 
 
         printf("%d %d   ||   ", currX+i, currY+j);
@@ -159,6 +162,8 @@ void configureSettings(void) {
     GPIOB->PUPDR |= _VAL2FLD(GPIO_PUPDR_PUPD6,  0b10);  // Set PB 6  as pull-down
     GPIOB->PUPDR |= _VAL2FLD(GPIO_PUPDR_PUPD7,  0b10);  // Set PB 7  as pull-down
     GPIOB->PUPDR |= _VAL2FLD(GPIO_PUPDR_PUPD1,  0b10);  // Set PB 1  as pull-down
+    
+    GPIOA->PUPDR |= _VAL2FLD(GPIO_PUPDR_PUPD11,  0b10);  // Set PB 1  as pull-down
 
 
     //GPIOB->PUPDR |= _VAL2FLD(GPIO_PUPDR_PUPD3,  0b10);  // Set PB 3  as pull-down
@@ -279,7 +284,7 @@ void EXTI15_10_IRQHandler (void){ // -> not working atm
 
 void EXTI0_IRQHandler (void){
     color_spi[1] &= ~(0b111 << COLOR_BITS);
-  just_set = 1;
+    just_set = 1;
 
     // Check that the button was what triggered our interrupt
     if (EXTI->PR1 & (1 << 0)) {          // PA8 = RED
@@ -331,18 +336,20 @@ uint32_t read_XY(void) {
   uint32_t x = read_brushSize();
   for (int i=0; i<1000; i++);
 
-  if ((x < 120) && (currX != 0))
+  printf("x is %d, y is %d, t is %d", x, y, t);
+
+  if ((x < 50) && (currX != 0))
     currX = currX-1;
-  else if (x < 1000)
+  else if (x < 100)
     currX = currX;
-  else if (currX <= 200-thickness)
+  else if (currX <= 128-thickness)
     currX = currX+1;
   
   if ((y < 100) && (currY != 0))
     currY = currY-1;
-  else if (y < 1000)
+  else if (y < 150)
     currY = currY;
-  else if (currY != 200)
+  else if (currY != 128)
     currY = currY+1;
   
   if (t < 1266)
