@@ -21,15 +21,15 @@ module spiDecode(input  logic       ready,
 
   // Decode packet
   always_comb begin
-    brush = '1;
+    brush = '0;
     newColor = green;//'0;
     x = '0;
     y = '0;
     updateConfig = '0;
     case (spiType)
       CONF: begin
-              brush    = '1;//spiPacket1Ready[4];
-              newColor = green;//spiPacket1Ready[2:0];
+              brush    = spiPacket1Ready[4];
+              newColor = spiPacket1Ready[2:0];
               updateConfig = 1;
             end
       POS: begin

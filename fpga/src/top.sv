@@ -26,8 +26,8 @@ module top(input  logic       clk_hf, reset,
   // Save brush state and color
   always_ff @(posedge clk) begin
     if (reset) begin
-      brush <= 1;
-      newColor <= green;
+      brush <= brushUpdate;
+      newColor <= newColorUpdate;
     end else if (updateConfig) begin
       brush <= brushUpdate;
       newColor <= newColorUpdate;
