@@ -34,7 +34,7 @@ module pixelStore (input  logic clk, reset,
   //     counter <= '0;
   //   end
   // end
-  
+
     initial begin
      $readmemb("blank.mem", colorArray);
     end
@@ -83,19 +83,19 @@ module pixelStore (input  logic clk, reset,
   //  end
 
    //initial begin
-		//$readmemb("green.mem", colorArray[{7'd55,7'd55}]); 
+		//$readmemb("green.mem", colorArray[{7'd55,7'd55}]);
    //end
 
   logic re, we;
 
   always_ff @(posedge clk) begin
     if (reset) begin
-      re <= 0; 
+      re <= 0;
 	// counterBig <= 0;
 	// counter <= 256;
-   end else begin
+    end else begin
       if(re) re <=0;
-	  else   re <=1;  
+      else   re <=1;
 	// counterBig <= counterBig + 1;
 	// if (counterBig[20])
 	// 	if (counter == 383)
@@ -105,6 +105,7 @@ module pixelStore (input  logic clk, reset,
 	// else
 	// 	counter <= counter + 0;
 	// 	  end
+    end
   end
 
   assign we = ~re;
@@ -115,7 +116,7 @@ module pixelStore (input  logic clk, reset,
     if (re)
 		colorCodeRam <= colorArray[{ryRam[6:0],rxRam[6:0]}];
 	//end;
-  
+
   always_ff @(posedge clk) begin
     colorArray[adr] <= green;
   //colorArray[{50,50}] <= green;
@@ -130,7 +131,7 @@ module pixelStore (input  logic clk, reset,
 	//colorArray[257] <= purple;
 	//colorArray[384] <= green;
 	// colorArray[counter] <= green;
-		
+
 	//colorArray[628] <= white;
 	end
 
