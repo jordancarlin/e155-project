@@ -77,20 +77,21 @@ int main(void) {
   just_set = 0;
 ////////////////////////////////////////////////////////////////////////
 
+  uint32_t counter = 0;
 
   // infinite loop used to send and receive desired signals
   while(1) {
-    delay_millis(TIM2, 1000);
+    delay_millis(TIM2, 10);
 
     // read the current joystick measurement
     read_XY();
-
 
     // for (int i=0; i<1000; i++);
 
     printf(" Color and Brush Up: %d\n", color_spi[1]);
     color_spi[1] &= ~(0b1 << BRUSHUP_BITS);
-    color_spi[1] |=  (digitalRead(BRUSH_UP) << BRUSHUP_BITS);
+    color_spi[1] |= (digitalRead(BRUSH_UP) << BRUSHUP_BITS);
+
     if (digitalRead(BRUSH_UP) != prevBrush) just_set = 0b1;
     prevBrush = digitalRead(BRUSH_UP);
 
@@ -101,7 +102,31 @@ int main(void) {
       digitalWrite(SPI_CE, 0);
     }
 
-    printf("Thickness: %d\n", thickness);
+    if (counter > 70) { counter = 0; }
+    counter = counter+1;
+    printf("counter %d\n", counter);
+
+    color_spi[1] &= ~(0b111 << COLOR_BITS);
+    switch(counter/10) {
+      case(0):
+        color_spi[1] |=  (ERASE_BITS << COLOR_BITS); break;
+      case(1):
+        color_spi[1] |=  (WHITE_BITS << COLOR_BITS); break;
+      case(2):
+        color_spi[1] |=  (RED_BITS << COLOR_BITS); break;
+      case(3):
+        color_spi[1] |=  (GREEN_BITS << COLOR_BITS); break;
+      case(4):
+        color_spi[1] |=  (BLUE_BITS << COLOR_BITS); break;
+      case(5):
+        color_spi[1] |=  (YELLOW_BITS << COLOR_BITS); break;
+      case(6):
+        color_spi[1] |=  (PURPLE_BITS << COLOR_BITS); break;
+      default:
+        color_spi[1] |=  (ERASE_BITS << COLOR_BITS); break;
+    }
+
+    // printf("Thickness: %d\n", thickness);
 
     for (int i=0; i<thickness; i++) {
       for (int j=0; j<thickness; j++) {
@@ -111,9 +136,6 @@ int main(void) {
         
         digitalWrite(SPI_CE, 1);
         spiSendReceive(loc_arr[0]);
-        digitalWrite(SPI_CE, 0);
-
-        digitalWrite(SPI_CE, 1);
         spiSendReceive(loc_arr[1]);
         digitalWrite(SPI_CE, 0);
 
@@ -124,9 +146,9 @@ int main(void) {
     }
     printf("\n\n\n");
 
-    // printf("X: %d, Y: %d\n\n", currX, currY);
+    //printf("X: %d, Y: %d\n\n", currX, currY);
 
-    just_set = 0;
+    just_set = 1;
   }
 
 }
@@ -225,7 +247,7 @@ void configureSettings(void) {
 *  The Handler that is called when the button is pressed
 */
 void EXTI9_5_IRQHandler (void){
-    color_spi[1] &= ~(0b111 << COLOR_BITS);
+    //color_spi[1] &= ~(0b111 << COLOR_BITS);
   just_set = 1;
 
     // Check that the button was what triggered our interrupt
@@ -233,35 +255,35 @@ void EXTI9_5_IRQHandler (void){
         // If so, clear the interrupt (NB: Write 1 to reset)
 
         EXTI->PR1 |= (1 << _FLD2VAL(EXTI_PR1_PIF8, 1));
-        color_spi[1] &= ~(0b111 << COLOR_BITS);
-        color_spi[1] |=  (RED_BITS << COLOR_BITS);
+        //color_spi[1] &= ~(0b111 << COLOR_BITS);
+        //color_spi[1] |=  (RED_BITS << COLOR_BITS);
 
     } else if (EXTI->PR1 & (1 << 9)) {    // PA9 = GREEN
 
         // If so, clear the interrupt (NB: Write 1 to reset)
         EXTI->PR1 |= (1 << _FLD2VAL(EXTI_PR1_PIF9, 1));
-        color_spi[1] &= ~(0b111 << COLOR_BITS);
-        color_spi[1] |=  (GREEN_BITS << COLOR_BITS);
+        //color_spi[1] &= ~(0b111 << COLOR_BITS);
+        //color_spi[1] |=  (GREEN_BITS << COLOR_BITS);
 
     } else if (EXTI->PR1 & (1 << 6)) {    // PB6 = PURPLE
 
         // If so, clear the interrupt (NB: Write 1 to reset)
         EXTI->PR1 |= (1 << _FLD2VAL(EXTI_PR1_PIF6, 1));
-        color_spi[1] &= ~(0b111 << COLOR_BITS);
-        color_spi[1] |=  (PURPLE_BITS << COLOR_BITS);
+        //color_spi[1] &= ~(0b111 << COLOR_BITS);
+        //color_spi[1] |=  (PURPLE_BITS << COLOR_BITS);
 
     } else if (EXTI->PR1 & (1 << 7)) {    // PB7 = ERASE
 
         // If so, clear the interrupt (NB: Write 1 to reset)
         EXTI->PR1 |= (1 << _FLD2VAL(EXTI_PR1_PIF7, 1));
-        color_spi[1] &= ~(0b111 << COLOR_BITS);
-        color_spi[1] |=  (ERASE_BITS << COLOR_BITS);
+        //color_spi[1] &= ~(0b111 << COLOR_BITS);
+        //color_spi[1] |=  (ERASE_BITS << COLOR_BITS);
 
     } 
 }
 
 void EXTI15_10_IRQHandler (void){ // -> not working atm
-    color_spi[1] &= ~(0b111 << COLOR_BITS);
+    //color_spi[1] &= ~(0b111 << COLOR_BITS);
   just_set = 1;
 
     // Check that the button was what triggered our interrupt
@@ -269,21 +291,21 @@ void EXTI15_10_IRQHandler (void){ // -> not working atm
 
         // If so, clear the interrupt (NB: Write 1 to reset)
         EXTI->PR1 |= (1 << _FLD2VAL(EXTI_PR1_PIF10, 1));
-        color_spi[1] &= ~(0b111 << COLOR_BITS);
-        color_spi[1] |=  (BLUE_BITS << COLOR_BITS);
+        //color_spi[1] &= ~(0b111 << COLOR_BITS);
+        //color_spi[1] |=  (BLUE_BITS << COLOR_BITS);
 
     } else if (EXTI->PR1 & (1 << 12)) {    // PA12 = YELLOW
 
         // If so, clear the interrupt (NB: Write 1 to reset)
         EXTI->PR1 |= (1 << _FLD2VAL(EXTI_PR1_PIF12, 1));
-        color_spi[1] &= ~(0b111 << COLOR_BITS);
-        color_spi[1] |=  (YELLOW_BITS << COLOR_BITS);
+        //color_spi[1] &= ~(0b111 << COLOR_BITS);
+        //color_spi[1] |=  (YELLOW_BITS << COLOR_BITS);
 
     }
 }
 
 void EXTI0_IRQHandler (void){
-    color_spi[1] &= ~(0b111 << COLOR_BITS);
+    //color_spi[1] &= ~(0b111 << COLOR_BITS);
     just_set = 1;
 
     // Check that the button was what triggered our interrupt
@@ -291,8 +313,8 @@ void EXTI0_IRQHandler (void){
 
         // If so, clear the interrupt (NB: Write 1 to reset)
         EXTI->PR1 |= (1 << _FLD2VAL(EXTI_PR1_PIF0, 1));
-        color_spi[1] &= ~(0b111 << COLOR_BITS);
-        color_spi[1] |=  (WHITE_BITS << COLOR_BITS);
+        //color_spi[1] &= ~(0b111 << COLOR_BITS);
+        //color_spi[1] |=  (WHITE_BITS << COLOR_BITS);
 
     } 
 }
@@ -329,35 +351,42 @@ void initControls(void) {
 */
 uint32_t read_XY(void) {
 
-  uint32_t t = read_X();
-  for (int i=0; i<10000; i++);
-  uint32_t y = read_Y();
-  for (int i=0; i<10000; i++);
-  uint32_t x = read_brushSize();
-  for (int i=0; i<10000; i++);
+/**
+  uint32_t x = read_X();
+  for (int i=0; i<1000; i++);
+
+  uint32_t t = read_Y();
+  for (int i=0; i<1000; i++);
+
+  uint32_t y = read_brushSize();
+  for (int i=0; i<1000; i++);
+  */
+
+  uint32_t x = rand()/1000;
+  uint32_t y = rand()/1000;
+  uint32_t t = rand()/1000;
 
   printf("x is %d, y is %d, t is %d", x, y, t);
 
-  if ((x < 1160) && (currX != 0))
+  if ((x < t) && (currX != 0))
     currX = currX-1;
-  else if (x < 1180)
-    currX = currX;
-  else if (currX <= 128-thickness)
+  else
     currX = currX+1;
   
-  if ((y < 1920) && (currY != 0))
+  if ((y < t) && (currY != 0))
     currY = currY-1;
-  else if (y < 1950)
-    currY = currY;
-  else if (currY != 128)
+  else
     currY = currY+1;
   
-  if (t < 1900)
+  /**
+  if (t < 15)
     thickness = 1;
-  else if (t < 2000)
+  else if (t < 25)
     thickness = 2;
   else
     thickness = 3;
+    */
+    thickness = 2;
 
 
   return 1;
@@ -373,7 +402,7 @@ uint32_t read_X(void) {
   ADC1->CR |= ADC_CR_ADSTART;
   while (!(ADC1->ISR & ADC_ISR_EOC));
 
-  for(int i=0; i<1000; i++);
+  for(int i=0; i<10000; i++);
   stopReadOnce(ADC1_SQ1_PA5);
 
   return ADC1->DR;
@@ -385,11 +414,11 @@ uint32_t read_X(void) {
 uint32_t read_Y(void) {
 
   initReadOnce(ADC1_SQ1_PA6);
-  ADC1->CR |= ADC_CR_ADSTART;
 
+  ADC1->CR |= ADC_CR_ADSTART;
   while (!(ADC1->ISR & ADC_ISR_EOC));
 
-  for(int i=0; i<1000; i++);
+  for(int i=0; i<10000; i++);
   stopReadOnce(ADC1_SQ1_PA6);
 
   return ADC1->DR;
@@ -404,7 +433,7 @@ uint32_t read_brushSize(void) {
 
   while (!(ADC1->ISR & ADC_ISR_EOC));
 
-  for(int i=0; i<1000; i++);
+  for(int i=0; i<10000; i++);
   stopReadOnce(ADC1_SQ1_PA0);
 
   return ADC1->DR;

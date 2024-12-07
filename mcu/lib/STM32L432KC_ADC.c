@@ -88,6 +88,8 @@ void configureADC(void) {
 void initReadOnce(uint32_t in_pin) {
   ADC1->SQR1 &= ~ADC_SQR1_L;
 
+  for(int i=0; i<10;i++);
+
   ADC1->SQR1 |= in_pin << ADC_SQR1_SQ1_Pos; // ADC_PA5 -> ADC1_IN10
 }
 
@@ -96,6 +98,8 @@ void initReadOnce(uint32_t in_pin) {
 */
 void stopReadOnce(uint32_t in_pin) {
   ADC1->SQR1 &= ~ADC_SQR1_L;
+
+  for(int i=0; i<10; i++);
 
   ADC1->SQR1 &= !(in_pin << ADC_SQR1_SQ1_Pos); // ADC_PA5 -> ADC1_IN10
 }
