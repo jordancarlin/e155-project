@@ -154,6 +154,11 @@ body.nav-fixed {
     font-family: "Times New Roman";
   }
 
+  h2.nav-link{
+    font-family: "Times New Roman";
+    color: white;
+  }
+
   /*-- nav footer styles --*/
 
   .nav-footer {
