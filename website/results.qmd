@@ -9,25 +9,43 @@ title: "Results"
 
 We knew that there were two potential SPI packets that could be received: either a color bit packet, or a location packet. The color packet was encoded such that it contained configuration bits 111 at the beginning, which could never be reached by x or y since they exceeded the array range being used (@fig-colorSPI and @fig-xySPI).
 
-:::{#fig-colorSPI}
+:::{.grid}
+
+:::{.g-col-6 #fig-colorSPI}
 ![](mcu_images/color_spi.png)
 
 The bits of color SPI package.
 :::
 
-:::{#fig-xySPI}
+:::{.g-col-6 #fig-xySPI}
 ![](mcu_images/loc_spi.png)
 
 The bits of the location SPI package.
 :::
 
+:::
+
 The system was confirmed to be transmitting via SPI early on during the Mid-semester check-in:
+
+:::{.grid}
+
+:::{.g-col-4}
 
 ![](mcu_images/1_locs.png)
 
+:::
+
+:::{.g-col-4}
+
 ![](mcu_images/4_locs.png)
 
+:::
+
+:::{.g-col-4}
 ![](mcu_images/9_locs.png)
+:::
+
+:::
 
 We needed to confirm that the FPGA was properly reaching its desired states based on the incoming SPI packets. This was confirmed using oscilloscope probes attached to the incoming SCK, MOSI, and CS channels.
 
@@ -35,14 +53,22 @@ In a method similar to that seen in the following images, various states that th
 
 All channels are encoded such that Channel 1 is CS, Channel 2 is MOSI, and Channel 3 is SCK.
 
+:::{.grid}
+
+
+:::{.g-col-6 #fig-VGAcheck}
 ![](images/DS1Z_QuickPrint4%20copy.png)
 
 *This image confirms that the SPI packets are carrying accurate data (i.e. the location of the brush) to the FPGA.*
+:::
 
+:::{.g-col-6 #fig-VGAcheck2}
 ![](images/DS1Z_QuickPrint6%20copy.png)
 
 *This image uses channel 4, the dark blue channel, to confirm that we were properly reaching a "ready" state within our FSM block diagram. This was set to be true based on the MOSI signal, which it can be seen to match the MOSI signal on Channel 2*
+:::
 
+:::
 
 ## VGA
 
