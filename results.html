@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Results – Jordan and Zoe E155 Final Project</title>
+<title>Results – Micro P(ictionary)</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -38,7 +38,7 @@ ul.task-list li input[type="checkbox"] {
 <link href="site_libs/quarto-html/quarto-syntax-highlighting-e26003cea8cd680ca0c55a263523d882.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-1e11af2c615e4fa5fc28a0535ba6a826.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-6cb4c8ba4a41b34b19a2400ed1fc3a65.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script src="site_libs/quarto-contrib/videojs/video.min.js"></script>
 <link href="site_libs/quarto-contrib/videojs/video-js.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
@@ -82,7 +82,7 @@ ul.task-list li input[type="checkbox"] {
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
     <a class="navbar-brand" href="./index.html">
-    <span class="navbar-title">Jordan and Zoe E155 Final Project</span>
+    <span class="navbar-title">Micro P(ictionary)</span>
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
@@ -172,7 +172,8 @@ ul.task-list li input[type="checkbox"] {
 <section id="spi" class="level2">
 <h2 class="anchored" data-anchor-id="spi">SPI</h2>
 <p>We knew that there were two potential SPI packets that could be received: either a color bit packet, or a location packet. The color packet was encoded such that it contained configuration bits 111 at the beginning, which could never be reached by x or y since they exceeded the array range being used (<a href="#fig-colorSPI" class="quarto-xref">Figure&nbsp;1</a> and <a href="#fig-xySPI" class="quarto-xref">Figure&nbsp;2</a>).</p>
-<div id="fig-colorSPI" class="quarto-float quarto-figure quarto-figure-center anchored">
+<div class="grid">
+<div id="fig-colorSPI" class="g-col-6 quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-colorSPI-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="mcu_images/color_spi.png" class="img-fluid figure-img">
@@ -182,7 +183,7 @@ Figure&nbsp;1: The bits of color SPI package.
 </figcaption>
 </figure>
 </div>
-<div id="fig-xySPI" class="quarto-float quarto-figure quarto-figure-center anchored">
+<div id="fig-xySPI" class="g-col-6 quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-xySPI-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="mcu_images/loc_spi.png" class="img-fluid figure-img">
@@ -192,29 +193,56 @@ Figure&nbsp;2: The bits of the location SPI package.
 </figcaption>
 </figure>
 </div>
+</div>
 <p>The system was confirmed to be transmitting via SPI early on during the Mid-semester check-in:</p>
+<div class="grid">
+<div class="g-col-4">
 <p><img src="mcu_images/1_locs.png" class="img-fluid"></p>
+</div>
+<div class="g-col-4">
 <p><img src="mcu_images/4_locs.png" class="img-fluid"></p>
+</div>
+<div class="g-col-4">
 <p><img src="mcu_images/9_locs.png" class="img-fluid"></p>
+</div>
+</div>
 <p>We needed to confirm that the FPGA was properly reaching its desired states based on the incoming SPI packets. This was confirmed using oscilloscope probes attached to the incoming SCK, MOSI, and CS channels.</p>
 <p>In a method similar to that seen in the following images, various states that the FPGA was able to decipher and use to define its state variables.</p>
 <p>All channels are encoded such that Channel 1 is CS, Channel 2 is MOSI, and Channel 3 is SCK.</p>
-<p><img src="images/DS1Z_QuickPrint4 copy.png" class="img-fluid"></p>
-<p><em>This image confirms that the SPI packets are carrying accurate data (i.e.&nbsp;the location of the brush) to the FPGA.</em></p>
-<p><img src="images/DS1Z_QuickPrint6 copy.png" class="img-fluid"></p>
-<p><em>This image uses channel 4, the dark blue channel, to confirm that we were properly reaching a “ready” state within our FSM block diagram. This was set to be true based on the MOSI signal, which it can be seen to match the MOSI signal on Channel 2</em></p>
+<div class="grid">
+<div id="fig-VGAcheck" class="g-col-6 quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-VGAcheck-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/DS1Z_QuickPrint4 copy.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-VGAcheck-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3: <em>This image confirms that the SPI packets are carrying accurate data (i.e.&nbsp;the location of the brush) to the FPGA.</em>
+</figcaption>
+</figure>
+</div>
+<div id="fig-VGAcheck2" class="g-col-6 quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-VGAcheck2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/DS1Z_QuickPrint6 copy.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-VGAcheck2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4: <em>This image uses channel 4, the dark blue channel, to confirm that we were properly reaching a “ready” state within our FSM block diagram. This was set to be true based on the MOSI signal, which it can be seen to match the MOSI signal on Channel 2</em>
+</figcaption>
+</figure>
+</div>
+</div>
 </section>
 <section id="vga" class="level2">
 <h2 class="anchored" data-anchor-id="vga">VGA</h2>
 <p>The final system was able to put the brush up and down, change its color, and move about the screen. Implementation was still being made to change the bit size using the potentiometer, however this was halted by the MCU no longer being able to connect to JLink when connected to the Adapter board.</p>
-<p>The final system is able to consistently update and change depending on the color and pin inputs. As can be seen in <a href="#fig-workingImage" class="quarto-xref">Figure&nbsp;3</a>, the system was able to create and draw the systems.</p>
+<p>The final system is able to consistently update and change depending on the color and pin inputs. As can be seen in <a href="#fig-workingImage" class="quarto-xref">Figure&nbsp;5</a>, the system was able to create and draw the systems.</p>
 <div id="fig-workingImage" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-workingImage-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="images/working_drawing.png" class="img-fluid figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-workingImage-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;3: An image depicting our system creating drawings on the screen via the MCU to FPGA communication.
+Figure&nbsp;5: An image depicting our system creating drawings on the screen via the MCU to FPGA communication.
 </figcaption>
 </figure>
 </div>
