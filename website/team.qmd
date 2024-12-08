@@ -4,11 +4,63 @@ title: "Meet the Team"
 
 Jordan Carlin is a junior engineering major at Harvey Mudd College interested in computer engineering and digital design. He is currently doing research as a Clay-Wolkin Fellow at Harvey Mudd's VLSI lab working on a superscalar implementation of the open-source [OpenHW-Group CVW RISC-V SoC](https://github.com/openhwgroup/cvw). He has experience with SystemVerilog and RISC-V assembly and would love to continue growing his computer engineering skills. He's always excited to learn new things and would be happy to connect with you!
 
+:::{.grid n-cols=3 n-rows=2}
 
+:::{.g-col-3}
+
+:::
+
+:::{.g-col-6}
 ![](./images/jordan.jpg)
+
+:::
+
+:::{.g-col-3}
+
+:::
+
+:::{.g-col-3}
+
+[LinkedIn](https://www.linkedin.com/in/jordanmcarlin)
+:::
+
+:::{.g-col-3}
+[Github](https://github.com/jordancarlin)
+:::
+
+:::{.g-col-3}
+[Website](https://jordancarlin.github.io/hmc-e155-portfolio/)
+:::
+
+:::{.g-col-3}
+[OpenHW LinkedIn](https://github.com/openhwgroup/cvw)
+:::
+
+:::
 
 Mae g’ovannen! My name is Zoe Worrall, and I am currently a senior Engineering Major at Harvey Mudd College.
 
 Although I have experience with a broad range of engineering topics including materials engineering, continuum mechanics, and manufacturing, my primary interests lie in signal processing, radio frequency, and optical systems.
 
+:::{.grid n-cols=3 n-rows=2}
+
+:::{.g-col-3}
+
+:::
+
+:::{.g-col-6}
 ![](./images/zoe.jpg)
+
+:::
+
+:::{.g-col-3}
+
+:::
+
+:::{.g-col-4}
+
+https://zoe-worrall.github.io/e155_labs/projects/e-155_website/blog.html
+
+:::
+
+:::
