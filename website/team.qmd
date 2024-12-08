@@ -4,36 +4,61 @@ title: "Meet the Team"
 
 Jordan Carlin is a junior engineering major at Harvey Mudd College interested in computer engineering and digital design. He is currently doing research as a Clay-Wolkin Fellow at Harvey Mudd's VLSI lab working on a superscalar implementation of the open-source [OpenHW-Group CVW RISC-V SoC](https://github.com/openhwgroup/cvw). He has experience with SystemVerilog and RISC-V assembly and would love to continue growing his computer engineering skills. He's always excited to learn new things and would be happy to connect with you!
 
-:::{.grid n-cols=3 n-rows=2}
+:::{.grid n-cols=3}
 
-:::{.g-col-3}
-
-:::
-
-:::{.g-col-6}
-![](./images/jordan.jpg)
+:::{.g-col-4}
 
 :::
 
-:::{.g-col-3}
+:::{.g-col-4}
+![](./images/jordan_round.png){image-shape="round"}
 
 :::
 
-:::{.g-col-3}
+:::{.g-col-4}
 
-[LinkedIn](https://www.linkedin.com/in/jordanmcarlin)
 :::
 
-:::{.g-col-3}
-[Github](https://github.com/jordancarlin)
 :::
 
-:::{.g-col-3}
-[Website](https://jordancarlin.github.io/hmc-e155-portfolio/)
+
+:::{.grid n-cols=8}
+
+:::{.g-col-2}
+
 :::
 
-:::{.g-col-3}
-[OpenHW LinkedIn](https://github.com/openhwgroup/cvw)
+:::{.g-col-2}
+
+:::
+
+:::{.g-col-1}
+
+![](images/linkedin-logo-nobg.png){width=60%}\
+<a href="https://www.linkedin.com/in/jordanmcarlin" style="color: rgb(237, 56, 140); font-size: x-small;"> LinkedIn </a>
+
+:::
+
+:::{.g-col-1}
+![](images/github-logo-nobg.png){width=50%}\
+<a href="https://github.com/jordancarlin" style="color: rgb(237, 56, 140); font-size: x-small;"> GitHub </a>
+
+:::
+
+:::{.g-col-1}
+<a href="https://jordancarlin.github.io/hmc-e155-portfolio/" style="color: rgb(237, 56, 140); font-size: x-small;"> Website </a>
+:::
+
+:::{.g-col-1}
+<a href="(https://github.com/openhwgroup/cvw" style="color: rgb(237, 56, 140); font-size: x-small;"> OpenHW LinkedIn </a>
+:::
+
+:::{.g-col-2}
+
+:::
+
+:::{.g-col-2}
+
 :::
 
 :::
@@ -42,24 +67,59 @@ Mae g’ovannen! My name is Zoe Worrall, and I am currently a senior Engineering
 
 Although I have experience with a broad range of engineering topics including materials engineering, continuum mechanics, and manufacturing, my primary interests lie in signal processing, radio frequency, and optical systems.
 
-:::{.grid n-cols=3 n-rows=2}
+:::{.grid n-cols=3 fig-align="center"}
 
-:::{.g-col-3}
-
-:::
-
-:::{.g-col-6}
-![](./images/zoe.jpg)
+:::{.g-col-4}
 
 :::
 
-:::{.g-col-3}
+:::{.g-col-4}
+![](./images/zoe_round.png)
 
 :::
 
 :::{.g-col-4}
 
-https://zoe-worrall.github.io/e155_labs/projects/e-155_website/blog.html
+:::
+
+:::
+
+
+
+:::{.grid n-cols=7}
+
+:::{.g-col-2}
+
+:::
+
+:::{.g-col-2}
+
+:::
+
+:::{.g-col-2}
+
+![](images/zoe_logo.png){width=30%}\
+<a href="https://zoe-worrall.github.io/e155_labs/projects/e-155_website/blog.html" style="color: rgb(237, 56, 140); font-size: x-small;"> Micro P's Website </a>
+
+:::
+
+
+:::{.g-col-1}
+![](images/linkedin-logo-nobg.png){width=60%}\
+<a href="https://www.linkedin.com/in/zoeworrall" style="color: rgb(237, 56, 140); font-size: x-small;"> LinkedIn </a>
+
+:::
+
+:::{.g-col-1}
+![](images/github-logo-nobg.png){width=50%}\
+<a href="https://github.com/zoe-worrall" style="color: rgb(237, 56, 140); font-size: x-small;"> GitHub </a>
+:::
+
+:::{.g-col-2}
+
+:::
+
+:::{.g-col-2}
 
 :::
 
