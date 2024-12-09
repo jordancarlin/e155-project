@@ -15,11 +15,12 @@ website:
       - href: mcu.qmd
         text: MCU Design
       - href: fpga.qmd
-        text: FGPA Design
+        text: FPGA Design
       - href: appendices.qmd
         text: Appendices
       - href: team.qmd
         text: Team
+    logo: images/pictionaryLogo.png
 
 format:
   html:
