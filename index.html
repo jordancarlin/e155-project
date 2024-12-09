@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Jordan and Zoe E155 Final Project – Micro P(ictionary)</title>
+<title>Micro P(ictionary)</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -79,6 +79,9 @@ ul.task-list li input[type="checkbox"] {
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
+    <a href="./index.html" class="navbar-brand navbar-brand-logo">
+    <img src="./images/pictionaryLogo.png" alt="" class="navbar-logo">
+    </a>
     <a class="navbar-brand" href="./index.html">
     <span class="navbar-title">Micro P(ictionary)</span>
     </a>
@@ -107,7 +110,7 @@ ul.task-list li input[type="checkbox"] {
   </li>  
   <li class="nav-item">
     <a class="nav-link" href="./fpga.html"> 
-<span class="menu-text">FGPA Design</span></a>
+<span class="menu-text">FPGA Design</span></a>
   </li>  
   <li class="nav-item">
     <a class="nav-link" href="./appendices.html"> 
@@ -143,7 +146,7 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Jordan and Zoe E155 Final Project</h1>
+<h1 class="title">Micro P(ictionary)</h1>
 </div>
 
 
@@ -163,11 +166,57 @@ ul.task-list li input[type="checkbox"] {
 <section id="brief" class="level2">
 <h2 class="anchored" data-anchor-id="brief">Brief</h2>
 <p>Welcome to <strong>MicroP(ictionary)</strong>!</p>
-<p>This design project sought to create a Pictionary device that would allow users to draw whatever color they see fit on a screen.</p>
+<p>This design project sought to create a Pictionary device using an Upduino FPGA board and an STM432KCU4 MCU board. Pictionary is a game that allows a user to control an on screen brush to “draw” on a screen. The user is able to manipulate the brush’s size, color, and location in order to draw whatever designs they want on a screen. To provide this for the users, this project supplied a system of seven buttons for color, a potentiometer to control the size of the brush, a switch to control whether the brush was up or down, and a joystick to control the brush’s location on the screen.</p>
+<p>This system uses an MCU and an FPGA board to control a VGA monitor. The MCU reads 11 real-time inputs from a user, including both analog and digital signals, and sends SPI packages to the FPGA board. The FPGA board interprets the incoming SPI packages, and uses them to manipulate a brush on the VGA screen using a set of digital to analog converters to control red, green, and blue signals.</p>
+<div id="fig-overview" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-overview-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/simple_block_diag.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-overview-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: This is the block diagram of what the system looks like from top down.
+</figcaption>
+</figure>
+</div>
+<p>The device was capable of drawing on the screen by the end of the project time limit. It had also previously demonstrated its ability to draw, and control if the brush was up or down, using the inputs of the MCU controller. This was captured in a photograph (<a href="#fig-workingModel" class="quarto-xref">Figure&nbsp;2</a>)</p>
+<div id="fig-workingModel" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-workingModel-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/working_drawing.png" class="img-fluid figure-img" style="width:50.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-workingModel-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2: A photograph captured of the working <strong>Micro P(ictionary)</strong> program. The user was able to pick the brush up and place it down, change color and size of the brush, and move the brush to the desired locations on the screen.
+</figcaption>
+</figure>
+</div>
+<p>However, roughly an hour before check off, while trying to move analog parts and reconfigure them to prevent some of the noise being seen in the circuit, part of the board was shorted out. As a result, last minute changes needed to be made in order to demonstrate the screen to others. This code removed the ability to input data into the MCU, and randomly generated signals which were then sent to the VGA display using the same encoding as would have applied for analog circuitry. This was dubbed a “glorified screensaver” for observers.</p>
+<div id="fig-workingVideo" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-workingVideo-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-video"><iframe data-external="1" src="https://www.youtube.com/embed/o9HCQyT40M4" width="500" height="300" title="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe></div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-workingVideo-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3: Video of the glorified screen saver while running for Demo Day. Uses the same communication and decoding methods as the initial function, but there is a randomly generated set of code being sent on the MCU.
+</figcaption>
+</figure>
+</div>
+<p>The Github included in this report has two branches: the main, which contains the current FPGA and MCU code for what was used in order to get the device actually functioning before the board was shorted, and a side branch that demonstrates what was shown during the device’s Demo Day.</p>
+<p>This report will detail</p>
+<ul>
+<li>Details on the layout of the MCU<br>
+</li>
+<li>Details on the layout of the FPGA<br>
+</li>
+<li>Details on the hardware<br>
+</li>
+<li>Details on results<br>
+</li>
+<li>Details on the team behind this project</li>
+</ul>
 </section>
 <section id="abstract" class="level2">
 <h2 class="anchored" data-anchor-id="abstract">Abstract</h2>
-<p>MicroP(ictionary) is a game for lab students that want to play online, but have to play using hardware instead. The goal of this project was to make a Pictionary game with the following specs:</p>
+<p>MicroP(ictionary) is a game for lab students that want to play online, but have to play using hardware instead. The goal of this project was to make a <strong>Micro P(ictionary)</strong> game with the following specs:</p>
 <blockquote class="blockquote">
 <p>7 Buttons to control 7 different colors</p>
 </blockquote>
@@ -186,16 +235,6 @@ ul.task-list li input[type="checkbox"] {
 <p>A video prior to this was not captured demonstrating how the brush was able to travel about the screen and leave a trail: this video, however, displays how the brush’s current color was being captured and making it over to the VGA device, and how control of whether the color was changed via the brush up/down switch was changed.</p>
 <div class="quarto-video ratio ratio-16x9"><iframe data-external="1" src="https://www.youtube.com/embed/NjBG17eC-Dw" title="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe></div>
 <p>The overview of this system can be seen in <a href="#fig-overview" class="quarto-xref">Figure&nbsp;1</a>.</p>
-<div id="fig-overview" class="quarto-float quarto-figure quarto-figure-center anchored">
-<figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-overview-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="images/block_digaram.png" class="img-fluid figure-img">
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-overview-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;1: This is the block diagram of what the system looks like from top down. Note that there are a large number of pins going into the MCU
-</figcaption>
-</figure>
-</div>
 
 
 </section>
