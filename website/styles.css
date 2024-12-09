@@ -142,6 +142,10 @@ body.nav-fixed {
     font-size: medium;
   }
 
+  figcaption {
+    color: rgb(91, 142, 95);
+    font-size: small;
+  }
 
   h2.anchored {
     margin-bottom: 0;
@@ -168,7 +172,7 @@ body.nav-fixed {
     padding-right: 1.5em !important;
     padding-top: 1em;
   }
-  
+
   body:not(.floating) .nav-footer {
     border-top: 1px solid #f0eeeb;
   }

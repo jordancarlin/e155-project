@@ -27,3 +27,4 @@ Project is polished (e.g., wires are hidden, any physical interfaces are well-de
 Verilog code is efficient and demonstrates best coding practices (e.g., modularity, testbenches were appropriate, etc.)
 C code is efficient and well organized (e.g., code encapsulated in functions and custom libraries as appropriate)
 
+> https://hmc-e155.github.io/final-project-portfolio/
