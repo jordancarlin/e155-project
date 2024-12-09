@@ -2,9 +2,22 @@
 title: "Jordan and Zoe E155 Final Project"
 ---
 
-Here are links to the relevant sources if desired.
+## Hardware Tools
+\
+MCU ([User Guide](https://www.st.com/resource/en/datasheet/stm32l432kc.pdf) | [Reference Manual](https://www.st.com/resource/en/reference_manual/rm0394-stm32l41xxx42xxx43xxx44xxx45xxx46xxx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf))\
+FPGA ([Lattice Semiconductor Board](https://www.google.com/url?sa=t&source=web&rct=j&opi=89978449&url=https://www.latticesemi.com/-/media/LatticeSemi/Documents/DataSheets/iCE/FPGA-DS-02008-2-0-iCE40-UltraPlus-Family-Data-Sheet.ashx%3Fdocument_id%3D51968&ved=2ahUKEwjo_6n_k5qKAxUyPEQIHVmdB-wQFnoECB0QAQ&usg=AOvVaw32SICrlvohwKNVHOv_RlZg))\
+E155 Supplied Boards ([Development Board](https://hmc-e155.github.io/assets/doc/E155%20Development%20Board%20Schematic.pdf) | [Adapter Board](https://hmc-e155.github.io/assets/doc/E155%20Breadboard%20Adapter%20Schematic.pdf))
 
 
+> Zoe Worrall Lab Writeups ([Lab 1](https://zoe-worrall.github.io/e155_labs/projects/e-155_website/labs/lab1/lab1.html) | [Lab 2](https://zoe-worrall.github.io/e155_labs/projects/e-155_website/labs/lab2/lab2.html) | [Lab 3](https://zoe-worrall.github.io/e155_labs/projects/e-155_website/labs/lab3/lab3.html) | [Lab 4](https://zoe-worrall.github.io/e155_labs/projects/e-155_website/labs/lab4/lab4.html) | [Lab 5](https://zoe-worrall.github.io/e155_labs/projects/e-155_website/labs/lab5/lab5.html) | [Lab 6](https://zoe-worrall.github.io/e155_labs/projects/e-155_website/labs/lab6/lab6.html) | [Lab 7](https://zoe-worrall.github.io/e155_labs/projects/e-155_website/labs/lab7/lab7.html))
+
+::: {.callout-note collapse="true"}
+## Image of Clock Tree
+
+![](./mcu_images/clockTree.png)
+
+Figure 13 in the [MCU Reference Manual](https://www.st.com/resource/en/reference_manual/rm0394-stm32l41xxx42xxx43xxx44xxx45xxx46xxx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf)
+:::
 
 Details on Proficiency and Excellency Specs:
 

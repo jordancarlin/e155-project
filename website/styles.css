@@ -24,12 +24,11 @@
 
   @media (max-width: 991px) {
   .navbar-nav-scroll {
-    background: #3c3c3c;
+    background: #131c2b;
     border: white;
     color: white;
   }
   }
- 
 
   #quarto-header {
     border-bottom: 1px solid rgb(36, 29, 29);
@@ -71,6 +70,7 @@
   
   .navbar-nav .nav-link:hover {
     color: #ebffec;
+    background-color: #000000;
     font-weight: 1000;
     font-size: large;
   }
@@ -181,6 +181,7 @@ body.nav-fixed {
     color: white;
     font-weight: 400;
   }
+
   
   .nav-footer a:hover {
     color: #424242;

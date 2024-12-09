@@ -1,13 +1,60 @@
 ---
 title: "Results"
 ---
-  - [ ] A discussion of the overall performance of the final system
-   - [ ] Any relevant simulation results or oscilloscope traces
-   - [ ] Videos or photos of the final project or any intermediate build steps.
 
-## SPI
+## Quantitative Results
 
-We knew that there were two potential SPI packets that could be received: either a color bit packet, or a location packet. The color packet was encoded such that it contained configuration bits 111 at the beginning, which could never be reached by x or y since they exceeded the array range being used (@fig-colorSPI and @fig-xySPI).
+Our initial goal for this project was to achieve the following:
+
+1. Build a system that is able to draw using a joystick controller
+2. Allow analog input that allows the user to chose between 7 colors
+3. Give the user control of a brush's width (i.e. configure some sort of thickness for the brush)
+4. Allow the user to pick the brush "off the page" while drawing
+5. *Stretch Goal* A countdown timer that updates every second
+
+Of these initial goals, we achieved enough for efficiency, but were unable to meet our final specs for the countdown timer. Particularly because of the short at the end, during demo day it was additionally impossible to provide user input.
+
+If the project was to be summed in terms of percentage, the following estimates should be made:
+
+[60%] Transmitting from RAM of the FPGA to a VGA Monitor
+[15%] Generating, Transmitting, and Receiving Data via SPI from the MCU to the FPGA board
+[10%] Assigning buttons and anlog pins, and updating SPI for sending to the FPGA
+[10%]  Inclusion of a countdown timer
+[5%]  Additional graphics and presentation of the piece
+
+Overall, we achieved almost all of our goals, and reached likely 90% of what we wanted to achieve in this project.
+
+### Timing
+
+#### Speed of the MCU
+
+The MCU of the **Micro P(ictionary)** game used the SystemClock (which runs at 4 MHz) for all calculations.
+
+The analog to digital converter on the MCU relies on the output of the AHB Clock. For further details, view the linked clock tree image in the [Appendix](./appendices.qmd). This clock ran at at the SystemClock's speed during this project.
+A new set of modules, `STM32L432KC_ADC.c` and `STM32L432KC_ADC.h`, were constructed in order to make for easy initialization of any new ADC pins. The conversion rate of analog to digital signals the data was not integral to the performance of the system, as we did not anticipate that user input would be changing faster than 10 Hz within a given second.
+
+The main timing constraint on the MCU side was the control of the sending rate of the SPI. The device is set up to send a new SPI update every 500 ms, based on Timer 12 of the MCU. Because the FPGA would immediately update as soon as it receives its new X and Y direction, the "send rate" of the FPGA also determines the speed with which someone could move the brush on the screen. It was found that the ideal speed to move the brush was 500 ms, but if desired in the future it may be possible to add a potentiometer that increases or decreases the pause time between each update to the brush's location.
+
+#### Speed of the FPGA
+
+#### Speed of VGA for updates
+
+
+## Qualitative Results
+
+### Analog Pins
+
+The MCU's use of analog pins was done extremely quickly, in large part thanks to much of the previous work done by past students in Micro P's. We found the following two sources particularly helpful:
+
+* [Camera by Kavi Dey, Henry Merrilees, and Neil Chulani](https://kavidey.github.io/NeoObscura/)\
+* [Digital Synthesizer by Kevin Box and Eli Rejto](https://github.com/ERejto/FPGA-Synth-project-portfolio/blob/main/src/MCU/STM32L432KC_ADC.c)
+
+The analog pins were capable of measuring the voltage output of the joystick and the potentiometer. It appeared that, especially towards the end, that there were conflicts between the sampled data for x, y, and t, wherein one of the values would always be high even if it was not meant to.
+The analog output of the pins normally measured their input voltage times 1000 when measured correctly; 3.3 volts as a result appeared as 3300 on the board, for example.
+
+### SPI
+\
+We planned on sending and receiving two potential SPI packets : either a color bit packet, or a location packet. The color packet was encoded such that it contained configuration bits 111 at the beginning, which could never be reached by x or y since they exceeded the array range being used (@fig-colorSPI and @fig-xySPI).
 
 :::{.grid}
 
@@ -70,14 +117,14 @@ All channels are encoded such that Channel 1 is CS, Channel 2 is MOSI, and Chann
 
 :::
 
-## VGA
+### VGA
 
 The final system was able to put the brush up and down, change its color, and move about the screen. Implementation was still being made to change the bit size using the potentiometer, however this was halted by the MCU no longer being able to connect to JLink when connected to the Adapter board.
 
 The final system is able to consistently update and change depending on the color and pin inputs. As can be seen in @fig-workingImage, the system was able to create and draw the systems.
 
 :::{#fig-workingImage}
-![](images/working_drawing.png)
+![](images/working_drawing.png){width="50%"}
 
 An image depicting our system creating drawings on the screen via the MCU to FPGA communication.
 :::
@@ -87,31 +134,41 @@ The following are multiple videos that were taken while troubleshooting and movi
 First, we the system was able to print to the VGA system at a single pixel by directly setting the index of a given array. This system, as we later discovered using the Netlist feature in Lattice Radiant, did not use RAM. We started by setting all the values outside of our grid (128x128 pixels) pink.
 
 :::{fig-video1}
-{{< video https://www.youtube.com/watch?v=esy1g3UIZK4&feature=youtu.be >}}
+{{< video https://www.youtube.com/watch?v=esy1g3UIZK4&feature=youtu.be height="200">}}
 
-A video of our planned designated screen on the design with the outline of our block.
+*Above is a video of our planned designated screen on the design with the outline of our block.*
 :::
 
 After this, we began trying to set the values according to what we had received via wx and wy. We confirmed the wx and wy were correct in simulation (@fig-workingSim) by confirming that when wx and wy were at a set value, for example 100 and 100, and set to `0'b001` (encoding for red), the RAM was recording that value. This was confirmed within the MemoryList feature of ModelSim.
 
-{{< video https://www.youtube.com/watch?v=2N7uzxsJKm8 >}}
+:::
+{{< video https://www.youtube.com/watch?v=2N7uzxsJKm8  height="200">}}
+
+*Video displaying how we were able to finally get some things printing on the FPGA using setting parameters in Lattice Radiant.*
+:::
 
 However, while printing we ran into an issue; the RAM was not being correctly indexed by the system. It was only possible to alter pixels directly using an address in the matrix.
 
-{{< video https://www.youtube.com/watch?v=ZuUvgkFCoQ8&feature=youtu.be >}}
+:::
+{{< video https://www.youtube.com/watch?v=ZuUvgkFCoQ8&feature=youtu.be  height="200">}}
 
 *A video of trying to read while setting bits according to whats stored in the wx and wy bits at a specific section; these bits should be the color that is stored for a specific location, but when they are sent into the array they don't update correctly, resulting in the oscillating pattern seen above.*
+:::
 
 
 This can be seen in the following video (@fig-video2), where we tried to set the data within the file to wx and wy while reading out the values. The User Guide specified that the RAM that we were attempting to use was "pseudo dual", but didn't specify what this meant.
 
 As a result, we moved onto using SPRAM instead. SPRAM required that we doubled the clock speed, but at the same time permitted for better contorl of what we were sending and receiving to the screen. This is where we began to see results.
 
-{{< video https://www.youtube.com/shorts/lj3WRqj4F5A >}}
+:::
+{{< video https://www.youtube.com/shorts/lj3WRqj4F5A  height="200">}}
+:::
 
 The video above is a demonstration of color being transmitted correctly. With the confirmation of SPI working, we were able to confirm that we should be updating colors correctly, and with this video we confirmed with certainty that the SPI was able to receive. Our next steps involved filling the entire screen with this data rather than just the noise present in this video.
 
-{{< video https://www.youtube.com/watch?v=NjBG17eC-Dw&feature=youtu.be >}}
+:::
+{{< video https://www.youtube.com/watch?v=NjBG17eC-Dw&feature=youtu.be  height="300">}}
+:::
 
 The video above was confirmation that we could control every bit we wanted to using a write x and y of our choosing. From there, it was a very quick fix to begin moving the pixels about the board with details sent using the other package for xy bits.
 
@@ -124,7 +181,6 @@ The joystick was soldered onto a small protoboard to prevent noise and avoid mes
 All seven buttons were put onto a separate bread board to ensure proper circuitry, and were wired in long distance to prevent complex wiring.
 
 The switch and the potentiometer were both free floating, but have been given housing that provides easy control for the user when the design is working.
-
 
 ## Final Updates
 
