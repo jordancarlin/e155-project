@@ -38,7 +38,7 @@ ul.task-list li input[type="checkbox"] {
 <link href="site_libs/quarto-html/quarto-syntax-highlighting-e26003cea8cd680ca0c55a263523d882.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-6cb4c8ba4a41b34b19a2400ed1fc3a65.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-1594875bc4d08b77c15037ebe414d997.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script src="site_libs/quarto-contrib/videojs/video.min.js"></script>
 <link href="site_libs/quarto-contrib/videojs/video-js.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
@@ -138,8 +138,16 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#spi" id="toc-spi" class="nav-link active" data-scroll-target="#spi">SPI</a></li>
+  <li><a href="#quantitative-results" id="toc-quantitative-results" class="nav-link active" data-scroll-target="#quantitative-results">Quantitative Results</a>
+  <ul class="collapse">
+  <li><a href="#timing" id="toc-timing" class="nav-link" data-scroll-target="#timing">Timing</a></li>
+  </ul></li>
+  <li><a href="#qualitative-results" id="toc-qualitative-results" class="nav-link" data-scroll-target="#qualitative-results">Qualitative Results</a>
+  <ul class="collapse">
+  <li><a href="#analog-pins" id="toc-analog-pins" class="nav-link" data-scroll-target="#analog-pins">Analog Pins</a></li>
+  <li><a href="#spi" id="toc-spi" class="nav-link" data-scroll-target="#spi">SPI</a></li>
   <li><a href="#vga" id="toc-vga" class="nav-link" data-scroll-target="#vga">VGA</a></li>
+  </ul></li>
   <li><a href="#the-build" id="toc-the-build" class="nav-link" data-scroll-target="#the-build">The Build</a></li>
   <li><a href="#final-updates" id="toc-final-updates" class="nav-link" data-scroll-target="#final-updates">Final Updates</a></li>
   </ul>
@@ -167,14 +175,52 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<ul class="task-list">
-<li><label><input type="checkbox">A discussion of the overall performance of the final system</label></li>
-<li><label><input type="checkbox">Any relevant simulation results or oscilloscope traces</label></li>
-<li><label><input type="checkbox">Videos or photos of the final project or any intermediate build steps.</label></li>
+<section id="quantitative-results" class="level2">
+<h2 class="anchored" data-anchor-id="quantitative-results">Quantitative Results</h2>
+<p>Our initial goal for this project was to achieve the following:</p>
+<ol type="1">
+<li>Build a system that is able to draw using a joystick controller</li>
+<li>Allow analog input that allows the user to chose between 7 colors</li>
+<li>Give the user control of a brush’s width (i.e.&nbsp;configure some sort of thickness for the brush)</li>
+<li>Allow the user to pick the brush “off the page” while drawing</li>
+<li><em>Stretch Goal</em> A countdown timer that updates every second</li>
+</ol>
+<p>Of these initial goals, we achieved enough for efficiency, but were unable to meet our final specs for the countdown timer. Particularly because of the short at the end, during demo day it was additionally impossible to provide user input.</p>
+<p>If the project was to be summed in terms of percentage, the following estimates should be made:</p>
+<p>[60%] Transmitting from RAM of the FPGA to a VGA Monitor [15%] Generating, Transmitting, and Receiving Data via SPI from the MCU to the FPGA board [10%] Assigning buttons and anlog pins, and updating SPI for sending to the FPGA [10%] Inclusion of a countdown timer [5%] Additional graphics and presentation of the piece</p>
+<p>Overall, we achieved almost all of our goals, and reached likely 90% of what we wanted to achieve in this project.</p>
+<section id="timing" class="level3">
+<h3 class="anchored" data-anchor-id="timing">Timing</h3>
+<section id="speed-of-the-mcu" class="level4">
+<h4 class="anchored" data-anchor-id="speed-of-the-mcu">Speed of the MCU</h4>
+<p>The MCU of the <strong>Micro P(ictionary)</strong> game used the SystemClock (which runs at 4 MHz) for all calculations.</p>
+<p>The analog to digital converter on the MCU relies on the output of the AHB Clock. For further details, view the linked clock tree image in the <a href="./appendices.html">Appendix</a>. This clock ran at at the SystemClock’s speed during this project. A new set of modules, <code>STM32L432KC_ADC.c</code> and <code>STM32L432KC_ADC.h</code>, were constructed in order to make for easy initialization of any new ADC pins. The conversion rate of analog to digital signals the data was not integral to the performance of the system, as we did not anticipate that user input would be changing faster than 10 Hz within a given second.</p>
+<p>The main timing constraint on the MCU side was the control of the sending rate of the SPI. The device is set up to send a new SPI update every 500 ms, based on Timer 12 of the MCU. Because the FPGA would immediately update as soon as it receives its new X and Y direction, the “send rate” of the FPGA also determines the speed with which someone could move the brush on the screen. It was found that the ideal speed to move the brush was 500 ms, but if desired in the future it may be possible to add a potentiometer that increases or decreases the pause time between each update to the brush’s location.</p>
+</section>
+<section id="speed-of-the-fpga" class="level4">
+<h4 class="anchored" data-anchor-id="speed-of-the-fpga">Speed of the FPGA</h4>
+</section>
+<section id="speed-of-vga-for-updates" class="level4">
+<h4 class="anchored" data-anchor-id="speed-of-vga-for-updates">Speed of VGA for updates</h4>
+</section>
+</section>
+</section>
+<section id="qualitative-results" class="level2">
+<h2 class="anchored" data-anchor-id="qualitative-results">Qualitative Results</h2>
+<section id="analog-pins" class="level3">
+<h3 class="anchored" data-anchor-id="analog-pins">Analog Pins</h3>
+<p>The MCU’s use of analog pins was done extremely quickly, in large part thanks to much of the previous work done by past students in Micro P’s. We found the following two sources particularly helpful:</p>
+<ul>
+<li><a href="https://kavidey.github.io/NeoObscura/">Camera by Kavi Dey, Henry Merrilees, and Neil Chulani</a><br>
+</li>
+<li><a href="https://github.com/ERejto/FPGA-Synth-project-portfolio/blob/main/src/MCU/STM32L432KC_ADC.c">Digital Synthesizer by Kevin Box and Eli Rejto</a></li>
 </ul>
-<section id="spi" class="level2">
-<h2 class="anchored" data-anchor-id="spi">SPI</h2>
-<p>We knew that there were two potential SPI packets that could be received: either a color bit packet, or a location packet. The color packet was encoded such that it contained configuration bits 111 at the beginning, which could never be reached by x or y since they exceeded the array range being used (<a href="#fig-colorSPI" class="quarto-xref">Figure&nbsp;1</a> and <a href="#fig-xySPI" class="quarto-xref">Figure&nbsp;2</a>).</p>
+<p>The analog pins were capable of measuring the voltage output of the joystick and the potentiometer. It appeared that, especially towards the end, that there were conflicts between the sampled data for x, y, and t, wherein one of the values would always be high even if it was not meant to. The analog output of the pins normally measured their input voltage times 1000 when measured correctly; 3.3 volts as a result appeared as 3300 on the board, for example.</p>
+</section>
+<section id="spi" class="level3">
+<h3 class="anchored" data-anchor-id="spi">SPI</h3>
+<p><br>
+We planned on sending and receiving two potential SPI packets : either a color bit packet, or a location packet. The color packet was encoded such that it contained configuration bits 111 at the beginning, which could never be reached by x or y since they exceeded the array range being used (<a href="#fig-colorSPI" class="quarto-xref">Figure&nbsp;1</a> and <a href="#fig-xySPI" class="quarto-xref">Figure&nbsp;2</a>).</p>
 <div class="grid">
 <div id="fig-colorSPI" class="g-col-6 quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
@@ -235,14 +281,14 @@ Figure&nbsp;4: <em>This image uses channel 4, the dark blue channel, to confirm 
 </div>
 </div>
 </section>
-<section id="vga" class="level2">
-<h2 class="anchored" data-anchor-id="vga">VGA</h2>
+<section id="vga" class="level3">
+<h3 class="anchored" data-anchor-id="vga">VGA</h3>
 <p>The final system was able to put the brush up and down, change its color, and move about the screen. Implementation was still being made to change the bit size using the potentiometer, however this was halted by the MCU no longer being able to connect to JLink when connected to the Adapter board.</p>
 <p>The final system is able to consistently update and change depending on the color and pin inputs. As can be seen in <a href="#fig-workingImage" class="quarto-xref">Figure&nbsp;5</a>, the system was able to create and draw the systems.</p>
 <div id="fig-workingImage" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-workingImage-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="images/working_drawing.png" class="img-fluid figure-img">
+<img src="images/working_drawing.png" class="img-fluid figure-img" style="width:50.0%">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-workingImage-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;5: An image depicting our system creating drawings on the screen via the MCU to FPGA communication.
@@ -252,20 +298,22 @@ Figure&nbsp;5: An image depicting our system creating drawings on the screen via
 <p>The following are multiple videos that were taken while troubleshooting and moving our systems into the real world.</p>
 <p>First, we the system was able to print to the VGA system at a single pixel by directly setting the index of a given array. This system, as we later discovered using the Netlist feature in Lattice Radiant, did not use RAM. We started by setting all the values outside of our grid (128x128 pixels) pink.</p>
 <div class="{fig-video1}">
-<div class="quarto-video ratio ratio-16x9"><iframe data-external="1" src="https://www.youtube.com/embed/esy1g3UIZK4" title="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe></div>
-<p>A video of our planned designated screen on the design with the outline of our block.</p>
+<div class="quarto-video"><iframe data-external="1" src="https://www.youtube.com/embed/esy1g3UIZK4" height="200" title="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe></div>
+<p><em>Above is a video of our planned designated screen on the design with the outline of our block.</em></p>
 </div>
 <p>After this, we began trying to set the values according to what we had received via wx and wy. We confirmed the wx and wy were correct in simulation (<strong>?@fig-workingSim</strong>) by confirming that when wx and wy were at a set value, for example 100 and 100, and set to <code>0'b001</code> (encoding for red), the RAM was recording that value. This was confirmed within the MemoryList feature of ModelSim.</p>
-<div class="quarto-video ratio ratio-16x9"><iframe data-external="1" src="https://www.youtube.com/embed/2N7uzxsJKm8" title="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe></div>
+<p>::: </p><div class="quarto-video"><iframe data-external="1" src="https://www.youtube.com/embed/2N7uzxsJKm8" height="200" title="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe></div><p></p>
+<p><em>Video displaying how we were able to finally get some things printing on the FPGA using setting parameters in Lattice Radiant.</em> :::</p>
 <p>However, while printing we ran into an issue; the RAM was not being correctly indexed by the system. It was only possible to alter pixels directly using an address in the matrix.</p>
-<div class="quarto-video ratio ratio-16x9"><iframe data-external="1" src="https://www.youtube.com/embed/ZuUvgkFCoQ8" title="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe></div>
-<p><em>A video of trying to read while setting bits according to whats stored in the wx and wy bits at a specific section; these bits should be the color that is stored for a specific location, but when they are sent into the array they don’t update correctly, resulting in the oscillating pattern seen above.</em></p>
+<p>::: </p><div class="quarto-video"><iframe data-external="1" src="https://www.youtube.com/embed/ZuUvgkFCoQ8" height="200" title="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe></div><p></p>
+<p><em>A video of trying to read while setting bits according to whats stored in the wx and wy bits at a specific section; these bits should be the color that is stored for a specific location, but when they are sent into the array they don’t update correctly, resulting in the oscillating pattern seen above.</em> :::</p>
 <p>This can be seen in the following video (<strong>?@fig-video2</strong>), where we tried to set the data within the file to wx and wy while reading out the values. The User Guide specified that the RAM that we were attempting to use was “pseudo dual”, but didn’t specify what this meant.</p>
 <p>As a result, we moved onto using SPRAM instead. SPRAM required that we doubled the clock speed, but at the same time permitted for better contorl of what we were sending and receiving to the screen. This is where we began to see results.</p>
-<div class="quarto-video"><video id="video_shortcode_videojs_video1" class="video-js vjs-default-skin vjs-fluid" controls="" preload="auto" data-setup="{}" title=""><source src="https://www.youtube.com/shorts/lj3WRqj4F5A"></video></div>
+<p>::: </p><div class="quarto-video"><video id="video_shortcode_videojs_video1" height="200" class="video-js vjs-default-skin " controls="" preload="auto" data-setup="{}" title=""><source src="https://www.youtube.com/shorts/lj3WRqj4F5A"></video></div> :::<p></p>
 <p>The video above is a demonstration of color being transmitted correctly. With the confirmation of SPI working, we were able to confirm that we should be updating colors correctly, and with this video we confirmed with certainty that the SPI was able to receive. Our next steps involved filling the entire screen with this data rather than just the noise present in this video.</p>
-<div class="quarto-video ratio ratio-16x9"><iframe data-external="1" src="https://www.youtube.com/embed/NjBG17eC-Dw" title="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe></div>
+<p>::: </p><div class="quarto-video"><iframe data-external="1" src="https://www.youtube.com/embed/NjBG17eC-Dw" height="300" title="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe></div> :::<p></p>
 <p>The video above was confirmation that we could control every bit we wanted to using a write x and y of our choosing. From there, it was a very quick fix to begin moving the pixels about the board with details sent using the other package for xy bits.</p>
+</section>
 </section>
 <section id="the-build" class="level2">
 <h2 class="anchored" data-anchor-id="the-build">The Build</h2>
