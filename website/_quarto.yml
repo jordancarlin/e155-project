@@ -8,14 +8,14 @@ website:
     left:
       - href: index.qmd
         text: Home
-      - href: results.qmd
-        text: Results
       - href: documentation.qmd
         text: Documentation
       - href: mcu.qmd
         text: MCU Design
       - href: fpga.qmd
         text: FPGA Design
+      - href: results.qmd
+        text: Results
       - href: appendices.qmd
         text: Appendices
       - href: team.qmd
