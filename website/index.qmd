@@ -6,17 +6,17 @@ title: "Micro P(ictionary)"
 
 Welcome to **MicroP(ictionary)**!
 
-This design project sought to create a Pictionary device using an Upduino FPGA board and an STM432KCU4 MCU board. Pictionary is a game that allows a user to control an on screen brush to "draw" on a screen. The user is able to manipulate the brush's size, color, and location in order to draw whatever designs they want on a screen. To provide this for the users, this project supplied a system of seven buttons for color, a potentiometer to control the size of the brush, a switch to control whether the brush was up or down, and a joystick to control the brush's location on the screen.
+This design project sought to create a Pictionary-like device using an Upduino FPGA board and an STM432KCU4 MCU board. Pictionary is a game where one player draws an image and the other player has to guess what is being drawn in a set amount of time. Micro P(ictionary) takes this into the digital world and allows a user to control an on screen brush to "draw" on a screen. The player is able to manipulate the brush's size, color, and location in order to draw whatever designs they want on a screen. This is accomplished using a system of seven buttons for color, a potentiometer to control the size of the brush, a switch to control whether the brush was up or down, and a joystick to control the brush's location on the screen.
 
-This system uses an MCU and an FPGA board to control a VGA monitor. The MCU reads 11 real-time inputs from a user, including both analog and digital signals, and sends SPI packages to the FPGA board. The FPGA board interprets the incoming SPI packages, and uses them to manipulate a brush on the VGA screen using a set of digital to analog converters to control red, green, and blue signals.
+The design uses an MCU and an FPGA board to control a VGA monitor. The MCU reads 11 real-time inputs from a user, including both analog and digital signals, and sends SPI packages to the FPGA board. The FPGA interprets the incoming SPI packages, and uses them to manipulate a brush on the VGA screen using a set of digital to analog converters to control red, green, and blue signals.
 
 :::{#fig-overview}
 ![](images/simple_block_diag.png)
 
-This is the block diagram of what the system looks like from top down.
+This is the top level block diagram of the complete system.
 :::
 
-The device was capable of drawing on the screen by the end of the project time limit. It had also previously demonstrated its ability to draw, and control if the brush was up or down, using the inputs of the MCU controller. This was captured in a photograph (@fig-workingModel)
+By the end of the project, the device was capable of drawing on the screen and displaying a vareity of colors. It had also previously demonstrated its ability to draw, and control if the brush was up or down, using the inputs of the MCU controller. This was captured in a photograph (@fig-workingModel)
 
 :::{#fig-workingModel}
 ![](images/working_drawing.png){width=50%}
@@ -24,16 +24,16 @@ The device was capable of drawing on the screen by the end of the project time l
 A photograph captured of the working **Micro P(ictionary)** program. The user was able to pick the brush up and place it down, change color and size of the brush, and move the brush to the desired locations on the screen.
 :::
 
-However, roughly an hour before check off, while trying to move analog parts and reconfigure them to prevent some of the noise being seen in the circuit, part of the board was shorted out. As a result, last minute changes needed to be made in order to demonstrate the screen to others. This code removed the ability to input data into the MCU, and randomly generated signals which were then sent to the VGA display using the same encoding as would have applied for analog circuitry. This was dubbed a "glorified screensaver" for observers.
+However, roughly an hour before the end of the project, while trying to reconfigure some of the analog components to prevent the noise being seen in the circuit, part of the board was shorted out. As a result, last minute changes needed to be made in order to demonstrate the screen to others. This code removed the ability to input data into the MCU, and randomly generated signals which were then sent to the VGA display using the same encoding as would have applied for analog circuitry. This was dubbed a "glorified screensaver" for observers.
 
 :::{#fig-workingVideo}
 
 {{< video https://www.youtube.com/watch?v=o9HCQyT40M4 width="500" height="300">}}
 
-Video of the glorified screen saver while running for Demo Day. Uses the same communication and decoding methods as the initial function, but there is a randomly generated set of code being sent on the MCU.
+Video of the glorified screen saver while running for Demo Day. Uses the same communication and decoding methods as the initial function, but there is a randomly generated set of positions and colors being sent from the MCU.
 :::
 
-The Github included in this report has two branches: the main, which contains the current FPGA and MCU code for what was used in order to get the device actually functioning before the board was shorted, and a side branch that demonstrates what was shown during the device's Demo Day.
+The Github repository included in this report has two branches: `main`, which contains the current FPGA and MCU code for what was used in order to get the device actually functioning before the board was shorted, and `random-display` that demonstrates what was shown during the device's Demo Day.
 
 This report will detail
 
@@ -43,7 +43,7 @@ This report will detail
 * Details on results\
 * Details on the team behind this project
 
-## Abstract
+<!-- ## Abstract
 
 MicroP(ictionary) is a game for lab students that want to play online, but have to play using hardware instead. The goal of this project was to make a **Micro P(ictionary)** game with the following specs:
 
@@ -65,7 +65,7 @@ A video prior to this was not captured demonstrating how the brush was able to t
 
 {{< video https://www.youtube.com/watch?v=NjBG17eC-Dw&feature=youtu.be >}}
 
-The overview of this system can be seen in @fig-overview.
+The overview of this system can be seen in @fig-overview. -->
 
 
 

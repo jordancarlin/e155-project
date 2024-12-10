@@ -17,47 +17,56 @@ format:
 
 # FPGA Setup
 
-The FPGA controls drives a VGA monitor and stores the image to be displayed on the monitor. It recieves SPI packets from the MCU (see [MCU description](./mcu.qmd) for an explanation of the packets) that specify what changes need to be made to the image. The current image is stored in block ram on the FPGA. As SPI packets are received, there is a block of logic on the FPGA that checks what type of data the packet contains and, if necessary, updates certain pixels in the block ram accordingly.
+The FPGA controls a VGA monitor and stores the image to be displayed on the monitor. It recieves SPI packets from the MCU (see [MCU description](./mcu.qmd) for an explanation of the packets) that specify what changes need to be made to the image. The current image is stored in SPRAM on the FPGA. As SPI packets are received, there is a block of logic on the FPGA that checks what type of data the packet contains (position or color/brush status) and, if necessary, updates certain pixels in the SPRAM accordingly.
 
-The FPGA also has a block of sequential to drive the actual VGA display that scans through each pixel in the block ram and sends the appropriate RGB values to the VGA monitor. The pixels are stores in a 3 bit encoding format (one value for each of the 7 colors supported by the system) and a decoder is used to convert these values to the actual RGB values for the VGA monitor. The playable area of the screen is 200x200 pixels, so the block ram only contains values for those pixels.
+The FPGA also has a separate block of logic to drive the actual VGA display. This component scans through each pixel in the SPRAM and sends the appropriate RGB values to the VGA monitor. The pixels are stored in a 3 bit encoding format (one value for each of the 7 colors supported by the system) and a decoder is used to convert these values to the actual 12-bit RGB values for the VGA monitor. The playable area of the screen is 100x100 pixels, so the SPRAM only contains values for those pixels. All pixels outside of this area are set to black. This section of the logic is also responsible for send the appropriate H-Sync and V-Sync signals to the monitor so it knows when to start a new line or frame of the image.
 
 ## Block Diagram
 ::: {#fig-fpgaBlockDiagram}
 ![](fpga_images/fpgaBlockDiag_wPins.png)
+
+Complete FPGA block diagram
+
 :::
 
-The FPGA design builds heavily upon what was done in Lab 7 in MicroPs. It uses a similar design for the SPI module itself (although the decoder is entirely new) and the use of block ram to store the image is also similar to storing the sbox encoding in Lab 7 (though this one needs to be a writable ram instead of just a pre-loaded rom). The most significant new part of this design is the VGA driver itself.
+The FPGA design builds heavily upon what was done in Lab 7 in MicroPs. It uses a similar design for the SPI module itself (although the decoder is entirely new) and the use of SPRAM to store the image is also similar to storing the sbox encoding in Lab 7 (although this uses a larger, writable SPRAM instead of a simpler ROM). The most significant new part of this design is the VGA driver itself.
 
-As pictured in @fig-fpgaBlockDiagram, many of the modules in this design are heavily intertwined. While ideally each module is a mostly indepenent thing, the use of the block ram makes that impossible for this project. The VGA driver needs to be able to read from the block ram, while the SPI decoder needs to write to it. Additionally, the VGA module isn't even able to directly output the RGB values to the monitor becaue they need to be looked up in the block ram and then decoded. This means the VGA module sends most of the VGA signals out to the monitor, but send the x and y values to rest of the system for further processing before the RGB values are sent to the monitor. This significantly complicates the timing for the design and makes unit level testbenches difficult to design. The heavily interwoven modules can be seen most clearly in the generated block diagram from Lattice in @fig-generatedBlockDiagram.
+As pictured in @fig-fpgaBlockDiagram, many of the modules in this design are heavily intertwined. While ideally each module is a mostly indepenent thing, the use of the SPRAM makes that impossible for this project. The VGA driver needs to be able to read from the SPRAM, while the SPI decoder needs to write to it. Additionally, the VGA module can not even directly output the RGB values to the monitor becaue they need to be looked up in the SPRAM and then decoded. The result of all this intermixing means the VGA module sends just the H-sync and V-sync signals out to the monitor, and sends the x and y values to rest of the system for further processing before the RGB values are sent to the monitor. This significantly complicates the timing for the design and makes unit level testbenches difficult to design. The heavily interwoven modules can be seen most clearly in the generated block diagram from Lattice in @fig-generatedBlockDiagram.
 
 ::: {#fig-generatedBlockDiagram}
 ![](fpga_images/generatedBlockDiagram.png)
+
+Lattice-generated block diagram of the FPGA design.
+
 :::
 
 ## Hardware
 
-One of the tricky parts of the hardware design for the FPGA was utilizing block ram to store the pixel array. There were many attempts to tweak the verilog to get the synthesis tool to infer the appropriate block ram hardware. As seen in @fig-pixelStore_blockRam, this was eventually successful and it is utilizing a block ram that reads combinationally (though is sequenced by a flop) and writes sequentially on the rising edge of the clock. The write enable line also had to be connected to data recieved from the SPI packets to ensure pixels were only updated when the pen was down.
+One of the tricky parts of the hardware design for the FPGA was utilizing SPRAM to store the pixel array. There were many attempts to tweak the Verilog to get the synthesis tool to infer the appropriate block ram hardware. While this was eventually successful, the block ram ended up bieng insuffucient for the project. Writing to to it was too inconsistent and there were severe timing issues. The final design transistioned to using the SPRAM modules instead, which were able to hold sufficient data and functioned as expected when written to.
 
-::: {#fig-pixelStore_blockRam}
-![](fpga_images/pixelStore_blockRam.png)
-:::
+The SPRAM was set up to read on every clock cycle based on the x and y values coming from the VGA controller. The current position data and color was always being sent to the write ports, but the write enable line was hooked up to the brush signal to ensure new colors were only saved when the brush was down.
 
 The other main aspect of the hardware design is the actual VGA interface. @fig-vgaInterface shows the high-level interace between the FPGA and the VGA monitor. The VGA and colorDecode modules drive these signals, with the colorDecode module driving the R, G, and B signals and all of the timing and sync signals coming from the VGA module.
 
 ::: {#fig-vgaInterface}
 ![](fpga_images/vgaInterface.png)
 
+Detailed view of FPGA-VGA interface.
+
 :::
 
-The colorDecode function itself outputs a total of 14 outputs; three sets of four for each of the RGB analog channels, and two for the Vertical and Horizontal sync.
-Each set of four digital output pins is put through a digital to analog converter (DAC), which takes advantage of Kirchoff's Law and the innate 75 Ohm impedance of VGA wiring. A DAC converter can be seen in @fig-dacConv.
+The colorDecode module itself outputs a total of 12 outputs; three sets of four signals for each of R, G, and B. Each set of four digital output pins is put through a digital to analog converter (DAC), which takes advantage of Kirchoff's Law and the innate 75 Ohm terminatoin impedance of the VGA monitor. A schematic of the DAC can be seen in @fig-dacConv.
 
 ::: {#fig-dacConv}
 ![](fpga_images/digitalToAnalogConveter.png){width=50%}
 
+Digital to Analog Converter used to convert digital signals from the FPGA to analog signals for the VGA monitor.
+
 :::
 
-This DAC effectively produced a signal between 0 and 0.7 Volts, which could then be sent out to the VGA, which uses the Voltage magnitude to generate color.
+This DAC effectively produced a signal between 0 and 0.7 Volts, which could then be sent out to the VGA, which uses the Voltage to generate the appropriate color.
+
+<!--
 
 ## Current Status
 
@@ -65,4 +74,4 @@ A second version of all of the Verilog is written and (almost) passing synthesis
 
 The current design passes the first few stages of synthesis, but is currently running into issues with place and route and with timing. The timing issues likely stem from clock issues becasue the SPI sck needs to drive some of the design while the VGA vgaclk needs to drive other parts of it. Using multiple clocks is far from ideal, but is necessary because of the strict timing requirements for VGA monitors. The place and route issues likely stem from the timing problems, but it is not possible to know for sure until the timing issues are resolved.
 
-The other part of the FPGA process that is currently underway is verification of the design. Testbenches are in their early stage of creation and will be used to verify the SPI half of the design and the VGA half of the design separately. Depending on how those go, a full system testbench will likely be created to verify the entire design.
+The other part of the FPGA process that is currently underway is verification of the design. Testbenches are in their early stage of creation and will be used to verify the SPI half of the design and the VGA half of the design separately. Depending on how those go, a full system testbench will likely be created to verify the entire design. -->
