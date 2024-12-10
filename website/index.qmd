@@ -61,16 +61,14 @@ This report will detail
 
 ## Project Overview
 
-MicroP(ictionary) is a game for lab students that want to play Pictionary online, but have to play using hardware instead. The goal of this project was to make a **Micro P(ictionary)** game with the following specs:
+**MicroP(ictionary)** is a game for lab students that want to play Pictionary online, but have to play using hardware instead. The goal of this project was to make a **Micro P(ictionary)** game with the following specs:
 
 * 7 Buttons to control 7 different colors
 * A potentiometer to control the thickness of the brush being used
 * A brush up/down switch that controls whether the brush is drawing or not
 * A joystick to control where we are on the board.
 
-The project had two separate pieces; the MCU that collects and stores the current status of the brush (including color, thickness, and location), and the FPGA, which has an onboard RAM that stores the color left behind by the brush or simply shows the user their current location. The brush will always be orange. The MCU consistently sends SPI updates of the location of the user to the FPGA board, and the FPGA board then outputs this data onto the computer screen. When the user updates the colors of the board or decides to put the brush down, the system sends an additional SPI packet with the updated color and brush up/down information.
-
-This program was extremely close to working, but likely due to a high level of power flux, the board connection between the MCU and the FPGA has been shorted. The MCU can be connected to via JLink separate from the board, but when it is plugged into the board, JLink can no longer connect.
+The project had two separate pieces; the MCU that collects and stores the current status of the brush (thickness and location), and the FPGA, which has an onboard RAM that stores the color left behind by the brush or simply shows the user their current location. The brush will always be orange. The MCU consistently sends SPI updates of the location of the user to the FPGA board, and the FPGA board then outputs this data onto the computer screen. When the user updates the color of the brush or decides to put the brush down, the system sends an additional SPI packet with the updated color and brush up/down information.
 
 Prior to this issue, the device was able to draw x/y locations, as well as travel in a controlled manner about the screen.
 
