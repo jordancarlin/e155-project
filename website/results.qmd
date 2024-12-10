@@ -178,9 +178,21 @@ The video above was confirmation that we could control every bit we wanted to us
 
 ## The Build
 
-Our Final project was made using several bread boards, as well as several printed components that give it a finished look.
+Our Final project was made using several bread boards, as well as several printed components that give it a finished look. These parts were a breakout board with several color buttons, as well as a casing for a joystick, switch, and potentiometer system.
 
-The joystick was soldered onto a small protoboard to prevent noise and avoid messy wiring.
+:::{.grid}
+
+:::{.g-col-6}
+![](results_images/buttons_board.JPG)
+:::
+
+:::{.g-col-6}
+![](results_images/joystick_setup.png)
+:::
+
+:::
+
+The joystick circuit as well as the circuitry necessary for the VGA was soldered onto a small protoboard to prevent noise and avoid messy wiring.
 
 All seven buttons were put onto a separate bread board to ensure proper circuitry, and were wired in long distance to prevent complex wiring.
 

@@ -20,24 +20,51 @@ The multicore processor in this project is used to keep track of the current bru
 
 ## Schematic
 
-The MCU makes use of many of the materials and ideas seen throughout the semester in MicroP's so far. It uses interrupts in order to map out the current color, with a total of seven potential colors (including erase). The system also implements the newer technology of Analog reading, which is used to determine the current state of a joystick for location control, as well as a potentiometer to control the thickness of the brush at any given time (ranging from 1x1 to 2x2 to 3x3).
+The MCU makes use of many of the materials and ideas seen throughout the semester in MicroP's so far. It uses interrupts in order to map out the current color, with a total of seven potential colors (including erase). 
 
-![](mcu_images/mcu_pins.png){width=50%}
+The system also implements the newer technology of analog to digital conversion (ADC) on the MCU, which is used to determine the current state of a joystick for location control, as well as a potentiometer to control the thickness of the brush at any given time (ranging from 1x1 to 2x2 to 3x3).
 
-The program starts first by initializing all of its components before entering a while loop, which controls the main functions required of the MCU. This while loop delays for some predetermined amount of time, before calling read_XY to find the current state of the joystick and to update the size of brush.
+When compiled together, this gives @fig-largeOverview. The detailed layout of the pins can be found in the drop down which contains @fig-pinMCU.
 
+::: {#fig-largeOverview}
+![](mcu_images/mcu_largeoverview.png)
+
+Broad overview of the MCU device, detailing which inputs are digital and which are analog.
+:::
+
+::: {.callout-tip collapse="true"}
+## Diagram of all Pin-outs on the MCU 
+
+![](mcu_images/mcu_pins.png){#fig-pinMCU}
+
+Each of the buttons and the analog control of the joystick has an op-amp attached to it. This was done while breadboarding, as significant loading was noted specifically on the part of the joystick. The op-amps were added to the buttons as an extreme precautionary measure, although this was likely unnecessary.
+:::
+
+The program starts first by initializing all of its components before entering a while loop, which controls the main functions required of the MCU. This while loop delays for some 500 ms, before calling read_XY to find the current state of the joystick and to update the size of brush.
 This information is used to determine what SPI packages are sent at the end of the while loop.
+In the case that an interrupt has occured or the switch controlling whether or not the brush has been raised or lowered has changed, color_spi is updated.
+
+The behavior of interrupts is depicted in @fig-interrupts.
+
+::: {#fig-interrupts}
+![](mcu_images/interrupts_mcu.png){width=70%}
+
+Depiction of how interrupts interact with the current system, specifically how they assign just_set and adjust the color of the SPI.
+:::
 
 The block diagram below (@fig-bdiag1) depicts the general variables and assignments used within the MCU program.
+An even more generalized view can be found in @fig-bdiag2.
 
-::: {#fig-bdiag1}
+::: {.grid}
+
+::: {.g-col-8 #fig-bdiag1}
 ![](mcu_images/block_diag.png)
 :::
 
-This can be expounded upon to show what exactly is happening within the program (@fig-bdiag2).
-
-::: {#fig-bdiag2}
+::: {.g-col-4 #fig-bdiag2}
 ![](mcu_images/block_diag2.png)
+:::
+
 :::
 
 ## Hardware
@@ -82,12 +109,10 @@ A "SPI Packet", as we have deemed, can be of two types:
 
 #### loc_spi
 
-![](mcu_images/loc_spi.png)
+![](mcu_images/loc_spi.png){width=70%}
 
-These SPI are differentiated by the first three bits of the SPI message: in the case of color_spi, the first three bits will always make the value of the character greater than 200, which is an impossible for the x and y indeces to be. As a result, the SPI blocks can be easily differentiated with the use of the first three bits, which the FPGA will figure out combinationally and will then use to adjust its values accordingly.
+These SPI are differentiated by the first three bits of the SPI message: in the case of color_spi, the first three bits will always make the value of the character greater than 200, which is an impossible for the x and y indices to be. As a result, the SPI blocks can be easily differentiated with the use of the first three bits, which the FPGA will figure out combinationally and will then use to adjust its values accordingly.
 
-## Current Status
-
-We are currently able to perform all necessary functions required for the final prototype, and mainly now need to configure the SPI connection and performance of the FPGA. As it stands, this video demonstrates the readouts of the board, as well as a representation of the data it will be sending to the FPGA board, at any given point in time. When the timer is replaced with a much shorter one, these updates will be sent at a frequency of roughly 1 kHz, although we will vary this depending on what we decide works best for timing on the FPGA.
+The video below is a demonstration of the data being sent out of the MCU at any given time.
 
 {{< video https://youtu.be/XvtfpBKUMUc >}}
