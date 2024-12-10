@@ -18,21 +18,21 @@ title: "Micro P(ictionary)"
 
 :::
 
-## Brief
+## Abstract
 
 Welcome to **MicroP(ictionary)**!
 
-This design project sought to create a Pictionary-like device using an Upduino FPGA board and an STM432KCU4 MCU board. Pictionary is a game where one player draws an image and the other player has to guess what is being drawn in a set amount of time. Micro P(ictionary) takes this into the digital world and allows a user to control an on screen brush to "draw" on a screen. The player is able to manipulate the brush's size, color, and location in order to draw whatever designs they want on a screen. This is accomplished using a system of seven buttons for color, a potentiometer to control the size of the brush, a switch to control whether the brush was up or down, and a joystick to control the brush's location on the screen.
+This design project sought to create a Pictionary-like device using an UPduino iCE40 UP5K FPGA board and an STM32L432KC MCU board. Pictionary is a game where one player draws an image and the other player has to guess what is being drawn in a set amount of time. Micro P(ictionary) takes this into the digital world and allows a user to control an on screen brush to "draw" on a screen. The player is able to manipulate the brush's size, color, and location in order to draw whatever designs they want. This is accomplished using a system of seven buttons for color, a potentiometer to control the size of the brush, a switch to control whether the brush was up or down, and a joystick to control the brush's location on the screen.
 
-The design uses an MCU and an FPGA board to control a VGA monitor. The MCU reads 11 real-time inputs from a user, including both analog and digital signals, and sends SPI packages to the FPGA board. The FPGA interprets the incoming SPI packages, and uses them to manipulate a brush on the VGA screen using a set of digital to analog converters to control red, green, and blue signals.
+The design uses an MCU and an FPGA to control a VGA monitor. The MCU reads 11 real-time inputs from a user, including both analog and digital signals, and sends SPI packets to the FPGA board. The FPGA interprets the incoming SPI packets, and uses them to manipulate a brush on the VGA screen using a set of digital to analog converters which control red, green, and blue signals.
 
 :::{#fig-overview}
 ![](images/simple_block_diag.png)
 
-This is the top level block diagram of the complete system.
+Top level block diagram of the complete system.
 :::
 
-By the end of the project, the device was capable of drawing on the screen and displaying a variety of colors. It had also previously demonstrated its ability to draw, and control if the brush was up or down, using the inputs of the MCU controller. This was captured in a photograph (@fig-workingModel)
+By the end of the project, the device was capable of drawing on the screen and displaying a variety of colors. It had also previously demonstrated its ability to draw and control if the brush was up or down using the inputs of the MCU controller. This was captured in a photograph (@fig-workingModel).
 
 :::{#fig-workingModel}
 ![](images/working_drawing.png){width=50%}
@@ -40,7 +40,7 @@ By the end of the project, the device was capable of drawing on the screen and d
 A photograph captured of the working **Micro P(ictionary)** program. The user was able to pick the brush up and place it down, change color and size of the brush, and move the brush to the desired locations on the screen.
 :::
 
-However, roughly an hour before the end of the project, while trying to reconfigure some of the analog components to prevent the noise being seen in the circuit, part of the board was shorted out. As a result, last minute changes needed to be made in order to demonstrate the screen to others. This code removed the ability to input data into the MCU, and randomly generated signals which were then sent to the VGA display using the same encoding as would have applied for analog circuitry. This was dubbed a "glorified screensaver" for observers.
+However, roughly an hour before the end of the project, while trying to reconfigure some of the analog components to decrease the noise seen in the circuit, part of the board was shorted out. As a result, last minute changes were made to showcase the VGA display to others. Updated code removed the ability for the user to input data into the MCU. The MCU instead randomly generated signals which were then sent to the VGA display using the same encoding as would have applied for analog circuitry. This was dubbed a "glorified screensaver" for observers.
 
 :::{#fig-workingVideo}
 
@@ -59,19 +59,16 @@ This report will detail
 * Details on results\
 * Details on the team behind this project
 
-<!-- ## Abstract
+## Project Overview
 
-MicroP(ictionary) is a game for lab students that want to play online, but have to play using hardware instead. The goal of this project was to make a **Micro P(ictionary)** game with the following specs:
+MicroP(ictionary) is a game for lab students that want to play Pictionary online, but have to play using hardware instead. The goal of this project was to make a **Micro P(ictionary)** game with the following specs:
 
-> 7 Buttons to control 7 different colors
+* 7 Buttons to control 7 different colors
+* A potentiometer to control the thickness of the brush being used
+* A brush up/down switch that controls whether the brush is drawing or not
+* A joystick to control where we are on the board.
 
-> A potentiometer to control the thickness of the brush being used
-
-> A brush up/down switch that controls whether the brush is drawing or not
-
-> A joystick to control where we are on the board.
-
-The project had two separate pieces; the MCU that collects and stores the current status of the brush (including color, thickness, and location), and the FPGA, which has an onboard RAM that stores the color left behind by the brush or simply shows the user their current location. The brush will always be orange. The MCU consistently sends SPI updates of the location of the user to the FPGA board, and the FPGA board then outputs this data onto the computer screen. When the user updates the colors of the board or decides to put the brush down, the system sends an additional SPI package with the updated color and brush up/down information.
+The project had two separate pieces; the MCU that collects and stores the current status of the brush (including color, thickness, and location), and the FPGA, which has an onboard RAM that stores the color left behind by the brush or simply shows the user their current location. The brush will always be orange. The MCU consistently sends SPI updates of the location of the user to the FPGA board, and the FPGA board then outputs this data onto the computer screen. When the user updates the colors of the board or decides to put the brush down, the system sends an additional SPI packet with the updated color and brush up/down information.
 
 This program was extremely close to working, but likely due to a high level of power flux, the board connection between the MCU and the FPGA has been shorted. The MCU can be connected to via JLink separate from the board, but when it is plugged into the board, JLink can no longer connect.
 
@@ -81,7 +78,7 @@ A video prior to this was not captured demonstrating how the brush was able to t
 
 {{< video https://www.youtube.com/watch?v=NjBG17eC-Dw&feature=youtu.be >}}
 
-The overview of this system can be seen in @fig-overview. -->
+The overview of this system can be seen in @fig-overview.
 
 
 

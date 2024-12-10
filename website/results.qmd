@@ -64,13 +64,13 @@ The design was capable of sending two different kinds of SPI packets: either a c
 :::{.g-col-6 #fig-colorSPI}
 ![](mcu_images/color_spi.png)
 
-The bits of color SPI package.
+The bits of color SPI packet.
 :::
 
 :::{.g-col-6 #fig-xySPI}
 ![](mcu_images/loc_spi.png)
 
-The bits of the location SPI package.
+The bits of the location SPI packet.
 :::
 
 :::
@@ -173,7 +173,7 @@ As a result, we moved onto using SPRAM instead instead of the block RAM. SPRAM r
 {{< video https://www.youtube.com/watch?v=NjBG17eC-Dw&feature=youtu.be  height="300">}}
 :::
 
-@fig-video5 was confirmation that we could control every bit we wanted to using a write x and y of our choosing. From there, it was just a small change to begin moving the pixels about the board with details sent using the other package for xy bits.
+@fig-video5 was confirmation that we could control every bit we wanted to using a write x and y of our choosing. From there, it was just a small change to begin moving the pixels about the board with details sent using the other packet for xy bits.
 
 ## The Build
 
@@ -201,7 +201,7 @@ The switch and the potentiometer were both free floating, but have been given ho
 
 Unfortunately, near the very end of the project something went wrong with the physical hardware and the MCU was no longer able to receive data from any of the inputs, digital or analog. This meant that the system was no longer able to take any user input, so drawing was unfortunately no longer possible.
 
-The inputs were working until an hour or so before the deadline for this project. Despite them being broken for the actual checkoff, all of the MCU to FPGA communication via SPI and FPGA to VGA monitor communication was working. As a result, images could be displayed as expected. We decided to turn the final version into a "glorified screensaver" for demo day. 
+The inputs were working until an hour or so before the deadline for this project. Despite them being broken for the actual checkoff, all of the MCU to FPGA communication via SPI and FPGA to VGA monitor communication was working. As a result, images could be displayed as expected. We decided to turn the final version into a "glorified screensaver" for demo day.
 
 {{< video https://www.youtube.com/watch?v=o9HCQyT40M4 width="500" height="300">}}
 
