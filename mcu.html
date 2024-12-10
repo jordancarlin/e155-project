@@ -187,7 +187,7 @@ ul.task-list li input[type="checkbox"] {
 <section id="schematic" class="level2">
 <h2 class="anchored" data-anchor-id="schematic">Schematic</h2>
 <p>The MCU makes use of many of the materials and ideas seen throughout the semester in MicroP’s so far. It uses interrupts in order to map out the current color, with a total of seven potential colors (including erase). The system also implements the newer technology of Analog reading, which is used to determine the current state of a joystick for location control, as well as a potentiometer to control the thickness of the brush at any given time (ranging from 1x1 to 2x2 to 3x3).</p>
-<p><img src="mcu_images/mcu_pins.png" class="img-fluid"></p>
+<p><img src="mcu_images/mcu_pins.png" class="img-fluid" style="width:50.0%"></p>
 <p>The program starts first by initializing all of its components before entering a while loop, which controls the main functions required of the MCU. This while loop delays for some predetermined amount of time, before calling read_XY to find the current state of the joystick and to update the size of brush.</p>
 <p>This information is used to determine what SPI packages are sent at the end of the while loop.</p>
 <p>The block diagram below (<a href="#fig-bdiag1" class="quarto-xref">Figure&nbsp;1</a>) depicts the general variables and assignments used within the MCU program.</p>
