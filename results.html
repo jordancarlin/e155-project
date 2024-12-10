@@ -181,28 +181,18 @@ ul.task-list li input[type="checkbox"] {
 <li>Allow the user to chose between 7 colors to draw with</li>
 <li>Give the user control of the brush’s width (i.e.&nbsp;configure some sort of thickness for the brush)</li>
 <li>Allow the user to pick the brush “off the page” while drawing</li>
-<li><em>Stretch Goal</em> A countdown timer that updates every second</li>
+<li><em>Stretch Goal:</em> A countdown timer that updates every second</li>
 </ol>
 <p>Of these initial goals, we achieved enough for proficiency, but were unable to meet our final specs for the countdown timer. Particularly because of the short at the end, during demo day it was additionally impossible to provide user input.</p>
-<p>If the project was to be summed in terms of percentage, the following estimates should be made:</p>
-<p>[60%] Transmitting from RAM of the FPGA to a VGA Monitor<br>
-</p>
-<p>[15%] Generating, Transmitting, and Receiving Data via SPI from the MCU to the FPGA board<br>
-</p>
-<p>[10%] Assigning buttons and analog pins, and updating SPI for sending to the FPGA<br>
-</p>
-<p>[10%] Inclusion of a countdown timer<br>
-</p>
-<p>[5%] Additional graphics and presentation of the piece</p>
-<p>Overall, we achieved almost all of our goals, and reached likely 90% of what we wanted to achieve in this project.</p>
+<p>Overall, we achieved almost all of our goals, and likely reached about 90% of what we wanted to achieve in this project. It was just the final small details that got in the way.</p>
 <section id="timing" class="level3">
 <h3 class="anchored" data-anchor-id="timing">Timing</h3>
 <section id="speed-of-the-mcu" class="level4">
 <h4 class="anchored" data-anchor-id="speed-of-the-mcu">Speed of the MCU</h4>
 <p>The MCU of the <strong>Micro P(ictionary)</strong> game used the SystemClock (which runs at 4 MHz) for all calculations.</p>
 <p>The analog to digital converter on the MCU relies on the output of the AHB Clock. For further details, view the linked clock tree image in the <a href="./appendices.html">Appendix</a>. This clock ran at at the SystemClock’s speed during this project.</p>
-<p>A new set of modules, <code>STM32L432KC_ADC.c</code> and <code>STM32L432KC_ADC.h</code>, were constructed in order to make for easy initialization of any new ADC pins. The conversion rate of analog to digital signals was not integral to the performance of the system, as we did not anticipate that user input would be changing inputs faster than 10 Hz.</p>
-<p>The main timing constraint on the MCU side was the control of the sending rate of the SPI. The device is set up to send a new SPI update every 500 ms, based on Timer 12 of the MCU. Because the FPGA would immediately update as soon as it receives its new X and Y direction, the “send rate” of the FPGA also determines the speed with which someone could move the brush on the screen. It was found that the ideal speed to move the brush was 500 ms, but if desired in the future it may be possible to add a potentiometer that increases or decreases the pause time between each update to the brush’s location.</p>
+<p>A new set of modules, <code>STM32L432KC_ADC.c</code> and <code>STM32L432KC_ADC.h</code>, were constructed in order to make for easy initialization of any new ADC pins. The conversion rate of analog to digital signals was not integral to the performance of the system, as we did not anticipate that user would be changing inputs faster than 10 Hz.</p>
+<p>The main timing constraint on the MCU side was the sending rate of the SPI. The device is set up to send a new SPI update every 500 ms, based on Timer 12 of the MCU. Because the FPGA would immediately update as soon as it receives its new X and Y direction, the “send rate” of the FPGA also determines the speed with which someone could move the brush on the screen. It was found that the ideal speed to move the brush was 500 ms, but if desired in the future it may be possible to add a potentiometer that increases or decreases the pause time between each update to the brush’s location.</p>
 </section>
 <section id="speed-of-the-fpga" class="level4">
 <h4 class="anchored" data-anchor-id="speed-of-the-fpga">Speed of the FPGA</h4>
@@ -220,7 +210,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
 <li><a href="https://github.com/ERejto/FPGA-Synth-project-portfolio/blob/main/src/MCU/STM32L432KC_ADC.c">Digital Synthesizer by Kevin Box and Eli Rejto</a></li>
 </ul>
-<p>The analog pins were capable of measuring the voltage output of the joystick and the potentiometer. It appeared that, especially towards the end, there were conflicts between the sampled data for x, y, and t, with one of the values consistently significantly higher than expected. The analog output of the pins normally measured their input voltage times 1000 when measured correctly; 3.3 volts as a result appeared as 3300 on the board, for example.</p>
+<p>The analog pins were capable of measuring the voltage output of the joystick and the potentiometer. It appeared that, especially towards the end, there were conflicts between the sampled data for x, y, and t, with one of the values consistently outputting significantly higher than expected. The analog output of the pins normally measured their input voltage times 1000 when measured correctly. For example, 3.3 volts appeared as 3300 on the board.</p>
 </section>
 <section id="spi" class="level3">
 <h3 class="anchored" data-anchor-id="spi">SPI</h3>
@@ -313,7 +303,7 @@ Figure&nbsp;6: <em>Video of our planned designated screen on the design with the
 </figcaption>
 </figure>
 </div>
-<p>After this, we began trying to set the values dynamically according to what was received via the decoded SPI location packets. We confirmed that the write position coordinates (wx and wy) were correct in simulation by checking that when wx and wy were at a set value, for example 100 and 100, and set to <code>0'b001</code> (encoding for red), the RAM was recording that value. This was confirmed within the MemoryList feature of ModelSim.</p>
+<p>After this, we began trying to set the values dynamically according to what was received via the decoded SPI location packets. We confirmed that the write position coordinates (<code>wx</code> and <code>wy</code>) were correct in simulation by checking that when <code>wx</code> and <code>wy</code> were at a set value, for example 100 and 100, and set to <code>0'b001</code> (encoding for red), the RAM was recording that value. This was confirmed within the MemoryList feature of ModelSim.</p>
 <div id="fig-video2" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-video2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -331,11 +321,11 @@ Figure&nbsp;7: <em>Video displaying how we were able to finally get some things 
 <div class="quarto-video"><iframe data-external="1" src="https://www.youtube.com/embed/ZuUvgkFCoQ8" height="200" title="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe></div>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-video3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;8: <em>A video of trying to read while setting bits according to whats stored in the wx and wy bits at a specific section; these bits should be the color that is stored for a specific location, but when they are sent into the array they don’t update correctly, resulting in the oscillating pattern seen above.</em>
+Figure&nbsp;8: <em>A video of trying to read while setting bits according to whats stored in the <code>wx</code> and <code>wy</code> bits at a specific section; these bits should be the color that is stored for a specific location, but when they are sent into the array they don’t update correctly, resulting in the oscillating pattern seen above.</em>
 </figcaption>
 </figure>
 </div>
-<p>This can be seen in the following video (<a href="#fig-video3" class="quarto-xref">Figure&nbsp;8</a>), where we tried to set the data within the file to wx and wy while reading out the values. For as of yet still unknown reasons, the data was not being correctly indexed by the RAM. The read logic seemed to be working when the RAM was preloaded, which seemed to indicate the problem was with the write logic, but we were unable to determine the exact cause of the issue.</p>
+<p>This can be seen in <a href="#fig-video3" class="quarto-xref">Figure&nbsp;8</a>, where we tried to set the data within the file to <code>wx</code> and <code>wy</code> while reading out the values. For as of yet still unknown reasons, the data was not being correctly indexed by the RAM. The read logic seemed to be working when the RAM was preloaded, which seemed to indicate the problem was with the write logic, but we were unable to determine the exact cause of the issue.</p>
 <p>As a result, we moved onto using SPRAM instead instead of the block RAM. SPRAM required that we double the clock speed, but at the same time permitted for better control of what we were sending and receiving to the screen and appropriate updating of the data stored in the RAM. This is where we began to see more expected results.</p>
 <div id="fig-video4" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
@@ -347,7 +337,7 @@ Figure&nbsp;9
 </figcaption>
 </figure>
 </div>
-<p><a href="#fig-video4" class="quarto-xref">Figure&nbsp;9</a> is a demonstration of color being transmitted correctly. With the confirmation of SPI working from earlier, this video confirmed that we were updating colors correctly based on the data received from teh MCU. Our next steps involved filling the entire screen with this data rather than just the noise present in this video.</p>
+<p><a href="#fig-video4" class="quarto-xref">Figure&nbsp;9</a> is a demonstration of color being transmitted correctly. With the confirmation of SPI working from earlier, this video confirmed that we were updating colors correctly based on the data received from the MCU. Our next steps involved filling the entire screen with this data rather than just the noise present in this video.</p>
 <div id="fig-video5" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-video5-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
