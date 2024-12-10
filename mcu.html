@@ -141,7 +141,7 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#mcu-setup" id="toc-mcu-setup" class="nav-link active" data-scroll-target="#mcu-setup">MCU Setup</a>
   <ul class="collapse">
   <li><a href="#schematic" id="toc-schematic" class="nav-link" data-scroll-target="#schematic">Schematic</a></li>
-  <li><a href="#hardware" id="toc-hardware" class="nav-link" data-scroll-target="#hardware">Hardware</a></li>
+  <li><a href="#spi" id="toc-spi" class="nav-link" data-scroll-target="#spi">SPI</a></li>
   </ul></li>
   </ul>
 <div class="quarto-other-links"><h2>Other Links</h2><ul><li><a href="https://pages.hmc.edu/brake/class/e155/fa23/assets/doc/E155%20Development%20Board%20Schematic.pdf"><i class="bi bi-link-45deg"></i>E155 FA Development Board</a></li><li><a href="https://hmc-e155.github.io/assets/doc/E155%20Breadboard%20Adapter%20Schematic.pdf"><i class="bi bi-link-45deg"></i>E155 Breadboard Adapter v4</a></li><li><a href="https://github.com/jordancarlin/e155-project/tree/main/mcu"><i class="bi bi-link-45deg"></i>MCU Source Code</a></li></ul></div></nav>
@@ -224,21 +224,20 @@ Figure&nbsp;2
 </div>
 </div>
 </div>
-<p>The program starts first by initializing all of its components before entering a while loop, which controls the main functions required of the MCU. This while loop delays for some 500 ms, before calling read_XY to find the current state of the joystick and to update the size of brush. This information is used to determine what SPI packets are sent at the end of the while loop. In the case that an interrupt has occurred or the switch controlling whether or not the brush has been raised or lowered has changed, color_spi is updated.</p>
+<p>The program starts first by initializing all of its components before entering a while loop, which controls the main functions required of the MCU. This while loop delays for some 500 ms, before calling <code>read_XY</code> to find the current state of the joystick and to update the size of the brush. This information is used to determine what SPI packets are sent at the end of the while loop. In the case that an interrupt has occurred or the switch controlling whether or not the brush has been raised or lowered has changed, <code>color_spi</code> is updated.</p>
 <p>The behavior of interrupts is depicted in <a href="#fig-interrupts" class="quarto-xref">Figure&nbsp;3</a>.</p>
 <div id="fig-interrupts" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-interrupts-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="mcu_images/interrupts_mcu.png" class="img-fluid figure-img" style="width:70.0%">
+<img src="mcu_images/interrupts_mcu.png" class="img-fluid figure-img" style="width:50.0%">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-interrupts-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;3: Depiction of how interrupts interact with the current system, specifically how they assign just_set and adjust the color of the SPI.
+Figure&nbsp;3: Depiction of how interrupts interact with the current system, specifically how they assign <code>just_set</code> and adjust the color of the SPI.
 </figcaption>
 </figure>
 </div>
 <p>The block diagram below (<a href="#fig-bdiag1" class="quarto-xref">Figure&nbsp;4</a>) depicts the general variables and assignments used within the MCU program. An even more generalized view can be found in <a href="#fig-bdiag2" class="quarto-xref">Figure&nbsp;5</a>.</p>
-<div class="grid">
-<div id="fig-bdiag1" class="g-col-8 quarto-float quarto-figure quarto-figure-center anchored">
+<div id="fig-bdiag1" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-bdiag1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="mcu_images/block_diag.png" class="img-fluid figure-img">
@@ -248,7 +247,7 @@ Figure&nbsp;4
 </figcaption>
 </figure>
 </div>
-<div id="fig-bdiag2" class="g-col-4 quarto-float quarto-figure quarto-figure-center anchored">
+<div id="fig-bdiag2" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-bdiag2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="mcu_images/block_diag2.png" class="img-fluid figure-img">
@@ -258,12 +257,10 @@ Figure&nbsp;5
 </figcaption>
 </figure>
 </div>
-</div>
 </section>
-<section id="hardware" class="level2">
-<h2 class="anchored" data-anchor-id="hardware">Hardware</h2>
-<p>The hardware for the board has arrived and has been implemented on a breadboard. Future plans encompass adding larger buttons for the DIP Buttons, as well as potentially building a controller that will allows the user to control many items at once with little concern for messing up wiring.</p>
-<p>Currently, the program is able to send out all the locations necessary dependent on which thickness the current brush is. This can be seen in the set of images below:</p>
+<section id="spi" class="level2">
+<h2 class="anchored" data-anchor-id="spi">SPI</h2>
+<p>The program is able to send out all the locations necessary dependent on the current thickness of the brush. This can be seen in the set of images below:</p>
 <div class="grid">
 <div class="g-col-4">
 <p><img src="mcu_images/1_locs.png" class="img-fluid"></p>
@@ -275,18 +272,18 @@ Figure&nbsp;5
 <p><img src="mcu_images/9_locs.png" class="img-fluid"></p>
 </div>
 </div>
-<p>The files are sent in this way to ensure the simplest possibe implementation on the FPGA. The FPGA board currently uses combinational logic to interpret the incoming SPI data, and as a result, by sending each pixel that should be currently turned on, the MCU prevents the FPGA from needing to use a finite state machine in order to interpret the data it is placing in the RAM at any given.</p>
-<p>In addition, when a button is pressed, the color_spi spi packet is sent along with the location data, which contains information on whether the brush is down or up, as well as what color the current SPI bus is.</p>
+<p>The files are sent in this way to ensure the simplest possibe implementation on the FPGA. The FPGA board currently uses combinational logic to interpret the incoming SPI data, and as a result, by sending each pixel that should be currently turned on, the MCU prevents the FPGA from needing to use a finite state machine in order to interpret the data it is placing in the RAM at any given time.</p>
+<p>In addition, when a button is pressed, the <code>color_spi</code> spi packet is sent along with the location data, which contains information on whether the brush is down or up, as well as what color the current SPI bus is.</p>
 <p>The maximum possible number of SPI packets sent in a given round is 10 (each SPI packet is considered to be to collections of 8 bits), and the minimum is 1.</p>
 <p>A “SPI Packet”, as we have deemed, can be of two types:</p>
 <section id="color_spi" class="level4">
-<h4 class="anchored" data-anchor-id="color_spi">color_spi</h4>
+<h4 class="anchored" data-anchor-id="color_spi"><code>color_spi</code></h4>
 <p><img src="mcu_images/color_spi.png" class="img-fluid"></p>
 </section>
 <section id="loc_spi" class="level4">
-<h4 class="anchored" data-anchor-id="loc_spi">loc_spi</h4>
+<h4 class="anchored" data-anchor-id="loc_spi"><code>loc_spi</code></h4>
 <p><img src="mcu_images/loc_spi.png" class="img-fluid" style="width:70.0%"></p>
-<p>These SPI are differentiated by the first three bits of the SPI message: in the case of color_spi, the first three bits will always make the value of the character greater than 200, which is an impossible for the x and y indices to be. As a result, the SPI blocks can be easily differentiated with the use of the first three bits, which the FPGA will figure out combinationally and will then use to adjust its values accordingly.</p>
+<p>These SPI packets are differentiated by the first three bits of the SPI message: in the case of <code>color_spi</code>, the first three bits will always make the value of the byte greater than 200, which is impossible for the x and y indices to be. As a result, the SPI packets can be easily differentiated with the use of the first three bits, which the FPGA will figure out combinationally and will then use to adjust its values accordingly.</p>
 <p>The video below is a demonstration of the data being sent out of the MCU at any given time.</p>
 <div class="quarto-video ratio ratio-16x9"><iframe data-external="1" src="https://www.youtube.com/embed/XvtfpBKUMUc" title="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe></div>
 
