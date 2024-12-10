@@ -16,7 +16,7 @@ The design uses an MCU and an FPGA board to control a VGA monitor. The MCU reads
 This is the top level block diagram of the complete system.
 :::
 
-By the end of the project, the device was capable of drawing on the screen and displaying a vareity of colors. It had also previously demonstrated its ability to draw, and control if the brush was up or down, using the inputs of the MCU controller. This was captured in a photograph (@fig-workingModel)
+By the end of the project, the device was capable of drawing on the screen and displaying a variety of colors. It had also previously demonstrated its ability to draw, and control if the brush was up or down, using the inputs of the MCU controller. This was captured in a photograph (@fig-workingModel)
 
 :::{#fig-workingModel}
 ![](images/working_drawing.png){width=50%}

@@ -52,7 +52,7 @@ The MCU's use of analog pins was done extremely quickly, in large part thanks to
 * [Camera by Kavi Dey, Henry Merrilees, and Neil Chulani](https://kavidey.github.io/NeoObscura/)\
 * [Digital Synthesizer by Kevin Box and Eli Rejto](https://github.com/ERejto/FPGA-Synth-project-portfolio/blob/main/src/MCU/STM32L432KC_ADC.c)
 
-The analog pins were capable of measuring the voltage output of the joystick and the potentiometer. It appeared that, especially towards the end, there were conflicts between the sampled data for x, y, and t, with one of the values consistently significaly higher than expected.
+The analog pins were capable of measuring the voltage output of the joystick and the potentiometer. It appeared that, especially towards the end, there were conflicts between the sampled data for x, y, and t, with one of the values consistently significantly higher than expected.
 The analog output of the pins normally measured their input voltage times 1000 when measured correctly; 3.3 volts as a result appeared as 3300 on the board, for example.
 
 ### SPI
@@ -75,7 +75,7 @@ The bits of the location SPI package.
 
 :::
 
-The system was confirmed to be transmitting via SPI early on during the Mid-semester check-in using osciliscope traces:
+The system was confirmed to be transmitting via SPI early on during the Mid-semester check-in using oscilloscope traces:
 
 :::{.grid}
 
@@ -161,13 +161,13 @@ However, while displaying this on the screen we ran into an issue; the RAM was n
 
 This can be seen in the following video (@fig-video3), where we tried to set the data within the file to wx and wy while reading out the values. For as of yet still unknown reasons, the data was not being correctly indexed by the RAM. The read logic seemed to be working when the RAM was preloaded, which seemed to indicate the problem was with the write logic, but we were unable to determine the exact cause of the issue.
 
-As a result, we moved onto using SPRAM instead instead of the block RAM. SPRAM required that we double the clock speed, but at the same time permitted for better contorl of what we were sending and receiving to the screen and appropriate updating of the data stored in the RAM. This is where we began to see more expected results.
+As a result, we moved onto using SPRAM instead instead of the block RAM. SPRAM required that we double the clock speed, but at the same time permitted for better control of what we were sending and receiving to the screen and appropriate updating of the data stored in the RAM. This is where we began to see more expected results.
 
 :::{#fig-video4}
 {{< video https://www.youtube.com/shorts/lj3WRqj4F5A  height="200">}}
 :::
 
-@fig-video4 is a demonstration of color being transmitted correctly. With the confirmation of SPI working from earlier, this video confirmed that we were updating colors correctly based on the data recieved from teh MCU. Our next steps involved filling the entire screen with this data rather than just the noise present in this video.
+@fig-video4 is a demonstration of color being transmitted correctly. With the confirmation of SPI working from earlier, this video confirmed that we were updating colors correctly based on the data received from teh MCU. Our next steps involved filling the entire screen with this data rather than just the noise present in this video.
 
 :::{#fig-video5}
 {{< video https://www.youtube.com/watch?v=NjBG17eC-Dw&feature=youtu.be  height="300">}}
@@ -199,6 +199,6 @@ The switch and the potentiometer were both free floating, but have been given ho
 
 ## Final Updates
 
-Unfortunately, near the very end of the project something went wrong with the phyiscal hardware and the MCU was no longer able to recieve data from any of the inputs, digital or analog. This meant that the system was no longer able to take any user input, so drawing was unfortunately no longer possible.
+Unfortunately, near the very end of the project something went wrong with the physical hardware and the MCU was no longer able to receive data from any of the inputs, digital or analog. This meant that the system was no longer able to take any user input, so drawing was unfortunately no longer possible.
 
-While the inputs didn't end up working, all of the MCU to FPGA communication via SPI and FPGA to VGA monitor communication was working, so we were able to dislay images as expected. We decided to turn the final version into a "glorified screensaver" for demo day. The MCU would randomly generate x and y locations and colors, and from there the rest of the chain would proceed as normal: the MCU encoded the data into SPI packets and tranmitted them to the FPGA, which then decoded them, updated the SPRAM, and displayed the constantly changing image on the VGA monitor.
+While the inputs didn't end up working, all of the MCU to FPGA communication via SPI and FPGA to VGA monitor communication was working, so we were able to display images as expected. We decided to turn the final version into a "glorified screensaver" for demo day. The MCU would randomly generate x and y locations and colors, and from there the rest of the chain would proceed as normal: the MCU encoded the data into SPI packets and transmitted them to the FPGA, which then decoded them, updated the SPRAM, and displayed the constantly changing image on the VGA monitor.
