@@ -201,4 +201,8 @@ The switch and the potentiometer were both free floating, but have been given ho
 
 Unfortunately, near the very end of the project something went wrong with the physical hardware and the MCU was no longer able to receive data from any of the inputs, digital or analog. This meant that the system was no longer able to take any user input, so drawing was unfortunately no longer possible.
 
-While the inputs didn't end up working, all of the MCU to FPGA communication via SPI and FPGA to VGA monitor communication was working, so we were able to display images as expected. We decided to turn the final version into a "glorified screensaver" for demo day. The MCU would randomly generate x and y locations and colors, and from there the rest of the chain would proceed as normal: the MCU encoded the data into SPI packets and transmitted them to the FPGA, which then decoded them, updated the SPRAM, and displayed the constantly changing image on the VGA monitor.
+The inputs were working until an hour or so before the deadline for this project. Despite them being broken for the actual checkoff, all of the MCU to FPGA communication via SPI and FPGA to VGA monitor communication was working. As a result, images could be displayed as expected. We decided to turn the final version into a "glorified screensaver" for demo day. 
+
+{{< video https://www.youtube.com/watch?v=o9HCQyT40M4 width="500" height="300">}}
+
+The MCU would randomly generate x and y locations and colors, and from there the rest of the chain would proceed as normal: the MCU encoded the data into SPI packets and transmitted them to the FPGA, which then decoded them, updated the SPRAM, and displayed the constantly changing image on the VGA monitor.
