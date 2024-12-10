@@ -234,6 +234,18 @@ Figure&nbsp;4
 </figcaption>
 </figure>
 </div>
+<p>The colorDecode function itself outputs a total of 14 outputs; three sets of four for each of the RGB analog channels, and two for the Vertical and Horizontal sync. Each set of four digital output pins is put through a digital to analog converter (DAC), which takes advantage of Kirchoff’s Law and the innate 75 Ohm impedance of VGA wiring. A DAC converter can be seen in <a href="#fig-dacConv" class="quarto-xref">Figure&nbsp;5</a>.</p>
+<div id="fig-dacConv" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-dacConv-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="fpga_images/digitalToAnalogConveter.png" class="img-fluid figure-img" style="width:50.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig quarto-uncaptioned" id="fig-dacConv-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;5
+</figcaption>
+</figure>
+</div>
+<p>This DAC effectively produced a signal between 0 and 0.7 Volts, which could then be sent out to the VGA, which uses the Voltage magnitude to generate color.</p>
 </section>
 <section id="current-status" class="level2">
 <h2 class="anchored" data-anchor-id="current-status">Current Status</h2>
