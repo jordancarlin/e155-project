@@ -2,6 +2,22 @@
 title: "Micro P(ictionary)"
 ---
 
+::: {.grid}
+
+:::{.g-col-4}
+
+:::
+
+:::{.g-col-4}
+![](images/drawing.gif)
+:::
+
+:::{.g-col-4}
+
+:::
+
+:::
+
 ## Brief
 
 Welcome to **MicroP(ictionary)**!
