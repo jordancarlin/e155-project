@@ -30,3 +30,9 @@ Figure 13 in the [MCU Reference Manual](https://www.st.com/resource/en/reference
 > [VGA Display Slides by Prof. Brake](https://hmc-e155.github.io/lecture/slides/lecture-15-slides.pdf)
 
 > [Snake Game](https://dherreravicioso.github.io/e155snakevga/), on which much of our SPI methodology and VGA code was based.
+
+## Acknowledgements
+
+We'd like to thank Prof. Brake for all of his support and help throughout this year. His support as both a technical advisor and a professor throughout this semester were greatly appreciated.
+
+We'd additionally like to thank our TA's Kavi, Neil, and Henry for their help throughout the semester.
