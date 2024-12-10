@@ -1,3 +1,7 @@
+// Jordan Carlin (jcarlin@hmc.edu) and Zoe Worrall (zworrall@g.hmc.edu)
+// December 2024
+// SPI packet decoder module
+
 `include "colors.sv"
 module spiDecode(input  logic       ready,
                  input  logic [7:0] spiPacket1, spiPacket2,
@@ -19,7 +23,7 @@ module spiDecode(input  logic       ready,
     if (&spiPacket1[7:5]) spiType <= CONF;
     else spiType <= POS;
 
-  // Decode packet
+  // Decode packet into brush, color, and position based on type
   always_comb begin
     brush = '0;
     newColor = green;//'0;
@@ -31,7 +35,7 @@ module spiDecode(input  logic       ready,
       CONF: begin
               brush    = spiPacket1Ready[4];
               newColor = spiPacket1Ready[2:0];
-              updateConfig = 1 & ready; // maybe without the ready
+              updateConfig = 1 & ready;
             end
       POS: begin
               x = spiPacket1Ready;

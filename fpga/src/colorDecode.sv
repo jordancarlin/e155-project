@@ -1,3 +1,7 @@
+// Jordan Carlin (jcarlin@hmc.edu) and Zoe Worrall (zworrall@g.hmc.edu)
+// December 2024
+// 3 bit color code to 12-bit RGB converter
+
 `include "vgaParameters.sv"
 `include "colors.sv"
 

@@ -1,3 +1,7 @@
+// Jordan Carlin (jcarlin@hmc.edu) and Zoe Worrall (zworrall@g.hmc.edu)
+// December 2024
+// Synchronizer module
+
 module synchronizer #(parameter WIDTH=1) (
   input  logic             clk, reset,
   input  logic [WIDTH-1:0] async_signal,
