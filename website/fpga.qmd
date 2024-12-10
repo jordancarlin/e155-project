@@ -46,7 +46,18 @@ The other main aspect of the hardware design is the actual VGA interface. @fig-v
 
 ::: {#fig-vgaInterface}
 ![](fpga_images/vgaInterface.png)
+
 :::
+
+The colorDecode function itself outputs a total of 14 outputs; three sets of four for each of the RGB analog channels, and two for the Vertical and Horizontal sync.
+Each set of four digital output pins is put through a digital to analog converter (DAC), which takes advantage of Kirchoff's Law and the innate 75 Ohm impedance of VGA wiring. A DAC converter can be seen in @fig-dacConv.
+
+::: {#fig-dacConv}
+![](fpga_images/digitalToAnalogConveter.png){width=50%}
+
+:::
+
+This DAC effectively produced a signal between 0 and 0.7 Volts, which could then be sent out to the VGA, which uses the Voltage magnitude to generate color.
 
 ## Current Status
 
