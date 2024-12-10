@@ -164,7 +164,7 @@ This can be seen in the following video (@fig-video3), where we tried to set the
 As a result, we moved onto using SPRAM instead instead of the block RAM. SPRAM required that we double the clock speed, but at the same time permitted for better control of what we were sending and receiving to the screen and appropriate updating of the data stored in the RAM. This is where we began to see more expected results.
 
 :::{#fig-video4}
-{{< video https://www.youtube.com/shorts/lj3WRqj4F5A  height="200">}}
+{{< video https://www.youtube.com/watch?v=bbirlv6bojc  height="200">}}
 :::
 
 @fig-video4 is a demonstration of color being transmitted correctly. With the confirmation of SPI working from earlier, this video confirmed that we were updating colors correctly based on the data received from teh MCU. Our next steps involved filling the entire screen with this data rather than just the noise present in this video.
