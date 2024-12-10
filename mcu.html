@@ -224,7 +224,7 @@ Figure&nbsp;2
 </div>
 </div>
 </div>
-<p>The program starts first by initializing all of its components before entering a while loop, which controls the main functions required of the MCU. This while loop delays for some 500 ms, before calling read_XY to find the current state of the joystick and to update the size of brush. This information is used to determine what SPI packages are sent at the end of the while loop. In the case that an interrupt has occured or the switch controlling whether or not the brush has been raised or lowered has changed, color_spi is updated.</p>
+<p>The program starts first by initializing all of its components before entering a while loop, which controls the main functions required of the MCU. This while loop delays for some 500 ms, before calling read_XY to find the current state of the joystick and to update the size of brush. This information is used to determine what SPI packages are sent at the end of the while loop. In the case that an interrupt has occurred or the switch controlling whether or not the brush has been raised or lowered has changed, color_spi is updated.</p>
 <p>The behavior of interrupts is depicted in <a href="#fig-interrupts" class="quarto-xref">Figure&nbsp;3</a>.</p>
 <div id="fig-interrupts" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
