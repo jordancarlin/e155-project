@@ -142,7 +142,6 @@ ul.task-list li input[type="checkbox"] {
   <ul class="collapse">
   <li><a href="#schematic" id="toc-schematic" class="nav-link" data-scroll-target="#schematic">Schematic</a></li>
   <li><a href="#hardware" id="toc-hardware" class="nav-link" data-scroll-target="#hardware">Hardware</a></li>
-  <li><a href="#current-status" id="toc-current-status" class="nav-link" data-scroll-target="#current-status">Current Status</a></li>
   </ul></li>
   </ul>
 <div class="quarto-other-links"><h2>Other Links</h2><ul><li><a href="https://pages.hmc.edu/brake/class/e155/fa23/assets/doc/E155%20Development%20Board%20Schematic.pdf"><i class="bi bi-link-45deg"></i>E155 FA Development Board</a></li><li><a href="https://hmc-e155.github.io/assets/doc/E155%20Breadboard%20Adapter%20Schematic.pdf"><i class="bi bi-link-45deg"></i>E155 Breadboard Adapter v4</a></li><li><a href="https://github.com/jordancarlin/e155-project/tree/main/mcu"><i class="bi bi-link-45deg"></i>MCU Source Code</a></li></ul></div></nav>
@@ -186,31 +185,79 @@ ul.task-list li input[type="checkbox"] {
 <p>The multicore processor in this project is used to keep track of the current brush state, the color state, the thickness of the brush, and whether the brush is up or down. The system collects this data and then sends it to the FPGA board for VGA processing via a SPI package. There are two primary SPI packages used to communicate the status of bits, and they are organized such that the header of the color SPI block is easily distinguished and decoded.</p>
 <section id="schematic" class="level2">
 <h2 class="anchored" data-anchor-id="schematic">Schematic</h2>
-<p>The MCU makes use of many of the materials and ideas seen throughout the semester in MicroP’s so far. It uses interrupts in order to map out the current color, with a total of seven potential colors (including erase). The system also implements the newer technology of Analog reading, which is used to determine the current state of a joystick for location control, as well as a potentiometer to control the thickness of the brush at any given time (ranging from 1x1 to 2x2 to 3x3).</p>
-<p><img src="mcu_images/mcu_pins.png" class="img-fluid" style="width:50.0%"></p>
-<p>The program starts first by initializing all of its components before entering a while loop, which controls the main functions required of the MCU. This while loop delays for some predetermined amount of time, before calling read_XY to find the current state of the joystick and to update the size of brush.</p>
-<p>This information is used to determine what SPI packages are sent at the end of the while loop.</p>
-<p>The block diagram below (<a href="#fig-bdiag1" class="quarto-xref">Figure&nbsp;1</a>) depicts the general variables and assignments used within the MCU program.</p>
-<div id="fig-bdiag1" class="quarto-float quarto-figure quarto-figure-center anchored">
+<p>The MCU makes use of many of the materials and ideas seen throughout the semester in MicroP’s so far. It uses interrupts in order to map out the current color, with a total of seven potential colors (including erase).</p>
+<p>The system also implements the newer technology of analog to digital conversion (ADC) on the MCU, which is used to determine the current state of a joystick for location control, as well as a potentiometer to control the thickness of the brush at any given time (ranging from 1x1 to 2x2 to 3x3).</p>
+<p>When compiled together, this gives <a href="#fig-largeOverview" class="quarto-xref">Figure&nbsp;1</a>. The detailed layout of the pins can be found in the drop down which contains <a href="#fig-pinMCU" class="quarto-xref">Figure&nbsp;2</a>.</p>
+<div id="fig-largeOverview" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-largeOverview-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="mcu_images/mcu_largeoverview.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-largeOverview-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: Broad overview of the MCU device, detailing which inputs are digital and which are analog.
+</figcaption>
+</figure>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Diagram of all Pin-outs on the MCU
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-1" class="callout-1-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div id="fig-pinMCU" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-pinMCU-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="mcu_images/mcu_pins.png" id="fig-pinMCU" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig quarto-uncaptioned" id="fig-pinMCU-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2
+</figcaption>
+</figure>
+</div>
+<p>Each of the buttons and the analog control of the joystick has an op-amp attached to it. This was done while breadboarding, as significant loading was noted specifically on the part of the joystick. The op-amps were added to the buttons as an extreme precautionary measure, although this was likely unnecessary.</p>
+</div>
+</div>
+</div>
+<p>The program starts first by initializing all of its components before entering a while loop, which controls the main functions required of the MCU. This while loop delays for some 500 ms, before calling read_XY to find the current state of the joystick and to update the size of brush. This information is used to determine what SPI packages are sent at the end of the while loop. In the case that an interrupt has occured or the switch controlling whether or not the brush has been raised or lowered has changed, color_spi is updated.</p>
+<p>The behavior of interrupts is depicted in <a href="#fig-interrupts" class="quarto-xref">Figure&nbsp;3</a>.</p>
+<div id="fig-interrupts" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-interrupts-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="mcu_images/interrupts_mcu.png" class="img-fluid figure-img" style="width:70.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-interrupts-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3: Depiction of how interrupts interact with the current system, specifically how they assign just_set and adjust the color of the SPI.
+</figcaption>
+</figure>
+</div>
+<p>The block diagram below (<a href="#fig-bdiag1" class="quarto-xref">Figure&nbsp;4</a>) depicts the general variables and assignments used within the MCU program. An even more generalized view can be found in <a href="#fig-bdiag2" class="quarto-xref">Figure&nbsp;5</a>.</p>
+<div class="grid">
+<div id="fig-bdiag1" class="g-col-8 quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-bdiag1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="mcu_images/block_diag.png" class="img-fluid figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig quarto-uncaptioned" id="fig-bdiag1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;1
+Figure&nbsp;4
 </figcaption>
 </figure>
 </div>
-<p>This can be expounded upon to show what exactly is happening within the program (<a href="#fig-bdiag2" class="quarto-xref">Figure&nbsp;2</a>).</p>
-<div id="fig-bdiag2" class="quarto-float quarto-figure quarto-figure-center anchored">
+<div id="fig-bdiag2" class="g-col-4 quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-bdiag2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="mcu_images/block_diag2.png" class="img-fluid figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig quarto-uncaptioned" id="fig-bdiag2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;2
+Figure&nbsp;5
 </figcaption>
 </figure>
+</div>
 </div>
 </section>
 <section id="hardware" class="level2">
@@ -238,16 +285,13 @@ Figure&nbsp;2
 </section>
 <section id="loc_spi" class="level4">
 <h4 class="anchored" data-anchor-id="loc_spi">loc_spi</h4>
-<p><img src="mcu_images/loc_spi.png" class="img-fluid"></p>
-<p>These SPI are differentiated by the first three bits of the SPI message: in the case of color_spi, the first three bits will always make the value of the character greater than 200, which is an impossible for the x and y indeces to be. As a result, the SPI blocks can be easily differentiated with the use of the first three bits, which the FPGA will figure out combinationally and will then use to adjust its values accordingly.</p>
-</section>
-</section>
-<section id="current-status" class="level2">
-<h2 class="anchored" data-anchor-id="current-status">Current Status</h2>
-<p>We are currently able to perform all necessary functions required for the final prototype, and mainly now need to configure the SPI connection and performance of the FPGA. As it stands, this video demonstrates the readouts of the board, as well as a representation of the data it will be sending to the FPGA board, at any given point in time. When the timer is replaced with a much shorter one, these updates will be sent at a frequency of roughly 1 kHz, although we will vary this depending on what we decide works best for timing on the FPGA.</p>
+<p><img src="mcu_images/loc_spi.png" class="img-fluid" style="width:70.0%"></p>
+<p>These SPI are differentiated by the first three bits of the SPI message: in the case of color_spi, the first three bits will always make the value of the character greater than 200, which is an impossible for the x and y indices to be. As a result, the SPI blocks can be easily differentiated with the use of the first three bits, which the FPGA will figure out combinationally and will then use to adjust its values accordingly.</p>
+<p>The video below is a demonstration of the data being sent out of the MCU at any given time.</p>
 <div class="quarto-video ratio ratio-16x9"><iframe data-external="1" src="https://www.youtube.com/embed/XvtfpBKUMUc" title="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe></div>
 
 
+</section>
 </section>
 </section>
 
