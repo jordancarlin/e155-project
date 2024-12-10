@@ -23,7 +23,7 @@ The FPGA also has a block of sequential to drive the actual VGA display that sca
 
 ## Block Diagram
 ::: {#fig-fpgaBlockDiagram}
-![](fpga_images/fpgaBlockDiagram.png)
+![](fpga_images/fpgaBlockDiag_wPins.png)
 :::
 
 The FPGA design builds heavily upon what was done in Lab 7 in MicroPs. It uses a similar design for the SPI module itself (although the decoder is entirely new) and the use of block ram to store the image is also similar to storing the sbox encoding in Lab 7 (though this one needs to be a writable ram instead of just a pre-loaded rom). The most significant new part of this design is the VGA driver itself.
