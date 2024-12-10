@@ -227,15 +227,14 @@ Figure&nbsp;3: Video of the glorified screen saver while running for Demo Day. U
 </section>
 <section id="project-overview" class="level2">
 <h2 class="anchored" data-anchor-id="project-overview">Project Overview</h2>
-<p>MicroP(ictionary) is a game for lab students that want to play Pictionary online, but have to play using hardware instead. The goal of this project was to make a <strong>Micro P(ictionary)</strong> game with the following specs:</p>
+<p><strong>MicroP(ictionary)</strong> is a game for lab students that want to play Pictionary online, but have to play using hardware instead. The goal of this project was to make a <strong>Micro P(ictionary)</strong> game with the following specs:</p>
 <ul>
 <li>7 Buttons to control 7 different colors</li>
 <li>A potentiometer to control the thickness of the brush being used</li>
 <li>A brush up/down switch that controls whether the brush is drawing or not</li>
 <li>A joystick to control where we are on the board.</li>
 </ul>
-<p>The project had two separate pieces; the MCU that collects and stores the current status of the brush (including color, thickness, and location), and the FPGA, which has an onboard RAM that stores the color left behind by the brush or simply shows the user their current location. The brush will always be orange. The MCU consistently sends SPI updates of the location of the user to the FPGA board, and the FPGA board then outputs this data onto the computer screen. When the user updates the colors of the board or decides to put the brush down, the system sends an additional SPI packet with the updated color and brush up/down information.</p>
-<p>This program was extremely close to working, but likely due to a high level of power flux, the board connection between the MCU and the FPGA has been shorted. The MCU can be connected to via JLink separate from the board, but when it is plugged into the board, JLink can no longer connect.</p>
+<p>The project had two separate pieces; the MCU that collects and stores the current status of the brush (thickness and location), and the FPGA, which has an onboard RAM that stores the color left behind by the brush or simply shows the user their current location. The brush will always be orange. The MCU consistently sends SPI updates of the location of the user to the FPGA board, and the FPGA board then outputs this data onto the computer screen. When the user updates the color of the brush or decides to put the brush down, the system sends an additional SPI packet with the updated color and brush up/down information.</p>
 <p>Prior to this issue, the device was able to draw x/y locations, as well as travel in a controlled manner about the screen.</p>
 <p>A video prior to this was not captured demonstrating how the brush was able to travel about the screen and leave a trail: this video, however, displays how the brush’s current color was being captured and making it over to the VGA device, and how control of whether the color was changed via the brush up/down switch was changed.</p>
 <div class="quarto-video ratio ratio-16x9"><iframe data-external="1" src="https://www.youtube.com/embed/NjBG17eC-Dw" title="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe></div>
