@@ -6,8 +6,18 @@ module vgaController (
   output logic [9:0] x, y
 );
 
+
+  logic vgaClk;
+
+  // Clock divider logic
+  always_ff @(posedge clk)
+    if (reset)
+      vgaClk <= 1'b0;
+    else
+      vgaClk <= ~vgaClk;
+
   // counters for horizontal and vertical positions
-  always_ff @(posedge clk, posedge reset) begin
+  always_ff @(posedge vgaClk, posedge reset) begin
     if (reset) begin
       x <= '0;
       y <= '0;
@@ -22,7 +32,7 @@ module vgaController (
     end
   end
 
-  //  always_ff @(posedge clk) begin
+  //  always_ff @(posedge vgaClk) begin
   //   if (reset) begin
   //     x <= 0;
   //     y <= 0;
