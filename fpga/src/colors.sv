@@ -1,3 +1,7 @@
+// Jordan Carlin (jcarlin@hmc.edu) and Zoe Worrall (zworrall@g.hmc.edu)
+// December 2024
+// Color definitions for the VGA display
+
 `ifndef COLORS
 `define COLORS
 

@@ -1,3 +1,7 @@
+// Jordan Carlin (jcarlin@hmc.edu) and Zoe Worrall (zworrall@g.hmc.edu)
+// December 2024
+// VGA timing controller module
+
 `include "vgaParameters.sv"
 
 module vgaController (
@@ -6,10 +10,9 @@ module vgaController (
   output logic [9:0] x, y
 );
 
-
   logic vgaClk;
 
-  // Clock divider logic
+  // Clock divider logic (slow PLL clock to VGA pixel clock of 25.175 MHz)
   always_ff @(posedge clk)
     if (reset)
       vgaClk <= 1'b0;
@@ -32,25 +35,10 @@ module vgaController (
     end
   end
 
-  //  always_ff @(posedge vgaClk) begin
-  //   if (reset) begin
-  //     x <= 0;
-  //     y <= 0;
-  //   end else if ($unsigned(x) == (HACTIVE + HFP)) begin
-  //     x <= 0;
-  //     y <= 0;
-  //   end else begin
-  //     x <= HACTIVE + HFP;
-  //     y <= VACTIVE + VFP;
-  //   end
-  //  end
-
   // compute sync signals (active low)
   // active when between front and back porches only
   assign hsync = ~( (x >= (HACTIVE + HFP)) & (x < (HACTIVE + HFP + HSYN)) );
   assign vsync = ~( (y >= (VACTIVE + VFP)) & (y < (VACTIVE + VFP + VSYN)) );
-
-  // assign sync_b = 1'b0; // this should be 0 for newer monitors
 
   // force outputs to black when not writing pixels
   assign blank_b = (x < HACTIVE) & (y < VACTIVE);

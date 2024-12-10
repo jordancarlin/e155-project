@@ -1,11 +1,12 @@
+// Jordan Carlin (jcarlin@hmc.edu) and Zoe Worrall (zworrall@g.hmc.edu)
+// December 2024
+// SPI FSM controller
+
 module spiFSM(input clk, reset, cs,
               output ready);
 
   typedef enum logic [1:0] { SPI_IDLE, SPI_HOLD, SPI_DONE } SPI_STATE;
   SPI_STATE spiState, spiNextState;
-
-  //logic testTemp;
-  //assign test = testTemp;
 
   always_ff @(posedge clk) begin
     if (reset) begin
@@ -15,6 +16,8 @@ module spiFSM(input clk, reset, cs,
     end
   end
 
+  // FSM next state logic
+  // Wait for cs to go high, then hold until cs goes low, then assert done and return to waiting
   always_comb begin
     case (spiState)
       SPI_IDLE: begin
@@ -30,7 +33,6 @@ module spiFSM(input clk, reset, cs,
     endcase
   end
 
-  // assign test = spiState == SPI_DONE;
   assign ready = spiState == SPI_DONE;
 
 endmodule

@@ -1,3 +1,6 @@
+// Jordan Carlin (jcarlin@hmc.edu) and Zoe Worrall (zworrall@g.hmc.edu)
+// December 2024
+// VGA parameters for timing
 
 `ifndef VGA_PARAMETERS
 `define VGA_PARAMETERS
