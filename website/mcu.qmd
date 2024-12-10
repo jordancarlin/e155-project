@@ -22,7 +22,7 @@ The multicore processor in this project is used to keep track of the current bru
 
 The MCU makes use of many of the materials and ideas seen throughout the semester in MicroP's so far. It uses interrupts in order to map out the current color, with a total of seven potential colors (including erase). The system also implements the newer technology of Analog reading, which is used to determine the current state of a joystick for location control, as well as a potentiometer to control the thickness of the brush at any given time (ranging from 1x1 to 2x2 to 3x3).
 
-![](mcu_images/mcu_pins.png)
+![](mcu_images/mcu_pins.png){width=50%}
 
 The program starts first by initializing all of its components before entering a while loop, which controls the main functions required of the MCU. This while loop delays for some predetermined amount of time, before calling read_XY to find the current state of the joystick and to update the size of brush.
 

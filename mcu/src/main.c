@@ -5,7 +5,7 @@
 
 @author: zoe worrall
 @contact: zworrall@g.hmc.edu
-@version: November 10, 2024
+@version: December 10, 2024
 
 -------------------------- END-OF-HEADER -----------------------------
 
@@ -20,8 +20,8 @@ Purpose : A function that will measure the frequency and duty cycle of
 #include "../lib/main.h"
 
 // Format:
-//  _7_ _6_ _5_    _4_    _3_ _2_ _1_ _0_
-//   1   1   1   [br_up]   0   [colors] 
+//  _7_ _6_ _5_    _4_    _3_ _2_ _1_ _0_     _7_ _6_ _5_ _4_ _3_ _2_ _1_ _0_
+//   1   1   1   [br_up]   0   [colors]        0   0   0   0   0   0   0   0  
 //     CONFIG             data
 char color_spi[2]; 
 char just_set;
@@ -33,6 +33,8 @@ char just_set;
 //     never 0xFF    ||      y bits
 char loc_spi[2];
 char currX, currY;
+
+// for easy interpretation, the system has two eight bit SPI packets color_spi and loc_spi
 
 uint32_t thickness;
 
@@ -55,9 +57,8 @@ int main(void) {
     currX = 25;
     currY = 25;
 
-    initSPI(0b111, 0, 0);
+    initSPI(0b111, 0, 0); // initialize the SPI to send with data rate of SystemClock / 8.
 
-  
   // initialize the buttons/pins used for analog (joystick and potentiometer)
   initControls();
   ADC1->CR |= ADC_CR_ADSTART;
@@ -68,6 +69,7 @@ int main(void) {
   uint32_t loc_arr[2];
   uint16_t timeVibes = 0;
   uint32_t prevBrush = 0;
+
 ///////////////////////////////////////////////////////////////////////////
 
 
@@ -80,20 +82,24 @@ int main(void) {
 
   // infinite loop used to send and receive desired signals
   while(1) {
+  
+    // wait for 500 ms -- in this time, we may also get a button interrupt
     delay_millis(TIM2, 500);
 
     // read the current joystick measurement
     read_XY();
 
-
-    // for (int i=0; i<1000; i++);
-
-    printf(" Color and Brush Up: %d\n", color_spi[1]);
+    // For debugging purposes
+    // printf(" Color and Brush Up: %d\n", color_spi[1]);
     color_spi[1] &= ~(0b1 << BRUSHUP_BITS);
     color_spi[1] |=  (digitalRead(BRUSH_UP) << BRUSHUP_BITS);
+
+    // set just set to true if we just changed the state of brush up, since brush up isn't an interrupt
     if (digitalRead(BRUSH_UP) != prevBrush) just_set = 0b1;
     prevBrush = digitalRead(BRUSH_UP);
 
+    // if the device has just had any new values for the color_spi package set 
+    //    (i.e. an interrupt or a new brush), send a new configuration packet
     if(just_set) {
       digitalWrite(SPI_CE, 1);
       spiSendReceive(color_spi[1]);
@@ -101,8 +107,10 @@ int main(void) {
       digitalWrite(SPI_CE, 0);
     }
 
-    printf("Thickness: %d\n", thickness);
+    // for debugging, print the thickness
+    // printf("Thickness: %d\n", thickness);
 
+    // depending on the thickness of the brush, we send 1, 4, or 9 packages
     for (int i=0; i<thickness; i++) {
       for (int j=0; j<thickness; j++) {
       
@@ -117,15 +125,15 @@ int main(void) {
         spiSendReceive(loc_arr[1]);
         digitalWrite(SPI_CE, 0);
 
-
-        printf("%d %d   ||   ", currX+i, currY+j);
+        // for debugging, you can print what set of values are being sent via SPI
+        // printf("%d %d   ||   ", currX+i, currY+j);
       }
-      printf("\n");
+      // printf("\n");
     }
-    printf("\n\n\n");
-
+    // printf("\n\n\n");
     // printf("X: %d, Y: %d\n\n", currX, currY);
 
+    // reset just_set to 0 so that it will update the color again when the buttons are triggered
     just_set = 0;
   }
 
@@ -329,6 +337,7 @@ void initControls(void) {
 */
 uint32_t read_XY(void) {
 
+  // Reads the values of x, y, and t (the three analog inputs to the board)
   uint32_t t = read_X();
   for (int i=0; i<1000; i++);
   uint32_t y = read_Y();
@@ -336,18 +345,21 @@ uint32_t read_XY(void) {
   uint32_t x = read_brushSize();
   for (int i=0; i<1000; i++);
 
-  printf("x is %d, y is %d, t is %d", x, y, t);
+  // For the purpose of debugging, prints what value x and y currently have
+  // printf("x is %d, y is %d, t is %d", x, y, t);
 
-  if ((x < 50) && (currX != 0))
+  // The analog output of the joystick ranges from 0 to 3300; assign x and y
+  //  dependent on in what direction the user has currently pointed the joystick.
+  if ((x < 1333) && (currX != 0))
     currX = currX-1;
-  else if (x < 100)
+  else if (x < 2667)
     currX = currX;
   else if (currX <= 128-thickness)
     currX = currX+1;
   
-  if ((y < 100) && (currY != 0))
+  if ((y < 1333) && (currY != 0))
     currY = currY-1;
-  else if (y < 150)
+  else if (y < 2667)
     currY = currY;
   else if (currY != 128)
     currY = currY+1;
@@ -368,11 +380,13 @@ uint32_t read_XY(void) {
 */
 uint32_t read_X(void) {
 
+  // turn on the analog pin to receive a signal
   initReadOnce(ADC1_SQ1_PA5);
 
   ADC1->CR |= ADC_CR_ADSTART;
   while (!(ADC1->ISR & ADC_ISR_EOC));
 
+  // let the signal settle before stopping the read and returning the value currently in the analog pins' storage
   for(int i=0; i<1000; i++);
   stopReadOnce(ADC1_SQ1_PA5);
 
@@ -384,11 +398,13 @@ uint32_t read_X(void) {
 */
 uint32_t read_Y(void) {
 
+  // turn on the analog pin to receive a signal
   initReadOnce(ADC1_SQ1_PA6);
   ADC1->CR |= ADC_CR_ADSTART;
 
   while (!(ADC1->ISR & ADC_ISR_EOC));
 
+  // let the signal settle before stopping the read and returning the value currently in the analog pins' storage
   for(int i=0; i<1000; i++);
   stopReadOnce(ADC1_SQ1_PA6);
 
@@ -399,11 +415,14 @@ uint32_t read_Y(void) {
 *   Returns the analog readout of PA0 (potentiometer)
 */
 uint32_t read_brushSize(void) { 
+
+  // turn on the analog pin to receive a signal
   initReadOnce(ADC1_SQ1_PA0);
   ADC1->CR |= ADC_CR_ADSTART;
 
   while (!(ADC1->ISR & ADC_ISR_EOC));
 
+  // let the signal settle before stopping the read and returning the value currently in the analog pins' storage
   for(int i=0; i<1000; i++);
   stopReadOnce(ADC1_SQ1_PA0);
 

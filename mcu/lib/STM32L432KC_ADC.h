@@ -1,5 +1,7 @@
 // STM32L432KC_ADC.h
 // Header for ADC functions
+// author: zoe worrall
+// version: december 10, 2024
 
 #ifndef STM32L4_ADC_H
 #define STM32L4_ADC_H
@@ -19,6 +21,7 @@
 #define ADC_SAMPLETIME_247_5  0b110
 #define ADC_SAMPLETIME_640_5  0b111
 
+// definition of which pins could be used as analog
 #define ADC1_IN5  PA0
 #define ADC1_IN6  PA1
 #define ADC1_IN7  PA2
@@ -30,6 +33,7 @@
 #define ADC1_IN15 PB0
 #define ADC1_IN16 PB1
 
+// definition of which addresses that talk to each individual analog pin
 #define ADC1_SQ1_PA0  5
 #define ADC1_SQ1_PA1  6
 #define ADC1_SQ1_PA2  7
@@ -41,23 +45,16 @@
 #define ADC1_SQ1_PB0  15
 #define ADC1_SQ1_PB1  16
 
-// 5 fast analog inputs coming from GPIO pads (ADCx_INP/INN[1..5])
-// Up to 11 slow analog inputs coming from GPIO pads (ADCx_INP/INN[6..16]). 
-    // Depending on the products, not all of them are available on GPIO pads.
-
-    // V_refInt -> ADC1_INP0/INN0
-    // it is possible to configure which conversions happen first, but we don't care at the  moment; can be an
-    //    additional add-on later on
-
-// 
-
-
 ///////////////////////////////////////////////////////////////////////////////
-// Function prototypes
+// Functions
 ///////////////////////////////////////////////////////////////////////////////
 
+// sets up ADC (i.e. connects to clocks, etc.)
 void configureADC(void);
 
+// functions that turn the ADC on and turn it off while the user is reading input data
+// based off of the ADC code used by Kavi Dey in his digital design project
+    // see https://kavidey.com/projects/digital-camera-sensor/
 void initReadOnce(uint32_t in_pin);
 void stopReadOnce(uint32_t in_pin);
 

@@ -1,6 +1,7 @@
 // STM32L432KC_FLASH.c
 // Source code for ADC functions
-
+// author: zoe worrall
+// version: december 10, 2024
 #include "STM32L432KC_ADC.h"
 
  // Section 16
@@ -15,10 +16,6 @@ void configureADC(void) {
     // make sure ADEN = 0
     ADC1->CR &= ~ADC_CR_ADEN;
   ////////////////////////////////////////////////////////////////////////////
-
-
-
-
 
  ///////////////////////// CALIBRATE THE ADC /////////////////////////
    // start operating by setting ADC_DEEPPWD to 0
@@ -103,10 +100,3 @@ void stopReadOnce(uint32_t in_pin) {
 
   ADC1->SQR1 &= !(in_pin << ADC_SQR1_SQ1_Pos); // ADC_PA5 -> ADC1_IN10
 }
-
- // uses PLL: f(VCOSAI1 clock) = f(PLL clock input) × (PLLSAI1N / PLLM)
- //RCC->PLLSAI1CFGR |= _VAL2FLD(RCC_PLLSAI1CFGR_PLLSAI1R, 3);
- // 01: PLLSAI1 “R” clock (PLLADC1CLK) selected as ADCs clock(1)
-  //RCC->CCIPR |= _VAL2FLD(RCC_CCIPR_ADCSEL, 0b01);
- // ADC1_COMMON->CCR |=   _VAL2FLD(ADC_CCR_PRESC, 0b11); // set to 1011, or divide by 256
- // ADC1_COMMON->CCR &= ~(_VAL2FLD(ADC_CCR_CKMODE, 0b11));
