@@ -24,7 +24,7 @@ The MCU makes use of many of the materials and ideas seen throughout the semeste
 
 The system also implements the newer technology of analog to digital conversion (ADC) on the MCU, which is used to determine the current state of a joystick for location control, as well as a potentiometer to control the thickness of the brush at any given time (ranging from 1x1 to 2x2 to 3x3).
 
-When compiled together, this gives @fig-largeOverview. The detailed layout of the pins can be found in the dropdown @fig-pinMCU.
+When compiled together, this gives @fig-largeOverview. The detailed layout of the pins can be found in the dropdown containing @fig-pinMCU.
 
 ::: {#fig-largeOverview}
 ![](mcu_images/mcu_largeoverview.png)
