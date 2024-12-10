@@ -137,7 +137,6 @@ ul.task-list li input[type="checkbox"] {
    
   <ul>
   <li><a href="#brief" id="toc-brief" class="nav-link active" data-scroll-target="#brief">Brief</a></li>
-  <li><a href="#abstract" id="toc-abstract" class="nav-link" data-scroll-target="#abstract">Abstract</a></li>
   </ul>
 </nav>
     </div>
@@ -166,19 +165,19 @@ ul.task-list li input[type="checkbox"] {
 <section id="brief" class="level2">
 <h2 class="anchored" data-anchor-id="brief">Brief</h2>
 <p>Welcome to <strong>MicroP(ictionary)</strong>!</p>
-<p>This design project sought to create a Pictionary device using an Upduino FPGA board and an STM432KCU4 MCU board. Pictionary is a game that allows a user to control an on screen brush to “draw” on a screen. The user is able to manipulate the brush’s size, color, and location in order to draw whatever designs they want on a screen. To provide this for the users, this project supplied a system of seven buttons for color, a potentiometer to control the size of the brush, a switch to control whether the brush was up or down, and a joystick to control the brush’s location on the screen.</p>
-<p>This system uses an MCU and an FPGA board to control a VGA monitor. The MCU reads 11 real-time inputs from a user, including both analog and digital signals, and sends SPI packages to the FPGA board. The FPGA board interprets the incoming SPI packages, and uses them to manipulate a brush on the VGA screen using a set of digital to analog converters to control red, green, and blue signals.</p>
+<p>This design project sought to create a Pictionary-like device using an Upduino FPGA board and an STM432KCU4 MCU board. Pictionary is a game where one player draws an image and the other player has to guess what is being drawn in a set amount of time. Micro P(ictionary) takes this into the digital world and allows a user to control an on screen brush to “draw” on a screen. The player is able to manipulate the brush’s size, color, and location in order to draw whatever designs they want on a screen. This is accomplished using a system of seven buttons for color, a potentiometer to control the size of the brush, a switch to control whether the brush was up or down, and a joystick to control the brush’s location on the screen.</p>
+<p>The design uses an MCU and an FPGA board to control a VGA monitor. The MCU reads 11 real-time inputs from a user, including both analog and digital signals, and sends SPI packages to the FPGA board. The FPGA interprets the incoming SPI packages, and uses them to manipulate a brush on the VGA screen using a set of digital to analog converters to control red, green, and blue signals.</p>
 <div id="fig-overview" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-overview-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="images/simple_block_diag.png" class="img-fluid figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-overview-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;1: This is the block diagram of what the system looks like from top down.
+Figure&nbsp;1: This is the top level block diagram of the complete system.
 </figcaption>
 </figure>
 </div>
-<p>The device was capable of drawing on the screen by the end of the project time limit. It had also previously demonstrated its ability to draw, and control if the brush was up or down, using the inputs of the MCU controller. This was captured in a photograph (<a href="#fig-workingModel" class="quarto-xref">Figure&nbsp;2</a>)</p>
+<p>By the end of the project, the device was capable of drawing on the screen and displaying a vareity of colors. It had also previously demonstrated its ability to draw, and control if the brush was up or down, using the inputs of the MCU controller. This was captured in a photograph (<a href="#fig-workingModel" class="quarto-xref">Figure&nbsp;2</a>)</p>
 <div id="fig-workingModel" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-workingModel-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -189,18 +188,18 @@ Figure&nbsp;2: A photograph captured of the working <strong>Micro P(ictionary)</
 </figcaption>
 </figure>
 </div>
-<p>However, roughly an hour before check off, while trying to move analog parts and reconfigure them to prevent some of the noise being seen in the circuit, part of the board was shorted out. As a result, last minute changes needed to be made in order to demonstrate the screen to others. This code removed the ability to input data into the MCU, and randomly generated signals which were then sent to the VGA display using the same encoding as would have applied for analog circuitry. This was dubbed a “glorified screensaver” for observers.</p>
+<p>However, roughly an hour before the end of the project, while trying to reconfigure some of the analog components to prevent the noise being seen in the circuit, part of the board was shorted out. As a result, last minute changes needed to be made in order to demonstrate the screen to others. This code removed the ability to input data into the MCU, and randomly generated signals which were then sent to the VGA display using the same encoding as would have applied for analog circuitry. This was dubbed a “glorified screensaver” for observers.</p>
 <div id="fig-workingVideo" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-workingVideo-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="quarto-video"><iframe data-external="1" src="https://www.youtube.com/embed/o9HCQyT40M4" width="500" height="300" title="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe></div>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-workingVideo-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;3: Video of the glorified screen saver while running for Demo Day. Uses the same communication and decoding methods as the initial function, but there is a randomly generated set of code being sent on the MCU.
+Figure&nbsp;3: Video of the glorified screen saver while running for Demo Day. Uses the same communication and decoding methods as the initial function, but there is a randomly generated set of positions and colors being sent from the MCU.
 </figcaption>
 </figure>
 </div>
-<p>The Github included in this report has two branches: the main, which contains the current FPGA and MCU code for what was used in order to get the device actually functioning before the board was shorted, and a side branch that demonstrates what was shown during the device’s Demo Day.</p>
+<p>The Github repository included in this report has two branches: <code>main</code>, which contains the current FPGA and MCU code for what was used in order to get the device actually functioning before the board was shorted, and <code>random-display</code> that demonstrates what was shown during the device’s Demo Day.</p>
 <p>This report will detail</p>
 <ul>
 <li>Details on the layout of the MCU<br>
@@ -213,28 +212,40 @@ Figure&nbsp;3: Video of the glorified screen saver while running for Demo Day. U
 </li>
 <li>Details on the team behind this project</li>
 </ul>
-</section>
-<section id="abstract" class="level2">
-<h2 class="anchored" data-anchor-id="abstract">Abstract</h2>
-<p>MicroP(ictionary) is a game for lab students that want to play online, but have to play using hardware instead. The goal of this project was to make a <strong>Micro P(ictionary)</strong> game with the following specs:</p>
-<blockquote class="blockquote">
-<p>7 Buttons to control 7 different colors</p>
-</blockquote>
-<blockquote class="blockquote">
-<p>A potentiometer to control the thickness of the brush being used</p>
-</blockquote>
-<blockquote class="blockquote">
-<p>A brush up/down switch that controls whether the brush is drawing or not</p>
-</blockquote>
-<blockquote class="blockquote">
-<p>A joystick to control where we are on the board.</p>
-</blockquote>
-<p>The project had two separate pieces; the MCU that collects and stores the current status of the brush (including color, thickness, and location), and the FPGA, which has an onboard RAM that stores the color left behind by the brush or simply shows the user their current location. The brush will always be orange. The MCU consistently sends SPI updates of the location of the user to the FPGA board, and the FPGA board then outputs this data onto the computer screen. When the user updates the colors of the board or decides to put the brush down, the system sends an additional SPI package with the updated color and brush up/down information.</p>
-<p>This program was extremely close to working, but likely due to a high level of power flux, the board connection between the MCU and the FPGA has been shorted. The MCU can be connected to via JLink separate from the board, but when it is plugged into the board, JLink can no longer connect.</p>
-<p>Prior to this issue, the device was able to draw x/y locations, as well as travel in a controlled manner about the screen.</p>
-<p>A video prior to this was not captured demonstrating how the brush was able to travel about the screen and leave a trail: this video, however, displays how the brush’s current color was being captured and making it over to the VGA device, and how control of whether the color was changed via the brush up/down switch was changed.</p>
-<div class="quarto-video ratio ratio-16x9"><iframe data-external="1" src="https://www.youtube.com/embed/NjBG17eC-Dw" title="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe></div>
-<p>The overview of this system can be seen in <a href="#fig-overview" class="quarto-xref">Figure&nbsp;1</a>.</p>
+<!-- ## Abstract
+
+MicroP(ictionary) is a game for lab students that want to play online, but have to play using hardware instead. The goal of this project was to make a **Micro P(ictionary)** game with the following specs:
+
+> 7 Buttons to control 7 different colors
+
+> A potentiometer to control the thickness of the brush being used
+
+> A brush up/down switch that controls whether the brush is drawing or not
+
+> A joystick to control where we are on the board.
+
+The project had two separate pieces; the MCU that collects and stores the current status of the brush (including color, thickness, and location), and the FPGA, which has an onboard RAM that stores the color left behind by the brush or simply shows the user their current location. The brush will always be orange. The MCU consistently sends SPI updates of the location of the user to the FPGA board, and the FPGA board then outputs this data onto the computer screen. When the user updates the colors of the board or decides to put the brush down, the system sends an additional SPI package with the updated color and brush up/down information.
+
+This program was extremely close to working, but likely due to a high level of power flux, the board connection between the MCU and the FPGA has been shorted. The MCU can be connected to via JLink separate from the board, but when it is plugged into the board, JLink can no longer connect.
+
+Prior to this issue, the device was able to draw x/y locations, as well as travel in a controlled manner about the screen.
+
+A video prior to this was not captured demonstrating how the brush was able to travel about the screen and leave a trail: this video, however, displays how the brush's current color was being captured and making it over to the VGA device, and how control of whether the color was changed via the brush up/down switch was changed.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+The overview of this system can be seen in @fig-overview. -->
 
 
 </section>

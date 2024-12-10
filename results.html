@@ -177,21 +177,21 @@ ul.task-list li input[type="checkbox"] {
 
 <section id="quantitative-results" class="level2">
 <h2 class="anchored" data-anchor-id="quantitative-results">Quantitative Results</h2>
-<p>Our initial goal for this project was to achieve the following:</p>
+<p>The initial goal for this project was to achieve the following:</p>
 <ol type="1">
 <li>Build a system that is able to draw using a joystick controller</li>
-<li>Allow analog input that allows the user to chose between 7 colors</li>
-<li>Give the user control of a brush’s width (i.e.&nbsp;configure some sort of thickness for the brush)</li>
+<li>Allow the user to chose between 7 colors to draw with</li>
+<li>Give the user control of the brush’s width (i.e.&nbsp;configure some sort of thickness for the brush)</li>
 <li>Allow the user to pick the brush “off the page” while drawing</li>
 <li><em>Stretch Goal</em> A countdown timer that updates every second</li>
 </ol>
-<p>Of these initial goals, we achieved enough for efficiency, but were unable to meet our final specs for the countdown timer. Particularly because of the short at the end, during demo day it was additionally impossible to provide user input.</p>
+<p>Of these initial goals, we achieved enough for proficiency, but were unable to meet our final specs for the countdown timer. Particularly because of the short at the end, during demo day it was additionally impossible to provide user input.</p>
 <p>If the project was to be summed in terms of percentage, the following estimates should be made:</p>
 <p>[60%] Transmitting from RAM of the FPGA to a VGA Monitor<br>
 </p>
 <p>[15%] Generating, Transmitting, and Receiving Data via SPI from the MCU to the FPGA board<br>
 </p>
-<p>[10%] Assigning buttons and anlog pins, and updating SPI for sending to the FPGA<br>
+<p>[10%] Assigning buttons and analog pins, and updating SPI for sending to the FPGA<br>
 </p>
 <p>[10%] Inclusion of a countdown timer<br>
 </p>
@@ -202,14 +202,13 @@ ul.task-list li input[type="checkbox"] {
 <section id="speed-of-the-mcu" class="level4">
 <h4 class="anchored" data-anchor-id="speed-of-the-mcu">Speed of the MCU</h4>
 <p>The MCU of the <strong>Micro P(ictionary)</strong> game used the SystemClock (which runs at 4 MHz) for all calculations.</p>
-<p>The analog to digital converter on the MCU relies on the output of the AHB Clock. For further details, view the linked clock tree image in the <a href="./appendices.html">Appendix</a>. This clock ran at at the SystemClock’s speed during this project. A new set of modules, <code>STM32L432KC_ADC.c</code> and <code>STM32L432KC_ADC.h</code>, were constructed in order to make for easy initialization of any new ADC pins. The conversion rate of analog to digital signals the data was not integral to the performance of the system, as we did not anticipate that user input would be changing faster than 10 Hz within a given second.</p>
+<p>The analog to digital converter on the MCU relies on the output of the AHB Clock. For further details, view the linked clock tree image in the <a href="./appendices.html">Appendix</a>. This clock ran at at the SystemClock’s speed during this project.</p>
+<p>A new set of modules, <code>STM32L432KC_ADC.c</code> and <code>STM32L432KC_ADC.h</code>, were constructed in order to make for easy initialization of any new ADC pins. The conversion rate of analog to digital signals was not integral to the performance of the system, as we did not anticipate that user input would be changing inputs faster than 10 Hz.</p>
 <p>The main timing constraint on the MCU side was the control of the sending rate of the SPI. The device is set up to send a new SPI update every 500 ms, based on Timer 12 of the MCU. Because the FPGA would immediately update as soon as it receives its new X and Y direction, the “send rate” of the FPGA also determines the speed with which someone could move the brush on the screen. It was found that the ideal speed to move the brush was 500 ms, but if desired in the future it may be possible to add a potentiometer that increases or decreases the pause time between each update to the brush’s location.</p>
 </section>
 <section id="speed-of-the-fpga" class="level4">
 <h4 class="anchored" data-anchor-id="speed-of-the-fpga">Speed of the FPGA</h4>
-</section>
-<section id="speed-of-vga-for-updates" class="level4">
-<h4 class="anchored" data-anchor-id="speed-of-vga-for-updates">Speed of VGA for updates</h4>
+<p>The FPGA used a PLL to generate a 50.35 MHz clock derived from the main 48 MHz clock coming from the high speed oscillator. This very specific clock frequency was necessary to accurately generate the H-Sync and V-Sync signals for the VGA monitor. The screen was 800 clocks ticks wide and 525 clock ticks tall, but only 640 by 480 of those are usable pixels. In order to achieve an overall refresh rate of ~60 Hz (which is what the monitor expects), the H-Sync signal needed to run at 31.470 kHz, the V-Sync signal at 59.94 Hz, and the RGB values needed to refresh at 25.175 MHz. While this could all be achieved using a clock speed of 25.175 MHz, the PLL was set to run at double that speed to allow for reads and writes to the SPRAM to occur on alternating clock cycles. This means the VGA RGB values were still changing at 25.175 MHz, but the clock signal was running at 50.35 MHz.</p>
 </section>
 </section>
 </section>
@@ -223,12 +222,12 @@ ul.task-list li input[type="checkbox"] {
 </li>
 <li><a href="https://github.com/ERejto/FPGA-Synth-project-portfolio/blob/main/src/MCU/STM32L432KC_ADC.c">Digital Synthesizer by Kevin Box and Eli Rejto</a></li>
 </ul>
-<p>The analog pins were capable of measuring the voltage output of the joystick and the potentiometer. It appeared that, especially towards the end, that there were conflicts between the sampled data for x, y, and t, wherein one of the values would always be high even if it was not meant to. The analog output of the pins normally measured their input voltage times 1000 when measured correctly; 3.3 volts as a result appeared as 3300 on the board, for example.</p>
+<p>The analog pins were capable of measuring the voltage output of the joystick and the potentiometer. It appeared that, especially towards the end, there were conflicts between the sampled data for x, y, and t, with one of the values consistently significaly higher than expected. The analog output of the pins normally measured their input voltage times 1000 when measured correctly; 3.3 volts as a result appeared as 3300 on the board, for example.</p>
 </section>
 <section id="spi" class="level3">
 <h3 class="anchored" data-anchor-id="spi">SPI</h3>
 <p><br>
-We planned on sending and receiving two potential SPI packets : either a color bit packet, or a location packet. The color packet was encoded such that it contained configuration bits 111 at the beginning, which could never be reached by x or y since they exceeded the array range being used (<a href="#fig-colorSPI" class="quarto-xref">Figure&nbsp;1</a> and <a href="#fig-xySPI" class="quarto-xref">Figure&nbsp;2</a>).</p>
+The design was capable of sending two different kinds of SPI packets: either a color bit packet, or a location packet. The color packet was encoded such that it contained configuration bits 111 at the beginning, which could never be reached by x or y location packets because it exceeded the array range being used (<a href="#fig-colorSPI" class="quarto-xref">Figure&nbsp;1</a> and <a href="#fig-xySPI" class="quarto-xref">Figure&nbsp;2</a>).</p>
 <div class="grid">
 <div id="fig-colorSPI" class="g-col-6 quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
@@ -251,7 +250,7 @@ Figure&nbsp;2: The bits of the location SPI package.
 </figure>
 </div>
 </div>
-<p>The system was confirmed to be transmitting via SPI early on during the Mid-semester check-in:</p>
+<p>The system was confirmed to be transmitting via SPI early on during the Mid-semester check-in using osciliscope traces:</p>
 <div class="grid">
 <div class="g-col-4">
 <p><img src="mcu_images/1_locs.png" class="img-fluid"></p>
@@ -263,9 +262,9 @@ Figure&nbsp;2: The bits of the location SPI package.
 <p><img src="mcu_images/9_locs.png" class="img-fluid"></p>
 </div>
 </div>
-<p>We needed to confirm that the FPGA was properly reaching its desired states based on the incoming SPI packets. This was confirmed using oscilloscope probes attached to the incoming SCK, MOSI, and CS channels.</p>
-<p>In a method similar to that seen in the following images, various states that the FPGA was able to decipher and use to define its state variables.</p>
-<p>All channels are encoded such that Channel 1 is CS, Channel 2 is MOSI, and Channel 3 is SCK.</p>
+<p>We needed to confirm that the FPGA was properly reaching its desired states based on the incoming SPI packets. This was confirmed using oscilloscope probes attached to the incoming SCK, MOSI, and CS channels and a TEST output pin from the FPGA.</p>
+<p>In a method similar to that seen in the following images, various states that the FPGA was able to decipher were output to the test pin to check that the SPI packets were being properly received and interpreted.</p>
+<p>All images are encoded such that Channel 1 is CS, Channel 2 is MOSI, and Channel 3 is SCK.</p>
 <div class="grid">
 <div id="fig-VGAcheck" class="g-col-6 quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
@@ -291,8 +290,7 @@ Figure&nbsp;4: <em>This image uses channel 4, the dark blue channel, to confirm 
 </section>
 <section id="vga" class="level3">
 <h3 class="anchored" data-anchor-id="vga">VGA</h3>
-<p>The final system was able to put the brush up and down, change its color, and move about the screen. Implementation was still being made to change the bit size using the potentiometer, however this was halted by the MCU no longer being able to connect to JLink when connected to the Adapter board.</p>
-<p>The final system is able to consistently update and change depending on the color and pin inputs. As can be seen in <a href="#fig-workingImage" class="quarto-xref">Figure&nbsp;5</a>, the system was able to create and draw the systems.</p>
+<p>The final system was able to raise the brush up and down, change its color, and move around the screen. From the limited testing that we were able to do, the brush thickness control also appeared to be working. The output image is able to consistently update depending on the color and location inputs. As can be seen in <a href="#fig-workingImage" class="quarto-xref">Figure&nbsp;5</a>, the system was able to create and draw desired images.</p>
 <div id="fig-workingImage" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-workingImage-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -303,29 +301,72 @@ Figure&nbsp;5: An image depicting our system creating drawings on the screen via
 </figcaption>
 </figure>
 </div>
-<p>The following are multiple videos that were taken while troubleshooting and moving our systems into the real world.</p>
-<p>First, we the system was able to print to the VGA system at a single pixel by directly setting the index of a given array. This system, as we later discovered using the Netlist feature in Lattice Radiant, did not use RAM. We started by setting all the values outside of our grid (128x128 pixels) pink.</p>
-<div class="{fig-video1}">
+<section id="debugging" class="level5">
+<h5 class="anchored" data-anchor-id="debugging">Debugging</h5>
+<p>The following videos show the process of bringing the VGA system out of simulation into the real world.</p>
+<p>First, the FPGA was able to output a single hardcoded pixel to the VGA monitor. This version, as we later discovered using the Netlist feature in Lattice Radiant, did not use RAM.</p>
+<div id="fig-video1" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-video1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="quarto-video"><iframe data-external="1" src="https://www.youtube.com/embed/esy1g3UIZK4" height="200" title="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe></div>
-<p><em>Above is a video of our planned designated screen on the design with the outline of our block.</em></p>
 </div>
-<p>After this, we began trying to set the values according to what we had received via wx and wy. We confirmed the wx and wy were correct in simulation (<strong>?@fig-workingSim</strong>) by confirming that when wx and wy were at a set value, for example 100 and 100, and set to <code>0'b001</code> (encoding for red), the RAM was recording that value. This was confirmed within the MemoryList feature of ModelSim.</p>
-<p>::: </p><div class="quarto-video"><iframe data-external="1" src="https://www.youtube.com/embed/2N7uzxsJKm8" height="200" title="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe></div><p></p>
-<p><em>Video displaying how we were able to finally get some things printing on the FPGA using setting parameters in Lattice Radiant.</em> :::</p>
-<p>However, while printing we ran into an issue; the RAM was not being correctly indexed by the system. It was only possible to alter pixels directly using an address in the matrix.</p>
-<p>::: </p><div class="quarto-video"><iframe data-external="1" src="https://www.youtube.com/embed/ZuUvgkFCoQ8" height="200" title="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe></div><p></p>
-<p><em>A video of trying to read while setting bits according to whats stored in the wx and wy bits at a specific section; these bits should be the color that is stored for a specific location, but when they are sent into the array they don’t update correctly, resulting in the oscillating pattern seen above.</em> :::</p>
-<p>This can be seen in the following video (<strong>?@fig-video2</strong>), where we tried to set the data within the file to wx and wy while reading out the values. The User Guide specified that the RAM that we were attempting to use was “pseudo dual”, but didn’t specify what this meant.</p>
-<p>As a result, we moved onto using SPRAM instead. SPRAM required that we doubled the clock speed, but at the same time permitted for better contorl of what we were sending and receiving to the screen. This is where we began to see results.</p>
-<p>::: </p><div class="quarto-video"><video id="video_shortcode_videojs_video1" height="200" class="video-js vjs-default-skin " controls="" preload="auto" data-setup="{}" title=""><source src="https://www.youtube.com/shorts/lj3WRqj4F5A"></video></div> :::<p></p>
-<p>The video above is a demonstration of color being transmitted correctly. With the confirmation of SPI working, we were able to confirm that we should be updating colors correctly, and with this video we confirmed with certainty that the SPI was able to receive. Our next steps involved filling the entire screen with this data rather than just the noise present in this video.</p>
-<p>::: </p><div class="quarto-video"><iframe data-external="1" src="https://www.youtube.com/embed/NjBG17eC-Dw" height="300" title="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe></div> :::<p></p>
-<p>The video above was confirmation that we could control every bit we wanted to using a write x and y of our choosing. From there, it was a very quick fix to begin moving the pixels about the board with details sent using the other package for xy bits.</p>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-video1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;6: <em>Video of our planned designated screen on the design with the outline of our block.</em>
+</figcaption>
+</figure>
+</div>
+<p>After this, we began trying to set the values dynamically according to what was received via the decoded SPI location packets. We confirmed that the write position coordinates (wx and wy) were correct in simulation by checking that when wx and wy were at a set value, for example 100 and 100, and set to <code>0'b001</code> (encoding for red), the RAM was recording that value. This was confirmed within the MemoryList feature of ModelSim.</p>
+<div id="fig-video2" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-video2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-video"><iframe data-external="1" src="https://www.youtube.com/embed/2N7uzxsJKm8" height="200" title="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe></div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-video2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;7: <em>Video displaying how we were able to finally get some things printing on the FPGA using setting parameters in Lattice Radiant.</em>
+</figcaption>
+</figure>
+</div>
+<p>However, while displaying this on the screen we ran into an issue; the RAM was not being correctly indexed by the system. It was only possible to alter pixels directly using an address in the matrix.</p>
+<div id="fig-video3" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-video3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-video"><iframe data-external="1" src="https://www.youtube.com/embed/ZuUvgkFCoQ8" height="200" title="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe></div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-video3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;8: <em>A video of trying to read while setting bits according to whats stored in the wx and wy bits at a specific section; these bits should be the color that is stored for a specific location, but when they are sent into the array they don’t update correctly, resulting in the oscillating pattern seen above.</em>
+</figcaption>
+</figure>
+</div>
+<p>This can be seen in the following video (<a href="#fig-video3" class="quarto-xref">Figure&nbsp;8</a>), where we tried to set the data within the file to wx and wy while reading out the values. For as of yet still unknown reasons, the data was not being correctly indexed by the RAM. The read logic seemed to be working when the RAM was preloaded, which seemed to indicate the problem was with the write logic, but we were unable to determine the exact cause of the issue.</p>
+<p>As a result, we moved onto using SPRAM instead instead of the block RAM. SPRAM required that we double the clock speed, but at the same time permitted for better contorl of what we were sending and receiving to the screen and appropriate updating of the data stored in the RAM. This is where we began to see more expected results.</p>
+<div id="fig-video4" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-video4-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-video"><video id="video_shortcode_videojs_video1" height="200" class="video-js vjs-default-skin " controls="" preload="auto" data-setup="{}" title=""><source src="https://www.youtube.com/shorts/lj3WRqj4F5A"></video></div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig quarto-uncaptioned" id="fig-video4-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;9
+</figcaption>
+</figure>
+</div>
+<p><a href="#fig-video4" class="quarto-xref">Figure&nbsp;9</a> is a demonstration of color being transmitted correctly. With the confirmation of SPI working from earlier, this video confirmed that we were updating colors correctly based on the data recieved from teh MCU. Our next steps involved filling the entire screen with this data rather than just the noise present in this video.</p>
+<div id="fig-video5" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-video5-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-video"><iframe data-external="1" src="https://www.youtube.com/embed/NjBG17eC-Dw" height="300" title="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe></div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig quarto-uncaptioned" id="fig-video5-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;10
+</figcaption>
+</figure>
+</div>
+<p><a href="#fig-video5" class="quarto-xref">Figure&nbsp;10</a> was confirmation that we could control every bit we wanted to using a write x and y of our choosing. From there, it was just a small change to begin moving the pixels about the board with details sent using the other package for xy bits.</p>
+</section>
 </section>
 </section>
 <section id="the-build" class="level2">
 <h2 class="anchored" data-anchor-id="the-build">The Build</h2>
-<p>Our Final project was made using several bread boards, as well as several printed components that give it a finished look. These parts were a breakout board with several color buttons, as well as a casing for a joystick, switch, and potentiometer system.</p>
+<p>Our Final project was made using several bread boards, as well as several laser cut components that give it a finished look. These parts were a breakout board with several color buttons, as well as a casing for a joystick, switch, and potentiometer system.</p>
 <div class="grid">
 <div class="g-col-6">
 <p><img src="results_images/buttons_board.JPG" class="img-fluid"></p>
@@ -340,8 +381,8 @@ Figure&nbsp;5: An image depicting our system creating drawings on the screen via
 </section>
 <section id="final-updates" class="level2">
 <h2 class="anchored" data-anchor-id="final-updates">Final Updates</h2>
-<p>Zoe managed to break the Dev board while confused, meaning that MCU’s can no longer connect to JLink on the current board.</p>
-<p>This means that the system can not currently print designs, even though they were confirmed to have been working as expected in the past. Planned future updates include moving to a different Dev board just to see if that fixes the issue.</p>
+<p>Unfortunately, near the very end of the project something went wrong with the phyiscal hardware and the MCU was no longer able to recieve data from any of the inputs, digital or analog. This meant that the system was no longer able to take any user input, so drawing was unfortunately no longer possible.</p>
+<p>While the inputs didn’t end up working, all of the MCU to FPGA communication via SPI and FPGA to VGA monitor communication was working, so we were able to dislay images as expected. We decided to turn the final version into a “glorified screensaver” for demo day. The MCU would randomly generate x and y locations and colors, and from there the rest of the chain would proceed as normal: the MCU encoded the data into SPI packets and tranmitted them to the FPGA, which then decoded them, updated the SPRAM, and displayed the constantly changing image on the VGA monitor.</p>
 
 
 </section>
