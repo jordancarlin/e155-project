@@ -63,7 +63,7 @@ If you are working from a well stocked lab, the only parts that are not likely p
 
 ## Bill of Materials
 
-| Item | Part Number | Quantity | Total Price |
+| Item | Part Number | Quantity | Unit Price |
 |-|-|-|-|
 | [VGA Adapter](https://amazon.com/risingsaplings-Solderless-Connector-Adapter-Plate/dp/B097BWJKB4/?crid=2O7DJ1KN9CDOS&dib=eyJ2IjoiMSJ9.JFSd3O-fIE-0Tmc8qyX8lPE4uidOI6FkR_5_ClClEv6kBjCS1SzW4_pJgL1WtP7wod2quIBTjx2oHrmoD_xPxK-CpmXuk7N72Jy6PkGDwZK2FNH_1z2iF_gnH7OKV9b8mM2ZDqLNmZFfx2A5r6e1bOCUZsTHrlQGq0qfGjhG3YA0DxTXNUkN0P2PY2tceXacBq5xRSwHY9R3p6ih8-LgTRFsgwyx29rN_7duxPbFZ9A.HiCryg4ckYKAHBcJ1lITEMN_yUXOEPZYQq1QPaB5aBo&dib_tag=se&sprefix=vga+bread,aps,145) | VGA DB15 | 1 | $7.39 |
 | [Joystick](https://amazon.com/Partstower-Joystick-Breakout-Arduino-arduino/dp/B06Y1TG2QL/?crid=1O74GZSM0JEX1&dib=eyJ2IjoiMSJ9.t8z-UR2Ik5fC-LmWn2L0BEQtjspMw3F29PEagnGu591WuLP7i0g3GqkJ0PB2NGxsOAes8VeM5E1jsRnjqu1k7fEg840zXMnvw91B-1nGTkDMflLqmjKyc7S9pjZ0VLA8lHKpyz-7UkokXvYPOMjSpkGrxDis0IG6oCe5gQfnnSoeJuxKVTmpAmKMe_-L4OpwQmW-OuAhqUO6gwICHXg7DC5UhRonHv2W3faPPJsIQmo.jT1kmTdlaBQwWo6bBLwWnS9cP3KsCM0E_XFzSv-8tZo&dib_tag=se&sprefix=joystick+breakout+module+game+controller+for+arduino,aps,118) | KY-023 | 5 | $6.49 |
@@ -72,5 +72,7 @@ If you are working from a well stocked lab, the only parts that are not likely p
 | DIP Switch | 782-3831-5-ND | 1 | Stockroom |
 | 10 kOhm Potentiometer | Alpha B10k | 1 | Stockroom |
 | DIP Switch | 72N3906 | 1 | Stockroom |
+
+Total Cost: $13.88
 
 : {.striped .hover tbl-colwidths="[10,10,10,10]"}
