@@ -15,11 +15,11 @@ Simplified Block diagram of the system's interconnects.
 :::
 
 Prior to completing the entire design, we figured out what pins could be used on the MCU board to determine exactly how many colors and controls we could have.
-We started by figuring out which pins we would use for the SPI, as those were on the [Development Board used in E155](https://hmc-e155.github.io/assets/doc/E155%20Development%20Board%20Schematic.pdf).
+We started by figuring out which pins we would use for SPI, as the [Development Board used in E155](https://hmc-e155.github.io/assets/doc/E155%20Development%20Board%20Schematic.pdf) hardwires them together.
 We found that with our current break-out board, and with the assumption that the colors would be set using interrupt controls, we could use seven pins off of the MCU.
-We further determined which three pins we could use for analog input, and assigned our final pin for brush up and brush down using our remaining set of pins.
+We further determined which three pins we could use for analog input, and assigned our final pin for brush up and brush down using the only remaining pin.
 
-The FPGA board's pins were routed based off of the number of pins necessary to control the VGA's red, blue, and green channels, as well as whether the V-Sync and H-Sync of the VGA was on or off. For further details on how VGA works, see further details in the [FPGA Section](./fpga.qmd) or [this website](https://digilent.com/reference/learn/programmable-logic/tutorials/vga-display-congroller/start?srsltid=AfmBOoq9JO9VTrUVDEp53zmMamKq4o6nn7z8SR64hYPTCnaqJVglEiMm).
+The FPGA board's pins were routed based off of the number of pins necessary to control the VGA's red, blue, and green channels, as well as whether the V-Sync and H-Sync of the VGA was on or off. For further details on how VGA works, see the [FPGA Section](./fpga.qmd) or [this website](https://digilent.com/reference/learn/programmable-logic/tutorials/vga-display-congroller/start?srsltid=AfmBOoq9JO9VTrUVDEp53zmMamKq4o6nn7z8SR64hYPTCnaqJVglEiMm).
 
 This design resulted in the following overall schematic for the board interconnects (@fig-pinnumber), although further details and decisions can be found in the [MCU Section](./mcu.qmd) and the [FPGA Section](./fpga.qmd).
 
@@ -36,16 +36,16 @@ Detailed schematic diagram of hardware used within the project.
 
 ### <a style="color: navy; font-size: large;"> Joystick </a>
 
-For the MCU, alongside the interrupts and SPI outputs from previous labs, a new analog functionality was the included in order to allow for [joystick](https://amazon.com/Partstower-Joystick-Breakout-Arduino-arduino/dp/B06Y1TG2QL/?crid=1O74GZSM0JEX1&dib=eyJ2IjoiMSJ9.t8z-UR2Ik5fC-LmWn2L0BEQtjspMw3F29PEagnGu591WuLP7i0g3GqkJ0PB2NGxsOAes8VeM5E1jsRnjqu1k7fEg840zXMnvw91B-1nGTkDMflLqmjKyc7S9pjZ0VLA8lHKpyz-7UkokXvYPOMjSpkGrxDis0IG6oCe5gQfnnSoeJuxKVTmpAmKMe_-L4OpwQmW-OuAhqUO6gwICHXg7DC5UhRonHv2W3faPPJsIQmo.jT1kmTdlaBQwWo6bBLwWnS9cP3KsCM0E_XFzSv-8tZo&dib_tag=se&sprefix=joystick+breakout+module+game+controller+for+arduino,aps,118) control and the use of a potentiometer for brush size.
-The joystick that we chose outputs an analog voltage for x and y on two different pins; depending on the incoming voltage, the joystick will output half the voltage in its middle state, 0 in its lowest, and the full applied voltage at its highest.
+For the MCU, alongside the interrupts and SPI outputs from previous labs, new analog functionality was included in order to allow for [joystick](https://amazon.com/Partstower-Joystick-Breakout-Arduino-arduino/dp/B06Y1TG2QL/?crid=1O74GZSM0JEX1&dib=eyJ2IjoiMSJ9.t8z-UR2Ik5fC-LmWn2L0BEQtjspMw3F29PEagnGu591WuLP7i0g3GqkJ0PB2NGxsOAes8VeM5E1jsRnjqu1k7fEg840zXMnvw91B-1nGTkDMflLqmjKyc7S9pjZ0VLA8lHKpyz-7UkokXvYPOMjSpkGrxDis0IG6oCe5gQfnnSoeJuxKVTmpAmKMe_-L4OpwQmW-OuAhqUO6gwICHXg7DC5UhRonHv2W3faPPJsIQmo.jT1kmTdlaBQwWo6bBLwWnS9cP3KsCM0E_XFzSv-8tZo&dib_tag=se&sprefix=joystick+breakout+module+game+controller+for+arduino,aps,118) control and the use of a potentiometer for brush size.
+The joystick that we chose outputs an analog voltage for x and y on two different pins; depending on the incoming voltage, the joystick will output half the voltage in its middle state, 0 at its lowest, and the full applied voltage at its highest.
 In our design, we powered the joystick under its required supply voltage of 5 V at 3.3 V, meaning that when powered, the joystick would output about 1.7 V at medium power, 3.3 V at max (either positive X or Y), and 0 V for lowest power (either negative X or Y).
-Each analog input need to be read into the MCU using the onboard ADCs and then filtered to give us usable data to determine the desired position for the brush. The same idea applied for the potentiometer.
+Each analog input needs to be read into the MCU using the onboard ADCs and then filtered to give us usable data to determine the desired position for the brush. The same idea applied for the potentiometer.
 
 ### <a style="color: navy; font-size: large;"> VGA </a><a style="color: #a12d77; font-size: medium;"> (Video Graphics Array) </a>
 
 The other significant new hardware component is the VGA monitor.
 This required lots of new components of the FPGA.
-First of all, the PLL clock on the board was needed to generate the clock signal to produce the H-Sync and V-Sync signals for the monitor. This also required the use of a much larger RAM (an SPRAM in this case) to store the color data for each pixel. This RAM in particular was the source of many of our troubles throughout this project.
+First of all, the PLL was needed to generate the clock signal to produce the H-Sync and V-Sync signals for the monitor. This also required the use of a much larger RAM (an SPRAM in this case) to store the color data for each pixel. This RAM in particular was the source of many of our troubles throughout this project.
 
 The VGA requires an analog input to all three pins used for color (i.e. R-G-B pins). This meant that in addition to the code that was constructed in Lattice Radiant, we needed to make a physical digital to analog (DAC) converter, with seven resistors used for each channel.
 
